@@ -15,7 +15,7 @@
             margin: 0;
             font-family: 'Comfortaa', sans-serif;
             background-color: var(--color-fondo);
-            color: #333;
+            color: #DAD7CD;
         }
         /* Barra superior (texto fino) */
         .barra-superior {
@@ -89,10 +89,10 @@
         }
         /* Productos */
         .hero {
-            padding: 40px 20px 80px; /* Espacio para la barra inferior */
+            padding: 40px 20px 80px;
             text-align: center;
         }
-        .productos-destacados {
+  .productos-destacados {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
@@ -104,6 +104,9 @@
             padding: 15px;
             box-shadow: 0 3px 10px rgba(0,0,0,0.1);
             cursor: pointer;
+        }
+                 .producto:hover {
+            transform: scale(1.02);
         }
         .producto img {
             width: 100%;
@@ -172,6 +175,9 @@
             font-size: 20px;
             cursor: pointer;
         }
+               .modal {
+            z-index: 1001;
+        }
     </style>
 </head>
 <body>
@@ -221,7 +227,6 @@
                 <p class="precio">$13.000</p>
                 <button class="btn-carrito" onclick="agregarAlCarrito('Totebag 13', 1300)">Agregar al carrito</button>
             </div>
-        </div>
     </section>
 
     <!-- Barra de navegación inferior -->
@@ -249,13 +254,21 @@
         const totalCarrito = document.getElementById('totalCarrito');
         const contadorCarrito = document.getElementById('contadorCarrito');
 
-        // Abrir/cerrar carrito
-        abrirCarrito.addEventListener('click', () => {
+        abrirCarrito.onclick = function() {
             modalCarrito.style.display = 'block';
-        });
-        cerrarCarrito.addEventListener('click', () => {
+        };
+
+        // Cerrar carrito
+        cerrarCarrito.onclick = function() {
             modalCarrito.style.display = 'none';
-        });
+        };
+
+        // Cerrar al hacer clic fuera del modal
+        window.onclick = function(event) {
+            if (event.target == modalCarrito) {
+                modalCarrito.style.display = 'none';
+            }
+        };
 
         // Agregar producto al carrito
         function agregarAlCarrito(nombre, precio) {
