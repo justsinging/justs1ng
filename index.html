@@ -9,11 +9,11 @@
     <style>
         :root {
             --color-primario: #9a031e;
-            --color-fondo: #fdf0d5;
+            --color-fondo: #A3B18A;
         }
         body {
             margin: 0;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Comfortaa', sans-serif;
             background-color: var(--color-fondo);
             color: #333;
         }
@@ -33,14 +33,22 @@
             padding: 10px 20px;
             background-color: white;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+         }
         .logo {
+            cursor: pointer;
+          }
+        .logo img {
+            height: 50px;
+          }
+        .titulo-pagina {
             font-family: 'Comfortaa', cursive;
             font-size: 23px;
             font-weight: bold;
             color: var(--color-primario);
-            cursor: pointer;
-        }
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            {
         .carrito-btn {
             background: none;
             border: none;
@@ -175,14 +183,15 @@
     <!-- Navbar superior (logo + carrito) -->
     <nav class="navbar">
         <div class="logo" onclick="window.location.href='#'">
-            JustSing
+            <img src="https://i.imgur.com/NCqfx6D.jpeg" alt="Logo"> <!-- Reemplaza con tu imagen -->
         </div>
+        <div class="titulo-pagina">JustSing</div>
         <button class="carrito-btn" id="abrirCarrito">
             <i class="fas fa-shopping-cart"></i>
             <span class="carrito-count" id="contadorCarrito">0</span>
         </button>
     </nav>
-
+    
     <!-- Productos destacados -->
     <section class="hero">
         <h2>Productos Destacados</h2>
