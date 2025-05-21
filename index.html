@@ -23,8 +23,8 @@
 body::before {
     content: "";
     background-image: url('https://i.imgur.com/UgEu9Q7.jpeg'); /* Reemplaza con tu URL */
-    background-size: cover;
-    background-position: center;
+    background-size: 50% auto;
+    background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
     opacity: 0.5; /* 50% de opacidad */
@@ -132,16 +132,16 @@ body::before {
     width: 95%; /* Ocupa más ancho */
     max-width: 1600px; /* Aumentamos el máximo */
 }
+        .producto {
+    background: transparent; /* Quita el fondo blanco */
+    border: 2px solid white; /* Mantiene el borde blanco */
+    box-shadow: none; /* Opcional: quita la sombra si no la quieres */
+}
 
-.producto {
-    background: white;
-    border-radius: 10px;
-    padding: 15px;
-    border: 2px solid white;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    height: 450px; /* Más alto */
-    display: flex;
-    flex-direction: column;
+/* Asegura que el texto sea legible sobre el fondo */
+.producto h3, .precio {
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3); /* Mejora legibilidad */
+    color: white; /* Cambia el color si es necesario */
 }
 
 .producto img {
