@@ -195,6 +195,25 @@
                 grid-template-columns: repeat(2, 1fr);
             }
         }
+        /* Notificaciones */
+.notificacion {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    background-color: var(--color-primario);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 5px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    z-index: 1002;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-size: 14px;
+}
+
+.notificacion.mostrar {
+    opacity: 1;
+}
     </style>
 </head>
 <body>
@@ -262,56 +281,91 @@
     </div>
 
     <script>
-        // Variables del carrito
-        let carrito = [];
-        const modalCarrito = document.getElementById('modalCarrito');
-        const abrirCarrito = document.getElementById('abrirCarrito');
-        const cerrarCarrito = document.getElementById('cerrarCarrito');
-        const itemsCarrito = document.getElementById('itemsCarrito');
-        const totalCarrito = document.getElementById('totalCarrito');
-        const contadorCarrito = document.getElementById('contadorCarrito');
+        <script>
+    // Variables del carrito
+    let carrito = [];
+    const modalCarrito = document.getElementById('modalCarrito');
+    const abrirCarrito = document.getElementById('abrirCarrito');
+    const cerrarCarrito = document.getElementById('cerrarCarrito');
+    const itemsCarrito = document.getElementById('itemsCarrito');
+    const totalCarrito = document.getElementById('totalCarrito');
+    const contadorCarrito = document.getElementById('contadorCarrito');
 
-        abrirCarrito.onclick = function() {
-            modalCarrito.style.display = 'block';
-        };
+    // Función para mostrar notificación
+    function mostrarNotificacion(mensaje) {
+        const notificacion = document.createElement('div');
+        notificacion.className = 'notificacion';
+        notificacion.textContent = mensaje;
+        document.body.appendChild(notificacion);
+        
+        setTimeout(() => {
+            notificacion.classList.add('mostrar');
+        }, 10);
+        
+        setTimeout(() => {
+            notificacion.classList.remove('mostrar');
+            setTimeout(() => {
+                document.body.removeChild(notificacion);
+            }, 300);
+        }, 3000);
+    }
 
-        cerrarCarrito.onclick = function() {
+    // Agregar producto al carrito (modificada)
+    function agregarAlCarrito(nombre, precio) {
+        // Verificar si el producto ya está en el carrito
+        const existeEnCarrito = carrito.some(item => item.nombre === nombre);
+        
+        if (existeEnCarrito) {
+            mostrarNotificacion('⚠️ Este producto es único, ya está en tu carrito');
+            return; // Salir de la función sin agregar
+        }
+        
+        carrito.push({ nombre, precio });
+        actualizarCarrito();
+        mostrarNotificacion('✔️ Producto agregado al carrito');
+    }
+
+    // Eliminar producto del carrito
+    function eliminarDelCarrito(index) {
+        carrito.splice(index, 1);
+        actualizarCarrito();
+        mostrarNotificacion('🗑️ Producto eliminado');
+    }
+
+    // Actualizar vista del carrito
+    function actualizarCarrito() {
+        itemsCarrito.innerHTML = '';
+        let total = 0;
+        
+        carrito.forEach((item, index) => {
+            total += item.precio;
+            itemsCarrito.innerHTML += `
+                <div class="item-carrito">
+                    <span>${item.nombre} - $${item.precio}</span>
+                    <button onclick="eliminarDelCarrito(${index})">X</button>
+                </div>
+            `;
+        });
+        
+        totalCarrito.textContent = `Total: $${total}`;
+        contadorCarrito.textContent = carrito.length;
+    }
+
+    // Event listeners (manera más moderna que onclick)
+    abrirCarrito.addEventListener('click', () => {
+        modalCarrito.style.display = 'block';
+    });
+
+    cerrarCarrito.addEventListener('click', () => {
+        modalCarrito.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target == modalCarrito) {
             modalCarrito.style.display = 'none';
-        };
-
-        window.onclick = function(event) {
-            if (event.target == modalCarrito) {
-                modalCarrito.style.display = 'none';
-            }
-        };
-
-        function agregarAlCarrito(nombre, precio) {
-            carrito.push({ nombre, precio });
-            actualizarCarrito();
         }
-
-        function eliminarDelCarrito(index) {
-            carrito.splice(index, 1);
-            actualizarCarrito();
-        }
-
-        function actualizarCarrito() {
-            itemsCarrito.innerHTML = '';
-            let total = 0;
-            
-            carrito.forEach((item, index) => {
-                total += item.precio;
-                itemsCarrito.innerHTML += `
-                    <div class="item-carrito">
-                        <span>${item.nombre} - $${item.precio}</span>
-                        <button onclick="eliminarDelCarrito(${index})">X</button>
-                    </div>
-                `;
-            });
-            
-            totalCarrito.textContent = `Total: $${total}`;
-            contadorCarrito.textContent = carrito.length;
-        }
+    });
+</script>
     </script>
 </body>
 </html>
