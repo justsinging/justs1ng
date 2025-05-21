@@ -11,12 +11,42 @@
             --color-primario: #9a031e;
             --color-fondo: #A3B18A;
         }
-        body {
-            margin: 0;
-            font-family: 'Comfortaa', sans-serif;
-            background-color: var(--color-fondo);
-            color: #283618;
-        }
+     body {
+    margin: 0;
+    font-family: 'Comfortaa', sans-serif;
+    color: #283618;
+    position: relative; /* Necesario para el pseudo-elemento */
+    min-height: 100vh;
+}
+
+/* Fondo con opacidad */
+body::before {
+    content: "";
+    background-image: url('https://i.imgur.com/UgEu9Q7.jpeg'); /* Reemplaza con tu URL */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    opacity: 0.5; /* 50% de opacidad */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1; /* Para que esté detrás del contenido */
+}
+
+/* Asegurar legibilidad del contenido */
+.hero, .navbar, .nav-inferior, .modal, .producto {
+    background-color: rgba(255, 255, 255, 0.85); /* Fondo semi-transparente para contraste */
+    backdrop-filter: blur(2px); /* Efecto de desenfoque opcional */
+}
+
+/* Ajustar opacidad de la barra superior */
+.barra-superior {
+    background-color: rgba(154, 3, 30, 0.9); /* Color primario con 90% opacidad */
+    position: relative; /* Para que esté sobre el fondo */
+}
         /* Barra superior (texto fino) */
         .barra-superior {
             background-color: var(--color-primario);
@@ -214,6 +244,57 @@
 .notificacion.mostrar {
     opacity: 1;
 }
+        /* Resumen de costos */
+.resumen-costos {
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.costo-envio, .total {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.total {
+    font-weight: bold;
+    font-size: 18px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+/* Sección de pago */
+.seccion-pago {
+    margin-top: 30px;
+    border-top: 2px solid var(--color-primario);
+    padding-top: 20px;
+}
+
+.metodos-pago {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.btn-pagar {
+    background-color: var(--color-primario);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.btn-pagar:hover {
+    background-color: #7a0218;
+}
     </style>
 </head>
 <body>
@@ -273,12 +354,40 @@
     </div>
 
     <!-- Modal del carrito -->
-    <div class="modal" id="modalCarrito">
-        <span class="cerrar-modal" id="cerrarCarrito">&times;</span>
-        <h2>Tu Carrito</h2>
-        <div id="itemsCarrito"></div>
-        <div class="total" id="totalCarrito">Total: $0</div>
+   <!-- Modal del carrito -->
+<div class="modal" id="modalCarrito">
+    <span class="cerrar-modal" id="cerrarCarrito">&times;</span>
+    <h2>Tu Carrito</h2>
+    <div id="itemsCarrito"></div>
+    
+    <!-- Sección de costos -->
+    <div class="resumen-costos">
+        <div class="costo-envio">
+            <span>Envío:</span>
+            <span>$3.000</span>
+        </div>
+        <div class="total">
+            <span>Total:</span>
+            <span id="totalCarrito">$0</span>
+        </div>
     </div>
+    
+    <!-- Sección de pago -->
+    <div class="seccion-pago">
+        <h3>Método de Pago</h3>
+        <div class="metodos-pago">
+            <label>
+                <input type="radio" name="metodo-pago" checked>
+                Transferencia Bancaria
+            </label>
+            <label>
+                <input type="radio" name="metodo-pago">
+                Mercado Pago
+            </label>
+        </div>
+        <button class="btn-pagar" id="finalizarCompra">Finalizar Compra</button>
+    </div>
+</div>
        <script>
     // Variables del carrito
     let carrito = [];
@@ -332,36 +441,42 @@
 
     // Actualizar vista del carrito
     function actualizarCarrito() {
-        itemsCarrito.innerHTML = '';
-        let total = 0;
-        
-        carrito.forEach((item, index) => {
-            total += item.precio;
-            itemsCarrito.innerHTML += `
-                <div class="item-carrito">
-                    <span>${item.nombre} - $${item.precio}</span>
-                    <button onclick="eliminarDelCarrito(${index})">X</button>
-                </div>
-            `;
-        });
-        
-        totalCarrito.textContent = `Total: $${total}`;
-        contadorCarrito.textContent = carrito.length;
+    itemsCarrito.innerHTML = '';
+    let subtotal = 0;
+    const costoEnvio = 5000; // Costo fijo de envío
+    
+    carrito.forEach((item, index) => {
+        subtotal += item.precio;
+        itemsCarrito.innerHTML += `
+            <div class="item-carrito">
+                <span>${item.nombre} - $${item.precio}</span>
+                <button onclick="eliminarDelCarrito(${index})">X</button>
+            </div>
+        `;
+    });
+    
+    const total = subtotal + costoEnvio;
+    document.getElementById('totalCarrito').textContent = `$${total}`;
+    contadorCarrito.textContent = carrito.length;
+    
+    // Actualizar el subtotal si lo muestras
+    document.querySelector('.costo-envio span:last-child').textContent = `$${costoEnvio}`;
+}
+
+// Finalizar compra
+document.getElementById('finalizarCompra').addEventListener('click', function() {
+    if (carrito.length === 0) {
+        mostrarNotificacion('🛒 Tu carrito está vacío');
+        return;
     }
-
-    // Event listeners
-    abrirCarrito.addEventListener('click', () => {
-        modalCarrito.style.display = 'block';
-    });
-
-    cerrarCarrito.addEventListener('click', () => {
-        modalCarrito.style.display = 'none';
-    });
-
-    window.addEventListener('click', (event) => {
-        if (event.target == modalCarrito) {
-            modalCarrito.style.display = 'none';
-        }
+    
+    const metodoPago = document.querySelector('input[name="metodo-pago"]:checked').nextSibling.textContent.trim();
+    mostrarNotificacion(`✅ Compra finalizada (${metodoPago})`);
+    
+    // Vaciar carrito después de comprar
+    carrito = [];
+    actualizarCarrito();
+    modalCarrito.style.display = 'none';
     });
 </script>
     </script>
