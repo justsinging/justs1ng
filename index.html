@@ -95,36 +95,30 @@
   /* Productos */
 .productos-destacados {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px; /* Reducido el espacio entre productos */
-    margin-top: 30px;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 20px;
+    grid-template-columns: repeat(4, 1fr); /* 4 columnas iguales */
+    gap: 15px; /* Espacio entre productos */
+    max-width: 1200px; /* Ancho máximo del contenedor */
+    margin: 30px auto;
+    padding: 0 15px;
 }
 
 .producto {
- background: white;
+    background: white;
     border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    cursor: pointer;
-    border: 2px solid white; /* Borde blanco */
-    transition: transform 0.3s;
-    width: 500px; /* Ancho fijo */
-    height: 650px; /* Alto fijo para contener todo */
+    padding: 12px;
+    border: 2px solid white;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    height: 380px; /* Altura total del card */
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .producto img {
-     width: 500px; /* Ancho fijo */
-    height: 500px; /* Alto fijo */
+    width: 100%;
+    height: 250px; /* Altura fija para imágenes */
+    object-fit: cover;
     border-radius: 5px;
-    object-fit: cover; /* Para que las imágenes mantengan proporciones */
-    border: 1px solid #eee; /* Borde suave */
+    border: 1px solid #f0f0f0;
         }
         .producto h3 {
               margin: 10px 0;
@@ -192,6 +186,10 @@
                .modal {
             z-index: 1001;
         }
+            @media (max-width: 768px) {
+    .productos-destacados {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en móviles */
+    }
     </style>
 </head>
 <body>
