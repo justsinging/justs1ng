@@ -279,9 +279,7 @@
         <div id="itemsCarrito"></div>
         <div class="total" id="totalCarrito">Total: $0</div>
     </div>
-
-    <script>
-        <script>
+       <script>
     // Variables del carrito
     let carrito = [];
     const modalCarrito = document.getElementById('modalCarrito');
@@ -317,7 +315,7 @@
         
         if (existeEnCarrito) {
             mostrarNotificacion('⚠️ Este producto es único, ya está en tu carrito');
-            return; // Salir de la función sin agregar
+            return;
         }
         
         carrito.push({ nombre, precio });
@@ -351,7 +349,7 @@
         contadorCarrito.textContent = carrito.length;
     }
 
-    // Event listeners (manera más moderna que onclick)
+    // Event listeners
     abrirCarrito.addEventListener('click', () => {
         modalCarrito.style.display = 'block';
     });
