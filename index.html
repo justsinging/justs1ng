@@ -105,24 +105,31 @@
 }
 
 .producto {
-    background: white;
+ background: white;
     border-radius: 10px;
-    padding: 10px; /* Reducido el padding interno */
+    padding: 15px;
     box-shadow: 0 3px 10px rgba(0,0,0,0.1);
     cursor: pointer;
-    border: 2px solid white; /* Borde blanco añadido */
+    border: 2px solid white; /* Borde blanco */
     transition: transform 0.3s;
+    width: 500px; /* Ancho fijo */
+    height: 650px; /* Alto fijo para contener todo */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .producto img {
-    width: 100%;
+     width: 500px; /* Ancho fijo */
+    height: 500px; /* Alto fijo */
     border-radius: 5px;
-    border: 1px solid #f0f0f0; /* Borde suave para la imagen */
+    object-fit: cover; /* Para que las imágenes mantengan proporciones */
+    border: 1px solid #eee; /* Borde suave */
         }
         .producto h3 {
-            color: var (--color-primario);
-            margin: 10 px 0;
-        }
+              margin: 10px 0;
+    text-align: center;
+    width: 100%;
         .precio {
             font-weight: bold;
             font-size: 1.2em;
