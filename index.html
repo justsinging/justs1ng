@@ -22,8 +22,8 @@
             background-color: var(--color-primario);
             color: white;
             text-align: center;
-            padding: 8px; /* Más fina */
-            font-size: 12px; /* Texto más pequeño */
+            padding: 8px;
+            font-size: 12px;
         }
         /* Navbar superior (logo + carrito) */
         .navbar {
@@ -33,13 +33,14 @@
             padding: 10px 20px;
             background-color: white;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-         }
+            position: relative;
+        }
         .logo {
             cursor: pointer;
-          }
+        }
         .logo img {
             height: 50px;
-          }
+        }
         .titulo-pagina {
             font-family: 'Comfortaa', cursive;
             font-size: 23px;
@@ -48,7 +49,7 @@
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            {
+        }
         .carrito-btn {
             background: none;
             border: none;
@@ -85,48 +86,49 @@
             margin: 0 15px;
             text-decoration: none;
             color: var(--color-primario);
-            font-size: 14px; /* Texto más pequeño */
+            font-size: 14px;
         }
         /* Productos */
         .hero {
             padding: 40px 20px 80px;
             text-align: center;
         }
-  /* Productos */
-.productos-destacados {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columnas iguales */
-    gap: 15px; /* Espacio entre productos */
-    max-width: 1200px; /* Ancho máximo del contenedor */
-    margin: 30px auto;
-    padding: 0 15px;
-}
-
-.producto {
-    background: white;
-    border-radius: 10px;
-    padding: 12px;
-    border: 2px solid white;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    height: 380px; /* Altura total del card */
-    display: flex;
-    flex-direction: column;
-}
-
-.producto img {
-    width: 100%;
-    height: 250px; /* Altura fija para imágenes */
-    object-fit: cover;
-    border-radius: 5px;
-    border: 1px solid #f0f0f0;
+        .productos-destacados {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 15px;
+        }
+        .producto {
+            background: white;
+            border-radius: 10px;
+            padding: 12px;
+            border: 2px solid white;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            height: 380px;
+            display: flex;
+            flex-direction: column;
+        }
+        .producto img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 1px solid #f0f0f0;
         }
         .producto h3 {
-              margin: 10px 0;
-    text-align: center;
-    width: 100%;
+            color: var(--color-primario);
+            margin: 10px 0;
+            text-align: center;
+            width: 100%;
+        }
         .precio {
             font-weight: bold;
             font-size: 1.2em;
+            text-align: center;
+            margin: 10px 0;
         }
         .btn-carrito {
             background-color: var(--color-primario);
@@ -135,7 +137,9 @@
             padding: 8px 15px;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: auto;
+            width: 80%;
+            align-self: center;
         }
         /* Modal del carrito */
         .modal {
@@ -147,7 +151,7 @@
             height: 100%;
             background-color: white;
             box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-            z-index: 1000;
+            z-index: 1001;
             padding: 20px;
             overflow-y: auto;
         }
@@ -183,13 +187,11 @@
             font-size: 20px;
             cursor: pointer;
         }
-               .modal {
-            z-index: 1001;
+        @media (max-width: 768px) {
+            .productos-destacados {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
-            @media (max-width: 768px) {
-    .productos-destacados {
-        grid-template-columns: repeat(2, 1fr); /* 2 columnas en móviles */
-    }
     </style>
 </head>
 <body>
@@ -201,7 +203,7 @@
     <!-- Navbar superior (logo + carrito) -->
     <nav class="navbar">
         <div class="logo" onclick="window.location.href='#'">
-            <img src="https://i.imgur.com/NCqfx6D.jpeg" alt="Logo"> <!-- Reemplaza con tu imagen -->
+            <img src="https://i.imgur.com/NCqfx6D.jpeg" alt="Logo">
         </div>
         <div class="titulo-pagina">JustSing</div>
         <button class="carrito-btn" id="abrirCarrito">
@@ -214,7 +216,6 @@
     <section class="hero">
         <h2>Productos Destacados</h2>
         <div class="productos-destacados">
-            <!-- Ejemplo de producto (reemplaza con tus imágenes y datos) -->
             <div class="producto">
                 <img src="https://i.postimg.cc/66cjFV71/IMG-9268.jpg" alt="Totebag Florero">
                 <h3>Totebag Florero</h3>
@@ -225,20 +226,21 @@
                 <img src="https://i.postimg.cc/VkrKS3K3/IMG-9274.jpg" alt="Totebag Mujer">
                 <h3>Totebag Mujer</h3>
                 <p class="precio">$16.500</p>
-                <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Mujer', 16000)">Agregar al carrito</button>
+                <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Mujer', 16500)">Agregar al carrito</button>
             </div>
             <div class="producto">
                 <img src="https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg" alt="Totebag Lavanda">
                 <h3>Totebag Lavanda</h3>
                 <p class="precio">$18.500</p>
-                <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Lavanda', 1200)">Agregar al carrito</button>
+                <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Lavanda', 18500)">Agregar al carrito</button>
             </div>
             <div class="producto">
                 <img src="https://i.imgur.com/L8VFmta.jpeg" alt="Totebag 13">
                 <h3>Totebag 13</h3>
                 <p class="precio">$13.000</p>
-                <button class="btn-carrito" onclick="agregarAlCarrito('Totebag 13', 1300)">Agregar al carrito</button>
+                <button class="btn-carrito" onclick="agregarAlCarrito('Totebag 13', 13000)">Agregar al carrito</button>
             </div>
+        </div>
     </section>
 
     <!-- Barra de navegación inferior -->
@@ -270,31 +272,26 @@
             modalCarrito.style.display = 'block';
         };
 
-        // Cerrar carrito
         cerrarCarrito.onclick = function() {
             modalCarrito.style.display = 'none';
         };
 
-        // Cerrar al hacer clic fuera del modal
         window.onclick = function(event) {
             if (event.target == modalCarrito) {
                 modalCarrito.style.display = 'none';
             }
         };
 
-        // Agregar producto al carrito
         function agregarAlCarrito(nombre, precio) {
             carrito.push({ nombre, precio });
             actualizarCarrito();
         }
 
-        // Eliminar producto del carrito
         function eliminarDelCarrito(index) {
             carrito.splice(index, 1);
             actualizarCarrito();
         }
 
-        // Actualizar vista del carrito
         function actualizarCarrito() {
             itemsCarrito.innerHTML = '';
             let total = 0;
