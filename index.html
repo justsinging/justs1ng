@@ -18,9 +18,20 @@
     position: relative; /* Necesario para el pseudo-elemento */
     min-height: 100vh;
 }
-
+<script src="https://sdk.mercadopago.com/js/v2"></script>
 /* Fondo con opacidad */
 /* Reemplaza todo el estilo del body::before por este: */
+                body: JSON.stringify({
+    // ... (items y config básica)
+    payer: {
+        name: "Nombre del cliente",
+        email: "email@cliente.com",
+        phone: { area_code: "11", number: "12345678" }
+    },
+    metadata: {
+        producto_id: "123" // Útil para tracking
+    }
+})
 body::before {
     content: "";
     background-image: url('https://i.postimg.cc/PxCV4ZTq/983a3e5d-9a20-4e96-87d1-a5c638e449d9.jpg');  /* ← Coloca tu URL aquí */
@@ -102,6 +113,37 @@ body::before {
             justify-content: center;
             font-size: 12px;
         }
+         .item-carrito {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .item-carrito button {
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 2px 5px;
+            cursor: pointer;
+        }
+        .total {
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: right;
+        }
+        .cerrar-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        @media (max-width: 768px) {
+            .productos-destacados {
+                grid-template-columns: repeat(2, 1fr);
+            }
         /* Barra de navegación inferior */
         .nav-inferior {
             display: flex;
@@ -150,9 +192,6 @@ body::before {
 .precio {
     color: #9a031e;
     font-weight: bold;
-}
-        .modal {
-    background-color: rgba(255,255,255,0.9);  /* Fondo semitransparente */
 }
 .producto img {
     width: 100%;
@@ -203,38 +242,6 @@ body::before {
             border-bottom: 1px solid #ddd;
             padding-bottom: 10px;
         }
-        .item-carrito {
-            display: flex;
-            justify-content: space-between;
-            margin: 10px 0;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        .item-carrito button {
-            background-color: #ff0000;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            padding: 2px 5px;
-            cursor: pointer;
-        }
-        .total {
-            font-weight: bold;
-            margin-top: 20px;
-            text-align: right;
-        }
-        .cerrar-modal {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            cursor: pointer;
-        }
-        @media (max-width: 768px) {
-            .productos-destacados {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
         /* Notificaciones */
 .notificacion {
     position: fixed;
@@ -250,7 +257,6 @@ body::before {
     transition: opacity 0.3s ease;
     font-size: 14px;
 }
-
 .notificacion.mostrar {
     opacity: 1;
 }
@@ -305,6 +311,52 @@ body::before {
 .btn-pagar:hover {
     background-color: #7a0218;
 }
+            .datos-envio {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.datos-envio input {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: 'Comfortaa', sans-serif;
+}
+
+.datos-envio input:focus {
+    outline: 2px solid var(--color-primario);
+}
+
+.metodos-pago label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.metodos-pago label:hover {
+    background: rgba(154, 3, 30, 0.1);
+}
+
+.metodos-pago i {
+    width: 20px;
+    text-align: center;
+    color: var(--color-primario);
+}
+            <div id="container-pago"></div>  <!-- Botón de Mercado Pago aparecerá aquí -->
+<style>
+    #container-pago {
+        margin: 20px 0;
+    }
+    .mercadopago-button {
+        font-family: 'Comfortaa', sans-serif !important;
+    }
+</style>
     </style>
 </head>
 <body>
@@ -383,22 +435,38 @@ body::before {
     </div>
     
     <!-- Sección de pago -->
-    <div class="seccion-pago">
-        <h3>Método de Pago</h3>
-        <div class="metodos-pago">
-            <label>
-                <input type="radio" name="metodo-pago" checked>
-                Transferencia Bancaria
-            </label>
-            <label>
-                <input type="radio" name="metodo-pago">
-                Mercado Pago
-            </label>
-        </div>
-        <button class="btn-pagar" id="finalizarCompra">Finalizar Compra</button>
+<div class="seccion-pago">
+    <h3>Método de Pago</h3>
+    <div class="metodos-pago">
+        <label>
+            <input type="radio" name="metodo-pago" value="transferencia" checked>
+            <i class="fas fa-university"></i> Transferencia Bancaria
+        </label>
+        <label>
+            <input type="radio" name="metodo-pago" value="mercadopago">
+            <i class="fas fa-credit-card"></i> Mercado Pago
+        </label>
     </div>
+    
+    <!-- Formulario de contacto para envío -->
+    <div class="datos-envio">
+        <h3>Datos para el envío</h3>
+        <input type="text" placeholder="Nombre completo" id="nombreCliente" required>
+        <input type="email" placeholder="Email" id="emailCliente" required>
+        <input type="tel" placeholder="Teléfono (opcional)" id="telefonoCliente">
+    </div>
+    
+    <button class="btn-pagar" id="finalizarCompra">
+        <i class="fas fa-lock"></i> Proceder al Pago
+    </button>
 </div>
        <script>
+           <script src="https://sdk.mercadopago.com/js/v2"></script>
+<script>
+    // Configuración inicial - Coloca esto AL INICIO de tu <script>
+    const mp = new MercadoPago('APP_USR-12345678-1234-1234-1234-123456789012', {
+        locale: 'es-AR' // Configura el idioma
+    });
     // Variables del carrito
     let carrito = [];
     const modalCarrito = document.getElementById('modalCarrito');
@@ -479,7 +547,33 @@ document.getElementById('finalizarCompra').addEventListener('click', function() 
         mostrarNotificacion('🛒 Tu carrito está vacío');
         return;
     }
-    
+    document.getElementById('finalizarCompra').addEventListener('click', async function() {
+    if (carrito.length === 0) {
+        mostrarNotificacion('🛒 Tu carrito está vacío');
+        return;
+    }
+
+    const nombre = document.getElementById('nombreCliente').value;
+    const metodoPago = document.querySelector('input[name="metodo-pago"]:checked').value;
+    const total = carrito.reduce((sum, item) => sum + item.precio, 0) + 3000;
+
+    if (metodoPago === 'mercadopago') {
+        mostrarNotificacion('⌛ Redirigiendo a Mercado Pago...');
+        
+        // Crear preferencia de pago
+        const preferenceId = await crearPagoMercadoPago(total);
+        
+        // Abrir checkout
+        mp.checkout({
+            preference: {
+                id: preferenceId
+            },
+            autoOpen: true // Abre automáticamente el modal de pago
+        });
+    } else {
+        // Lógica para transferencia bancaria (tu código actual)
+    }
+});
     const metodoPago = document.querySelector('input[name="metodo-pago"]:checked').nextSibling.textContent.trim();
     mostrarNotificacion(`✅ Compra finalizada (${metodoPago})`);
     
@@ -487,8 +581,99 @@ document.getElementById('finalizarCompra').addEventListener('click', function() 
     carrito = [];
     actualizarCarrito();
     modalCarrito.style.display = 'none';
+}
+ const PUBLIC_KEY = 'APP_USR-12345678-1234-1234-1234-123456789012';                                                           
+// Función actualizada para Checkout API
+async function crearPagoMercadoPago(productos, envio) {
+    const items = productos.map(item => ({
+        title: item.nombre,
+        unit_price: item.precio,
+        quantity: 1,
+        description: "Producción única" // Añade esto para tus productos
+    }));
+    if (envio > 0) {
+        items.push({
+            title: "Costo de envío",
+            unit_price: envio,
+            quantity: 1
+        });
+    }
+
+    const response = await fetch("https://api.mercadopago.com/checkout/preferences", {
+        method: "POST",
+        headers: {
+            "Authorization": `Bearer TU_ACCESS_TOKEN`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            items,
+            statement_descriptor: "JustSing", // Nombre que aparecerá en la tarjeta
+            external_reference: "ORDER_" + Date.now(), // ID único para tu referencia
+            payment_methods: {
+                excluded_payment_types: [
+                    { id: "atm" } // Ejemplo: excluye pago en cajeros
+                ],
+                installments: 1 // Para productos únicos, evita cuotas
+            }
+            // Configura Mercado Pago
+const mp = new MercadoPago('TU_PUBLIC_KEY', {
+    locale: 'es-AR'
+});
+
+// Función para crear pago
+async function crearPagoMercadoPago(total) {
+    try {
+        const response = await fetch("https://api.mercadopago.com/checkout/preferences", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer TU_ACCESS_TOKEN`
+            },
+            body: JSON.stringify({
+                items: [
+                    {
+                        title: "Compra en JustSing",
+                        unit_price: Number(total),
+                        quantity: 1,
+                    }
+                ],
+                back_urls: {
+                    success: "https://tusitio.com/exito.html",
+                    failure: "https://tusitio.com/error.html",
+                    pending: "https://tusitio.com/pendiente.html"
+                },
+                auto_return: "approved",
+            })
+        });
+
+        const data = await response.json();
+        return data.id; // Retorna el ID de preferencia
+    } catch (error) {
+        console.error("Error al crear pago:", error);
+    }
+}
+        })
     });
+    return await response.json();
+}        
+           const mp = new MercadoPago('TU_PUBLIC_KEY', { locale: 'es-AR' });
+
+document.getElementById('finalizarCompra').addEventListener('click', async function() {
+    const preference = await crearPagoMercadoPago(carrito, 3000);
+    
+    // Crea el botón de pago EN TU MODAL (no abre ventana nueva)
+    mp.bricks().create("wallet", "container-pago", {
+        initialization: {
+            preferenceId: preference.id
+        },
+        customization: {
+            visual: {
+                buttonBackground: "#9a031e", // Color de tu marca
+                fontFamily: "Comfortaa" // Usa tu tipografía
+            }
+        }
+    });
+});
 </script>
-    </script>
 </body>
 </html>
