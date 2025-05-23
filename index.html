@@ -11,54 +11,37 @@
             --color-primario: #9a031e;
             --color-fondo: #A3B18A;
         }
-     body {
-    margin: 0;
-    font-family: 'Comfortaa', sans-serif;
-    color: #283618;
-    position: relative; /* Necesario para el pseudo-elemento */
-    min-height: 100vh;
-}
-<script src="https://sdk.mercadopago.com/js/v2"></script>
-/* Fondo con opacidad */
-/* Reemplaza todo el estilo del body::before por este: */
-                body: JSON.stringify({
-    // ... (items y config básica)
-    payer: {
-        name: "Nombre del cliente",
-        email: "email@cliente.com",
-        phone: { area_code: "11", number: "12345678" }
-    },
-    metadata: {
-        producto_id: "123" // Útil para tracking
-    }
-})
-body::before {
-    content: "";
-    background-image: url('https://i.postimg.cc/PxCV4ZTq/983a3e5d-9a20-4e96-87d1-a5c638e449d9.jpg');  /* ← Coloca tu URL aquí */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    opacity: 0.5;  /* 50% de opacidad */
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-}
+        body {
+            margin: 0;
+            font-family: 'Comfortaa', sans-serif;
+            color: #283618;
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        /* Fondo con opacidad */
+        body::before {
+            content: "";
+            background-image: url('https://i.postimg.cc/PxCV4ZTq/983a3e5d-9a20-4e96-87d1-a5c638e449d9.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.5;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
 
-/* Asegurar legibilidad del contenido */
-.hero, .navbar, .nav-inferior, .modal, .producto {
-    background-color: rgba(255, 255, 255, 0.85); /* Fondo semi-transparente para contraste */
-    backdrop-filter: blur(2px); /* Efecto de desenfoque opcional */
-}
+        /* Asegurar legibilidad del contenido */
+        .hero, .navbar, .nav-inferior, .modal, .producto {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(2px);
+        }
 
-/* Ajustar opacidad de la barra superior */
-.barra-superior {
-    background-color: rgba(154, 3, 30, 0.9); /* Color primario con 90% opacidad */
-    position: relative; /* Para que esté sobre el fondo */
-}
         /* Barra superior (texto fino) */
         .barra-superior {
             background-color: var(--color-primario);
@@ -66,7 +49,9 @@ body::before {
             text-align: center;
             padding: 8px;
             font-size: 12px;
+            position: relative;
         }
+
         /* Navbar superior (logo + carrito) */
         .navbar {
             display: flex;
@@ -113,7 +98,7 @@ body::before {
             justify-content: center;
             font-size: 12px;
         }
-         .item-carrito {
+        .item-carrito {
             display: flex;
             justify-content: space-between;
             margin: 10px 0;
@@ -140,10 +125,7 @@ body::before {
             font-size: 20px;
             cursor: pointer;
         }
-        @media (max-width: 768px) {
-            .productos-destacados {
-                grid-template-columns: repeat(2, 1fr);
-            }
+
         /* Barra de navegación inferior */
         .nav-inferior {
             display: flex;
@@ -161,56 +143,54 @@ body::before {
             color: var(--color-primario);
             font-size: 14px;
         }
+
         /* Productos */
         .hero {
             padding: 40px 20px 80px;
             text-align: center;
         }
-      .productos-destacados {
-    display: grid;
-    background: transparent;
-    grid-template-columns: repeat(4, minmax(250px, 1fr)); /* Más flexibilidad */
-    gap: 20px;
-    margin: 30px auto;
-    padding: 0 30px; /* Más espacio en los laterales */
-    width: 95%; /* Ocupa más ancho */
-    max-width: 1600px; /* Aumentamos el máximo */
-}
+        .productos-destacados {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px auto;
+            padding: 0 30px;
+            width: 95%;
+            max-width: 1600px;
+        }
         .producto {
-    background: transparent !important;  /* Elimina el fondo blanco */
-    border: 4px solid white;  /* Conserva el borde blanco */
-    box-shadow: none !important;  /* Opcional: elimina la sombra */
-    backdrop-filter: blur(5px);  /* Efecto vidrio sutil (opcional) */
-}
-
-/* Asegura que el texto sea legible */
-.producto h3 {
-    color: white;  /* Color del texto */
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);  /* Mejor contraste */
-}
-
-.precio {
-    color: #9a031e;
-    font-weight: bold;
-}
-.producto img {
-    width: 100%;
-    height: 300px; /* Imágenes más grandes */
-    object-fit: cover;
-    border-radius: 5px;
-    border: 1px solid #f0f0f0;
-}
+            background: transparent;
+            border: 4px solid white;
+            backdrop-filter: blur(5px);
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
         .producto h3 {
-            color: var(--color-primario);
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
             margin: 10px 0;
             text-align: center;
             width: 100%;
         }
         .precio {
+            color: #9a031e;
             font-weight: bold;
             font-size: 1.2em;
             text-align: center;
             margin: 10px 0;
+            background-color: rgba(255,255,255,0.8);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .producto img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 1px solid #f0f0f0;
         }
         .btn-carrito {
             background-color: var(--color-primario);
@@ -222,7 +202,12 @@ body::before {
             margin-top: auto;
             width: 80%;
             align-self: center;
+            transition: background-color 0.3s;
         }
+        .btn-carrito:hover {
+            background-color: #7a0218;
+        }
+
         /* Modal del carrito */
         .modal {
             display: none;
@@ -242,121 +227,119 @@ body::before {
             border-bottom: 1px solid #ddd;
             padding-bottom: 10px;
         }
+
         /* Notificaciones */
-.notificacion {
-    position: fixed;
-    bottom: 100px;
-    right: 30px;
-    background-color: var(--color-primario);
-    color: white;
-    padding: 12px 24px;
-    border-radius: 5px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-    z-index: 1002;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    font-size: 14px;
-}
-.notificacion.mostrar {
-    opacity: 1;
-}
+        .notificacion {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background-color: var(--color-primario);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            z-index: 1002;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            font-size: 14px;
+        }
+        .notificacion.mostrar {
+            opacity: 1;
+        }
+
         /* Resumen de costos */
-.resumen-costos {
-    margin-top: 20px;
-    border-top: 1px solid #eee;
-    padding-top: 15px;
-}
+        .resumen-costos {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+        .costo-envio, .total {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .total {
+            font-weight: bold;
+            font-size: 18px;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
 
-.costo-envio, .total {
-    display: flex;
-    justify-content: space-between;
-    margin: 10px 0;
-    font-size: 16px;
-}
+        /* Sección de pago */
+        .seccion-pago {
+            margin-top: 30px;
+            border-top: 2px solid var(--color-primario);
+            padding-top: 20px;
+        }
+        .metodos-pago {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .btn-pagar {
+            background-color: var(--color-primario);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+        .btn-pagar:hover {
+            background-color: #7a0218;
+        }
+        .datos-envio {
+            margin: 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .datos-envio input {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Comfortaa', sans-serif;
+        }
+        .datos-envio input:focus {
+            outline: 2px solid var(--color-primario);
+        }
+        .metodos-pago label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .metodos-pago label:hover {
+            background: rgba(154, 3, 30, 0.1);
+        }
+        .metodos-pago i {
+            width: 20px;
+            text-align: center;
+            color: var(--color-primario);
+        }
+        #container-pago {
+            margin: 20px 0;
+        }
+        .mercadopago-button {
+            font-family: 'Comfortaa', sans-serif !important;
+        }
 
-.total {
-    font-weight: bold;
-    font-size: 18px;
-    border-top: 1px solid #eee;
-    padding-top: 10px;
-}
-
-/* Sección de pago */
-.seccion-pago {
-    margin-top: 30px;
-    border-top: 2px solid var(--color-primario);
-    padding-top: 20px;
-}
-
-.metodos-pago {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin: 15px 0;
-}
-
-.btn-pagar {
-    background-color: var(--color-primario);
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    width: 100%;
-    margin-top: 10px;
-    transition: background-color 0.3s;
-}
-
-.btn-pagar:hover {
-    background-color: #7a0218;
-}
-            .datos-envio {
-    margin: 20px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.datos-envio input {
-    padding: 10px 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-family: 'Comfortaa', sans-serif;
-}
-
-.datos-envio input:focus {
-    outline: 2px solid var(--color-primario);
-}
-
-.metodos-pago label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 5px;
-    transition: background 0.3s;
-}
-
-.metodos-pago label:hover {
-    background: rgba(154, 3, 30, 0.1);
-}
-
-.metodos-pago i {
-    width: 20px;
-    text-align: center;
-    color: var(--color-primario);
-}
-            <div id="container-pago"></div>  <!-- Botón de Mercado Pago aparecerá aquí -->
-<style>
-    #container-pago {
-        margin: 20px 0;
-    }
-    .mercadopago-button {
-        font-family: 'Comfortaa', sans-serif !important;
-    }
-</style>
+        @media (max-width: 768px) {
+            .productos-destacados {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .titulo-pagina {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -416,264 +399,187 @@ body::before {
     </div>
 
     <!-- Modal del carrito -->
-   <!-- Modal del carrito -->
-<div class="modal" id="modalCarrito">
-    <span class="cerrar-modal" id="cerrarCarrito">&times;</span>
-    <h2>Tu Carrito</h2>
-    <div id="itemsCarrito"></div>
-    
-    <!-- Sección de costos -->
-    <div class="resumen-costos">
-        <div class="costo-envio">
-            <span>Envío:</span>
-            <span>$3.000</span>
-        </div>
-        <div class="total">
-            <span>Total:</span>
-            <span id="totalCarrito">$0</span>
-        </div>
-    </div>
-    
-    <!-- Sección de pago -->
-<div class="seccion-pago">
-    <h3>Método de Pago</h3>
-    <div class="metodos-pago">
-        <label>
-            <input type="radio" name="metodo-pago" value="transferencia" checked>
-            <i class="fas fa-university"></i> Transferencia Bancaria
-        </label>
-        <label>
-            <input type="radio" name="metodo-pago" value="mercadopago">
-            <i class="fas fa-credit-card"></i> Mercado Pago
-        </label>
-    </div>
-    
-    <!-- Formulario de contacto para envío -->
-    <div class="datos-envio">
-        <h3>Datos para el envío</h3>
-        <input type="text" placeholder="Nombre completo" id="nombreCliente" required>
-        <input type="email" placeholder="Email" id="emailCliente" required>
-        <input type="tel" placeholder="Teléfono (opcional)" id="telefonoCliente">
-    </div>
-    
-    <button class="btn-pagar" id="finalizarCompra">
-        <i class="fas fa-lock"></i> Proceder al Pago
-    </button>
-</div>
-       <script>
-           <script src="https://sdk.mercadopago.com/js/v2"></script>
-<script>
-    // Configuración inicial - Coloca esto AL INICIO de tu <script>
-    const mp = new MercadoPago('APP_USR-12345678-1234-1234-1234-123456789012', {
-        locale: 'es-AR' // Configura el idioma
-    });
-    // Variables del carrito
-    let carrito = [];
-    const modalCarrito = document.getElementById('modalCarrito');
-    const abrirCarrito = document.getElementById('abrirCarrito');
-    const cerrarCarrito = document.getElementById('cerrarCarrito');
-    const itemsCarrito = document.getElementById('itemsCarrito');
-    const totalCarrito = document.getElementById('totalCarrito');
-    const contadorCarrito = document.getElementById('contadorCarrito');
-
-    // Función para mostrar notificación
-    function mostrarNotificacion(mensaje) {
-        const notificacion = document.createElement('div');
-        notificacion.className = 'notificacion';
-        notificacion.textContent = mensaje;
-        document.body.appendChild(notificacion);
+    <div class="modal" id="modalCarrito">
+        <span class="cerrar-modal" id="cerrarCarrito">&times;</span>
+        <h2>Tu Carrito</h2>
+        <div id="itemsCarrito"></div>
         
-        setTimeout(() => {
-            notificacion.classList.add('mostrar');
-        }, 10);
-        
-        setTimeout(() => {
-            notificacion.classList.remove('mostrar');
-            setTimeout(() => {
-                document.body.removeChild(notificacion);
-            }, 300);
-        }, 3000);
-    }
-
-    // Agregar producto al carrito (modificada)
-    function agregarAlCarrito(nombre, precio) {
-        // Verificar si el producto ya está en el carrito
-        const existeEnCarrito = carrito.some(item => item.nombre === nombre);
-        
-        if (existeEnCarrito) {
-            mostrarNotificacion('⚠️ Este producto es único, ya está en tu carrito');
-            return;
-        }
-        
-        carrito.push({ nombre, precio });
-        actualizarCarrito();
-        mostrarNotificacion('✔️ Producto agregado al carrito');
-    }
-
-    // Eliminar producto del carrito
-    function eliminarDelCarrito(index) {
-        carrito.splice(index, 1);
-        actualizarCarrito();
-        mostrarNotificacion('🗑️ Producto eliminado');
-    }
-
-    // Actualizar vista del carrito
-    function actualizarCarrito() {
-    itemsCarrito.innerHTML = '';
-    let subtotal = 0;
-    const costoEnvio = 5000; // Costo fijo de envío
-    
-    carrito.forEach((item, index) => {
-        subtotal += item.precio;
-        itemsCarrito.innerHTML += `
-            <div class="item-carrito">
-                <span>${item.nombre} - $${item.precio}</span>
-                <button onclick="eliminarDelCarrito(${index})">X</button>
+        <!-- Sección de costos -->
+        <div class="resumen-costos">
+            <div class="costo-envio">
+                <span>Envío:</span>
+                <span>$3.000</span>
             </div>
-        `;
-    });
-    
-    const total = subtotal + costoEnvio;
-    document.getElementById('totalCarrito').textContent = `$${total}`;
-    contadorCarrito.textContent = carrito.length;
-    
-    // Actualizar el subtotal si lo muestras
-    document.querySelector('.costo-envio span:last-child').textContent = `$${costoEnvio}`;
-}
-
-// Finalizar compra
-document.getElementById('finalizarCompra').addEventListener('click', function() {
-    if (carrito.length === 0) {
-        mostrarNotificacion('🛒 Tu carrito está vacío');
-        return;
-    }
-    document.getElementById('finalizarCompra').addEventListener('click', async function() {
-    if (carrito.length === 0) {
-        mostrarNotificacion('🛒 Tu carrito está vacío');
-        return;
-    }
-
-    const nombre = document.getElementById('nombreCliente').value;
-    const metodoPago = document.querySelector('input[name="metodo-pago"]:checked').value;
-    const total = carrito.reduce((sum, item) => sum + item.precio, 0) + 3000;
-
-    if (metodoPago === 'mercadopago') {
-        mostrarNotificacion('⌛ Redirigiendo a Mercado Pago...');
+            <div class="total">
+                <span>Total:</span>
+                <span id="totalCarrito">$0</span>
+            </div>
+        </div>
         
-        // Crear preferencia de pago
-        const preferenceId = await crearPagoMercadoPago(total);
-        
-        // Abrir checkout
-        mp.checkout({
-            preference: {
-                id: preferenceId
-            },
-            autoOpen: true // Abre automáticamente el modal de pago
-        });
-    } else {
-        // Lógica para transferencia bancaria (tu código actual)
-    }
-});
-    const metodoPago = document.querySelector('input[name="metodo-pago"]:checked').nextSibling.textContent.trim();
-    mostrarNotificacion(`✅ Compra finalizada (${metodoPago})`);
-    
-    // Vaciar carrito después de comprar
-    carrito = [];
-    actualizarCarrito();
-    modalCarrito.style.display = 'none';
-}
- const PUBLIC_KEY = 'APP_USR-12345678-1234-1234-1234-123456789012';                                                           
-// Función actualizada para Checkout API
-async function crearPagoMercadoPago(productos, envio) {
-    const items = productos.map(item => ({
-        title: item.nombre,
-        unit_price: item.precio,
-        quantity: 1,
-        description: "Producción única" // Añade esto para tus productos
-    }));
-    if (envio > 0) {
-        items.push({
-            title: "Costo de envío",
-            unit_price: envio,
-            quantity: 1
-        });
-    }
+        <!-- Sección de pago -->
+        <div class="seccion-pago">
+            <h3>Método de Pago</h3>
+            <div class="metodos-pago">
+                <label>
+                    <input type="radio" name="metodo-pago" value="transferencia" checked>
+                    <i class="fas fa-university"></i> Transferencia Bancaria
+                </label>
+                <label>
+                    <input type="radio" name="metodo-pago" value="mercadopago">
+                    <i class="fas fa-credit-card"></i> Mercado Pago
+                </label>
+            </div>
+            
+            <!-- Formulario de contacto para envío -->
+            <div class="datos-envio">
+                <h3>Datos para el envío</h3>
+                <input type="text" placeholder="Nombre completo" id="nombreCliente" required>
+                <input type="email" placeholder="Email" id="emailCliente" required>
+                <input type="tel" placeholder="Teléfono (opcional)" id="telefonoCliente">
+            </div>
+            
+            <div id="container-pago"></div>
+            
+            <button class="btn-pagar" id="finalizarCompra">
+                <i class="fas fa-lock"></i> Proceder al Pago
+            </button>
+        </div>
+    </div>
 
-    const response = await fetch("https://api.mercadopago.com/checkout/preferences", {
-        method: "POST",
-        headers: {
-            "Authorization": `Bearer TU_ACCESS_TOKEN`,
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            items,
-            statement_descriptor: "JustSing", // Nombre que aparecerá en la tarjeta
-            external_reference: "ORDER_" + Date.now(), // ID único para tu referencia
-            payment_methods: {
-                excluded_payment_types: [
-                    { id: "atm" } // Ejemplo: excluye pago en cajeros
-                ],
-                installments: 1 // Para productos únicos, evita cuotas
-            }
-            // Configura Mercado Pago
-const mp = new MercadoPago('TU_PUBLIC_KEY', {
-    locale: 'es-AR'
-});
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <script>
+        // Variables del carrito
+        let carrito = [];
+        const modalCarrito = document.getElementById('modalCarrito');
+        const abrirCarrito = document.getElementById('abrirCarrito');
+        const cerrarCarrito = document.getElementById('cerrarCarrito');
+        const itemsCarrito = document.getElementById('itemsCarrito');
+        const totalCarrito = document.getElementById('totalCarrito');
+        const contadorCarrito = document.getElementById('contadorCarrito');
 
-// Función para crear pago
-async function crearPagoMercadoPago(total) {
-    try {
-        const response = await fetch("https://api.mercadopago.com/checkout/preferences", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer TU_ACCESS_TOKEN`
-            },
-            body: JSON.stringify({
-                items: [
-                    {
-                        title: "Compra en JustSing",
-                        unit_price: Number(total),
-                        quantity: 1,
-                    }
-                ],
-                back_urls: {
-                    success: "https://tusitio.com/exito.html",
-                    failure: "https://tusitio.com/error.html",
-                    pending: "https://tusitio.com/pendiente.html"
-                },
-                auto_return: "approved",
-            })
-        });
-
-        const data = await response.json();
-        return data.id; // Retorna el ID de preferencia
-    } catch (error) {
-        console.error("Error al crear pago:", error);
-    }
-}
-        })
-    });
-    return await response.json();
-}        
-           const mp = new MercadoPago('TU_PUBLIC_KEY', { locale: 'es-AR' });
-
-document.getElementById('finalizarCompra').addEventListener('click', async function() {
-    const preference = await crearPagoMercadoPago(carrito, 3000);
-    
-    // Crea el botón de pago EN TU MODAL (no abre ventana nueva)
-    mp.bricks().create("wallet", "container-pago", {
-        initialization: {
-            preferenceId: preference.id
-        },
-        customization: {
-            visual: {
-                buttonBackground: "#9a031e", // Color de tu marca
-                fontFamily: "Comfortaa" // Usa tu tipografía
-            }
+        // Función para mostrar notificación
+        function mostrarNotificacion(mensaje) {
+            const notificacion = document.createElement('div');
+            notificacion.className = 'notificacion';
+            notificacion.textContent = mensaje;
+            document.body.appendChild(notificacion);
+            
+            setTimeout(() => {
+                notificacion.classList.add('mostrar');
+            }, 10);
+            
+            setTimeout(() => {
+                notificacion.classList.remove('mostrar');
+                setTimeout(() => {
+                    document.body.removeChild(notificacion);
+                }, 300);
+            }, 3000);
         }
-    });
-});
-</script>
+
+        // Agregar producto al carrito
+        function agregarAlCarrito(nombre, precio) {
+            // Verificar si el producto ya está en el carrito
+            const existeEnCarrito = carrito.some(item => item.nombre === nombre);
+            
+            if (existeEnCarrito) {
+                mostrarNotificacion('⚠️ Este producto es único, ya está en tu carrito');
+                return;
+            }
+            
+            carrito.push({ nombre, precio });
+            actualizarCarrito();
+            mostrarNotificacion('✔️ Producto agregado al carrito');
+        }
+
+        // Eliminar producto del carrito
+        function eliminarDelCarrito(index) {
+            carrito.splice(index, 1);
+            actualizarCarrito();
+            mostrarNotificacion('🗑️ Producto eliminado');
+        }
+
+        // Actualizar vista del carrito
+        function actualizarCarrito() {
+            itemsCarrito.innerHTML = '';
+            let subtotal = 0;
+            const costoEnvio = 3000; // Costo fijo de envío
+            
+            carrito.forEach((item, index) => {
+                subtotal += item.precio;
+                itemsCarrito.innerHTML += `
+                    <div class="item-carrito">
+                        <span>${item.nombre} - $${item.precio.toLocaleString('es-AR')}</span>
+                        <button onclick="eliminarDelCarrito(${index})">X</button>
+                    </div>
+                `;
+            });
+            
+            const total = subtotal + costoEnvio;
+            document.getElementById('totalCarrito').textContent = `$${total.toLocaleString('es-AR')}`;
+            contadorCarrito.textContent = carrito.length;
+            
+            // Actualizar el subtotal si lo muestras
+            document.querySelector('.costo-envio span:last-child').textContent = `$${costoEnvio.toLocaleString('es-AR')}`;
+        }
+
+        // Event listeners para abrir/cerrar carrito
+        abrirCarrito.addEventListener('click', () => {
+            modalCarrito.style.display = 'block';
+        });
+
+        cerrarCarrito.addEventListener('click', () => {
+            modalCarrito.style.display = 'none';
+        });
+
+        // Cerrar modal al hacer clic fuera de él
+        window.addEventListener('click', (event) => {
+            if (event.target === modalCarrito) {
+                modalCarrito.style.display = 'none';
+            }
+        });
+
+        // Configuración de Mercado Pago (simulada - reemplaza con tus credenciales)
+        const mp = new MercadoPago('TEST-12345678-1234-1234-1234-123456789012', {
+            locale: 'es-AR'
+        });
+
+        // Finalizar compra
+        document.getElementById('finalizarCompra').addEventListener('click', function() {
+            if (carrito.length === 0) {
+                mostrarNotificacion('🛒 Tu carrito está vacío');
+                return;
+            }
+
+            const nombre = document.getElementById('nombreCliente').value;
+            const email = document.getElementById('emailCliente').value;
+            const metodoPago = document.querySelector('input[name="metodo-pago"]:checked').value;
+            const total = carrito.reduce((sum, item) => sum + item.precio, 0) + 3000;
+
+            if (!nombre || !email) {
+                mostrarNotificacion('📝 Completa tus datos para continuar');
+                return;
+            }
+
+            if (metodoPago === 'mercadopago') {
+                mostrarNotificacion('⌛ Redirigiendo a Mercado Pago...');
+                
+                // Simulación de pago con Mercado Pago
+                setTimeout(() => {
+                    mostrarNotificacion('✅ Pago procesado con éxito');
+                    carrito = [];
+                    actualizarCarrito();
+                    modalCarrito.style.display = 'none';
+                }, 2000);
+            } else {
+                mostrarNotificacion('✅ Compra finalizada (Transferencia Bancaria)');
+                // Mostrar datos para transferencia
+                alert(`Por favor realiza una transferencia de $${total.toLocaleString('es-AR')} a:\n\nBanco: Tu Banco\nCBU: 1234567890123456789012\nAlias: JUSTSING.TIENDA\n\nEnvíanos el comprobante a contacto@justsing.com`);
+                
+                carrito = [];
+                actualizarCarrito();
+                modalCarrito.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
