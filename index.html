@@ -339,7 +339,115 @@
             .titulo-pagina {
                 display: none;
             }
+            /* Estilos para el formulario ampliado */
+.grupo-formulario {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.grupo-formulario h4 {
+    color: var(--color-primario);
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.dos-columnas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.metodos-envio {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.metodos-envio label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 5px;
+    background: rgba(154, 3, 30, 0.05);
+    cursor: pointer;
+}
+
+.metodos-envio label i {
+    width: 20px;
+    color: var(--color-primario);
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-family: 'Comfortaa', sans-serif;
+    min-height: 80px;
+    resize: vertical;
         }
+            /* Estilos para el selector de sucursales */
+#seccion-sucursal {
+    transition: all 0.3s ease;
+}
+
+.busqueda-sucursal {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.busqueda-sucursal input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.busqueda-sucursal button {
+    background-color: var(--color-primario);
+    color: white;
+    border: none;
+    padding: 0 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.lista-sucursales {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    border-radius: 5px;
+}
+
+.sucursal-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.sucursal-item:hover {
+    background-color: rgba(154, 3, 30, 0.1);
+}
+
+.sucursal-item.seleccionada {
+    background-color: var(--color-primario);
+    color: white;
+}
+
+.sucursal-item h5 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+}
+
+.sucursal-item p {
+    margin: 0;
+    font-size: 12px;
+    opacity: 0.8;
+}
     </style>
 </head>
 <body>
@@ -432,20 +540,58 @@
             
             <!-- Formulario de contacto para envío -->
             <div class="datos-envio">
-                <h3>Datos para el envío</h3>
-                <input type="text" placeholder="Nombre completo" id="nombreCliente" required>
-                <input type="email" placeholder="Email" id="emailCliente" required>
-                <input type="tel" placeholder="Teléfono (opcional)" id="telefonoCliente">
-            </div>
-            
-            <div id="container-pago"></div>
-            
-            <button class="btn-pagar" id="finalizarCompra">
-                <i class="fas fa-lock"></i> Proceder al Pago
-            </button>
-        </div>
+    <h3>Datos para el envío</h3>
+    
+    <!-- Información personal -->
+    <div class="grupo-formulario">
+        <h4>Información personal</h4>
+        <input type="text" placeholder="Nombre completo*" id="nombreCliente" required>
+        <input type="email" placeholder="Email*" id="emailCliente" required>
+        <input type="tel" placeholder="Teléfono (opcional)" id="telefonoCliente">
     </div>
-
+    
+    <!-- Dirección de envío -->
+    <div class="grupo-formulario">
+        <h4>Dirección de envío</h4>
+        <input type="text" placeholder="Calle y número*" id="direccionCalle" required>
+        <input type="text" placeholder="Departamento/Piso (opcional)" id="direccionExtra">
+        <div class="dos-columnas">
+            <input type="text" placeholder="Código Postal*" id="codigoPostal" required>
+            <input type="text" placeholder="Localidad*" id="localidad" required>
+        </div>
+        <input type="text" placeholder="Provincia*" id="provincia" required>
+    </div>
+    
+    <!-- Método de envío -->
+    <div class="grupo-formulario">
+        <h4>Método de envío</h4>
+        <div class="metodos-envio">
+            <label>
+                <input type="radio" name="metodo-envio" value="correo" checked>
+                <i class="fas fa-truck"></i> Correo Argentino (Domicilio)- $3.000
+            </label>
+            <label>
+                <input type="radio" name="metodo-envio" value="domicilio">
+                <i class="fas fa-motorcycle"></i> Correo Argentino (Sucursal) - $2.500
+            </label>
+            <label>
+    </div>
+    
+    <!-- Comentarios adicionales -->
+    <div class="grupo-formulario">
+        <h4>Comentarios</h4>
+        <textarea placeholder="Algo que debamos saber sobre tu pedido..." id="comentarios"></textarea>
+    </div>
+</div>
+                <div class="grupo-formulario" id="seccion-sucursal" style="display:none;">
+    <h4>Seleccionar Sucursal Correo Argentino</h4>
+    <div class="busqueda-sucursal">
+        <input type="text" id="buscarSucursal" placeholder="Buscar por localidad o CP">
+        <button id="btnBuscarSucursal"><i class="fas fa-search"></i> Buscar</button>
+    </div>
+    <div id="lista-sucursales" class="lista-sucursales"></div>
+    <input type="hidden" id="sucursalSeleccionada" name="sucursalSeleccionada">
+</div>
     <script src="https://sdk.mercadopago.com/js/v2"></script>
     <script>
         // Variables del carrito
@@ -544,20 +690,33 @@
         });
 
         // Finalizar compra
-        document.getElementById('finalizarCompra').addEventListener('click', function() {
-            if (carrito.length === 0) {
-                mostrarNotificacion('🛒 Tu carrito está vacío');
-                return;
-            }
+       document.getElementById('finalizarCompra').addEventListener('click', function() {
+    // Obtener todos los valores del formulario
+    const datosEnvio = {
+        nombre: document.getElementById('nombreCliente').value,
+        email: document.getElementById('emailCliente').value,
+        telefono: document.getElementById('telefonoCliente').value,
+        direccion: {
+            calle: document.getElementById('direccionCalle').value,
+            extra: document.getElementById('direccionExtra').value,
+            codigoPostal: document.getElementById('codigoPostal').value,
+            localidad: document.getElementById('localidad').value,
+            provincia: document.getElementById('provincia').value
+        },
+        metodoEnvio: document.querySelector('input[name="metodo-envio"]:checked').value,
+        comentarios: document.getElementById('comentarios').value
+    };
 
-            const nombre = document.getElementById('nombreCliente').value;
-            const email = document.getElementById('emailCliente').value;
-            const metodoPago = document.querySelector('input[name="metodo-pago"]:checked').value;
-            const total = carrito.reduce((sum, item) => sum + item.precio, 0) + 3000;
+    // Validación básica
+    if (!datosEnvio.nombre || !datosEnvio.email || !datosEnvio.direccion.calle || 
+        !datosEnvio.direccion.codigoPostal || !datosEnvio.direccion.localidad || 
+        !datosEnvio.direccion.provincia) {
+        mostrarNotificacion('📝 Completa todos los campos obligatorios*');
+        return;
+    }
 
-            if (!nombre || !email) {
-                mostrarNotificacion('📝 Completa tus datos para continuar');
-                return;
+    // Resto de la lógica de pago...
+});
             }
 
             if (metodoPago === 'mercadopago') {
