@@ -620,7 +620,7 @@
         const totalCarritoElement = document.getElementById('totalCarrito');
 
         // Inicializar Mercado Pago (usa tu PUBLIC_KEY real)
-        const mp = new MercadoPago('TEST-12345678-1234-1234-1234-123456789012', {
+        const mp = new MercadoPago('APP_USR-0aa95e81-e09e-42d7-95ea-540547141761', {
             locale: 'es-AR'
         });
 
@@ -760,7 +760,7 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': 'Bearer TEST-12345678-1234-1234-1234-123456789012' // Usa tu ACCESS_TOKEN
+                        'Authorization': 'Bearer APP_USR-6749756929605397-052312-3fefdcf7d53b1ac7f95928e293a7ba4e-2429370643' // Usa tu ACCESS_TOKEN
                     },
                     body: JSON.stringify(preferenceData)
                 });
