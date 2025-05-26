@@ -592,7 +592,8 @@ textarea {
     <!-- ... resto del código ... -->
     <button id="finalizarCompra" class="btn-pagar">Finalizar Compra</button>
 </div>
-    <script>
+   <script src="https://sdk.mercadopago.com/js/v2"></script>
+<script>
     // Variables del carrito
     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
     const modalCarrito = document.getElementById('modalCarrito');
@@ -623,7 +624,6 @@ textarea {
 
     // Agregar producto al carrito
     function agregarAlCarrito(nombre, precio) {
-        // Verificar si el producto ya está en el carrito
         const existeEnCarrito = carrito.some(item => item.nombre === nombre);
         
         if (existeEnCarrito) {
@@ -654,7 +654,7 @@ textarea {
     function actualizarCarrito() {
         itemsCarrito.innerHTML = '';
         let subtotal = 0;
-        const costoEnvio = 3000; // Costo fijo de envío
+        const costoEnvio = 3000;
         
         carrito.forEach((item, index) => {
             subtotal += item.precio;
@@ -667,10 +667,8 @@ textarea {
         });
         
         const total = subtotal + costoEnvio;
-        document.getElementById('totalCarrito').textContent = `$${total.toLocaleString('es-AR')}`;
+        totalCarrito.textContent = `$${total.toLocaleString('es-AR')}`;
         contadorCarrito.textContent = carrito.length;
-        
-        // Actualizar el subtotal si lo muestras
         document.querySelector('.costo-envio span:last-child').textContent = `$${costoEnvio.toLocaleString('es-AR')}`;
     }
 
@@ -683,21 +681,19 @@ textarea {
         modalCarrito.style.display = 'none';
     });
 
-    // Cerrar modal al hacer clic fuera de él
     window.addEventListener('click', (event) => {
         if (event.target === modalCarrito) {
             modalCarrito.style.display = 'none';
         }
     });
 
-    // Configuración de Mercado Pago (simulada - reemplaza con tus credenciales)
+    // Configuración de Mercado Pago
     const mp = new MercadoPago('TEST-12345678-1234-1234-1234-123456789012', {
         locale: 'es-AR'
     });
 
     // Finalizar compra
     document.getElementById('finalizarCompra').addEventListener('click', function() {
-        // Obtener todos los valores del formulario
         const datosEnvio = {
             nombre: document.getElementById('nombreCliente').value,
             email: document.getElementById('emailCliente').value,
@@ -721,15 +717,14 @@ textarea {
             return;
         }
 
-        // Obtener método de pago seleccionado
         const metodoPago = document.querySelector('input[name="metodo-pago"]:checked').value;
         const subtotal = carrito.reduce((sum, item) => sum + item.precio, 0);
-        const total = subtotal + 3000; // Costo de envío
+        const total = subtotal + 3000;
 
         if (metodoPago === 'mercadopago') {
             mostrarNotificacion('⌛ Redirigiendo a Mercado Pago...');
             
-            // Simulación de pago con Mercado Pago
+            // Implementación real de Mercado Pago iría aquí
             setTimeout(() => {
                 mostrarNotificacion('✅ Pago procesado con éxito');
                 carrito = [];
@@ -739,7 +734,6 @@ textarea {
             }, 2000);
         } else {
             mostrarNotificacion('✅ Compra finalizada (Transferencia Bancaria)');
-            // Mostrar datos para transferencia
             alert(`Por favor realiza una transferencia de $${total.toLocaleString('es-AR')} a:\n\nBanco: Tu Banco\nCBU: 1234567890123456789012\nAlias: JUSTSING.TIENDA\n\nEnvíanos el comprobante a contacto@justsing.com`);
             
             carrito = [];
