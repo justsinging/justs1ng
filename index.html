@@ -593,6 +593,10 @@ textarea {
     <input type="hidden" id="sucursalSeleccionada" name="sucursalSeleccionada">
 </div>
     <script src="https://sdk.mercadopago.com/js/v2"></script>
+                <div class="seccion-pago">
+    <!-- ... resto del código ... -->
+    <button id="finalizarCompra" class="btn-pagar">Finalizar Compra</button>
+</div>
     <script>
         // Variables del carrito
         let carrito = [];
@@ -643,6 +647,17 @@ textarea {
             actualizarCarrito();
             mostrarNotificacion('🗑️ Producto eliminado');
         }
+        // Al cargar la página
+if (localStorage.getItem('carrito')) {
+    carrito = JSON.parse(localStorage.getItem('carrito'));
+    actualizarCarrito();
+}
+
+// Al actualizar el carrito
+function actualizarCarrito() {
+    // ... código existente ...
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+}
 
         // Actualizar vista del carrito
         function actualizarCarrito() {
@@ -690,7 +705,7 @@ textarea {
         });
 
         // Finalizar compra
-       document.getElementById('finalizarCompra').addEventListener('click', function() {
+document.getElementById('finalizarCompra').addEventListener('click', function() {
     // Obtener todos los valores del formulario
     const datosEnvio = {
         nombre: document.getElementById('nombreCliente').value,
@@ -715,7 +730,30 @@ textarea {
         return;
     }
 
-    // Resto de la lógica de pago...
+    // Obtener método de pago seleccionado
+    const metodoPago = document.querySelector('input[name="metodo-pago"]:checked').value;
+    const subtotal = carrito.reduce((sum, item) => sum + item.precio, 0);
+    const total = subtotal + 3000; // Costo de envío
+
+    if (metodoPago === 'mercadopago') {
+        mostrarNotificacion('⌛ Redirigiendo a Mercado Pago...');
+        
+        // Simulación de pago con Mercado Pago
+        setTimeout(() => {
+            mostrarNotificacion('✅ Pago procesado con éxito');
+            carrito = [];
+            actualizarCarrito();
+            modalCarrito.style.display = 'none';
+        }, 2000);
+    } else {
+        mostrarNotificacion('✅ Compra finalizada (Transferencia Bancaria)');
+        // Mostrar datos para transferencia
+        alert(`Por favor realiza una transferencia de $${total.toLocaleString('es-AR')} a:\n\nBanco: Tu Banco\nCBU: 1234567890123456789012\nAlias: JUSTSING.TIENDA\n\nEnvíanos el comprobante a contacto@justsing.com`);
+        
+        carrito = [];
+        actualizarCarrito();
+        modalCarrito.style.display = 'none';
+    }
 });
             }
 
