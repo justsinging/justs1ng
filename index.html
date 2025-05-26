@@ -506,91 +506,86 @@ textarea {
         <a href="#">Contacto</a>
     </div>
 
-    <!-- Modal del carrito -->
-    <div class="modal" id="modalCarrito">
-        <span class="cerrar-modal" id="cerrarCarrito">&times;</span>
-        <h2>Tu Carrito</h2>
-        <div id="itemsCarrito"></div>
-        
-        <!-- Sección de costos -->
-        <div class="resumen-costos">
-            <div class="costo-envio">
-                <span>Envío:</span>
-                <span>$3.000</span>
-            </div>
-            <div class="total">
-                <span>Total:</span>
-                <span id="totalCarrito">$0</span>
-            </div>
+   <!-- Modal del carrito -->
+<div class="modal" id="modalCarrito">
+    <span class="cerrar-modal" id="cerrarCarrito">&times;</span>
+    <h2>Tu Carrito</h2>
+    <div id="itemsCarrito"></div>
+    
+    <!-- Sección de costos -->
+    <div class="resumen-costos">
+        <div class="costo-envio">
+            <span>Envío:</span>
+            <span>$3.000</span>
+        </div>
+        <div class="total">
+            <span>Total:</span>
+            <span id="totalCarrito">$0</span>
+        </div>
+    </div>
+    
+    <!-- Sección de pago -->
+    <div class="seccion-pago">
+        <h3>Método de Pago</h3>
+        <div class="metodos-pago">
+            <label>
+                <input type="radio" name="metodo-pago" value="transferencia" checked>
+                <i class="fas fa-university"></i> Transferencia Bancaria
+            </label>
+            <label>
+                <input type="radio" name="metodo-pago" value="mercadopago">
+                <i class="fas fa-credit-card"></i> Mercado Pago
+            </label>
         </div>
         
-        <!-- Sección de pago -->
-        <div class="seccion-pago">
-            <h3>Método de Pago</h3>
-            <div class="metodos-pago">
-                <label>
-                    <input type="radio" name="metodo-pago" value="transferencia" checked>
-                    <i class="fas fa-university"></i> Transferencia Bancaria
-                </label>
-                <label>
-                    <input type="radio" name="metodo-pago" value="mercadopago">
-                    <i class="fas fa-credit-card"></i> Mercado Pago
-                </label>
+        <!-- Formulario de contacto -->
+        <div class="datos-envio">
+            <h3>Datos para el envío</h3>
+            
+            <!-- Información personal -->
+            <div class="grupo-formulario">
+                <h4>Información personal</h4>
+                <input type="text" placeholder="Nombre completo*" id="nombreCliente" required>
+                <input type="email" placeholder="Email*" id="emailCliente" required>
+                <input type="tel" placeholder="Teléfono (opcional)" id="telefonoCliente">
             </div>
             
-            <!-- Formulario de contacto para envío -->
-            <div class="datos-envio">
-    <h3>Datos para el envío</h3>
-    
-    <!-- Información personal -->
-    <div class="grupo-formulario">
-        <h4>Información personal</h4>
-        <input type="text" placeholder="Nombre completo*" id="nombreCliente" required>
-        <input type="email" placeholder="Email*" id="emailCliente" required>
-        <input type="tel" placeholder="Teléfono (opcional)" id="telefonoCliente">
-    </div>
-    
-    <!-- Dirección de envío -->
-    <div class="grupo-formulario">
-        <h4>Dirección de envío</h4>
-        <input type="text" placeholder="Calle y número*" id="direccionCalle" required>
-        <input type="text" placeholder="Departamento/Piso (opcional)" id="direccionExtra">
-        <div class="dos-columnas">
-            <input type="text" placeholder="Código Postal*" id="codigoPostal" required>
-            <input type="text" placeholder="Localidad*" id="localidad" required>
+            <!-- Dirección de envío -->
+            <div class="grupo-formulario">
+                <h4>Dirección de envío</h4>
+                <input type="text" placeholder="Calle y número*" id="direccionCalle" required>
+                <input type="text" placeholder="Departamento/Piso (opcional)" id="direccionExtra">
+                <div class="dos-columnas">
+                    <input type="text" placeholder="Código Postal*" id="codigoPostal" required>
+                    <input type="text" placeholder="Localidad*" id="localidad" required>
+                </div>
+                <input type="text" placeholder="Provincia*" id="provincia" required>
+            </div>
+            
+            <!-- Método de envío -->
+            <div class="grupo-formulario">
+                <h4>Método de envío</h4>
+                <div class="metodos-envio">
+                    <label>
+                        <input type="radio" name="metodo-envio" value="correo" checked>
+                        <i class="fas fa-truck"></i> Correo Argentino (Domicilio)- $3.000
+                    </label>
+                    <label>
+                        <input type="radio" name="metodo-envio" value="domicilio">
+                        <i class="fas fa-motorcycle"></i> Correo Argentino (Sucursal) - $2.500
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Comentarios adicionales -->
+            <div class="grupo-formulario">
+                <h4>Comentarios</h4>
+                <textarea placeholder="Algo que debamos saber sobre tu pedido..." id="comentarios"></textarea>
+            </div>
         </div>
-        <input type="text" placeholder="Provincia*" id="provincia" required>
+        
+        <button id="finalizarCompra" class="btn-pagar">Finalizar Compra</button>
     </div>
-    
-    <!-- Método de envío -->
-    <div class="grupo-formulario">
-        <h4>Método de envío</h4>
-        <div class="metodos-envio">
-            <label>
-                <input type="radio" name="metodo-envio" value="correo" checked>
-                <i class="fas fa-truck"></i> Correo Argentino (Domicilio)- $3.000
-            </label>
-            <label>
-                <input type="radio" name="metodo-envio" value="domicilio">
-                <i class="fas fa-motorcycle"></i> Correo Argentino (Sucursal) - $2.500
-            </label>
-            <label>
-    </div>
-    
-    <!-- Comentarios adicionales -->
-    <div class="grupo-formulario">
-        <h4>Comentarios</h4>
-        <textarea placeholder="Algo que debamos saber sobre tu pedido..." id="comentarios"></textarea>
-    </div>
-</div>
-                <div class="grupo-formulario" id="seccion-sucursal" style="display:none;">
-    <h4>Seleccionar Sucursal Correo Argentino</h4>
-    <div class="busqueda-sucursal">
-        <input type="text" id="buscarSucursal" placeholder="Buscar por localidad o CP">
-        <button id="btnBuscarSucursal"><i class="fas fa-search"></i> Buscar</button>
-    </div>
-    <div id="lista-sucursales" class="lista-sucursales"></div>
-    <input type="hidden" id="sucursalSeleccionada" name="sucursalSeleccionada">
 </div>
     <script src="https://sdk.mercadopago.com/js/v2"></script>
                 <div class="seccion-pago">
@@ -598,185 +593,164 @@ textarea {
     <button id="finalizarCompra" class="btn-pagar">Finalizar Compra</button>
 </div>
     <script>
-        // Variables del carrito
-        let carrito = [];
-        const modalCarrito = document.getElementById('modalCarrito');
-        const abrirCarrito = document.getElementById('abrirCarrito');
-        const cerrarCarrito = document.getElementById('cerrarCarrito');
-        const itemsCarrito = document.getElementById('itemsCarrito');
-        const totalCarrito = document.getElementById('totalCarrito');
-        const contadorCarrito = document.getElementById('contadorCarrito');
+    // Variables del carrito
+    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    const modalCarrito = document.getElementById('modalCarrito');
+    const abrirCarrito = document.getElementById('abrirCarrito');
+    const cerrarCarrito = document.getElementById('cerrarCarrito');
+    const itemsCarrito = document.getElementById('itemsCarrito');
+    const totalCarrito = document.getElementById('totalCarrito');
+    const contadorCarrito = document.getElementById('contadorCarrito');
 
-        // Función para mostrar notificación
-        function mostrarNotificacion(mensaje) {
-            const notificacion = document.createElement('div');
-            notificacion.className = 'notificacion';
-            notificacion.textContent = mensaje;
-            document.body.appendChild(notificacion);
-            
-            setTimeout(() => {
-                notificacion.classList.add('mostrar');
-            }, 10);
-            
-            setTimeout(() => {
-                notificacion.classList.remove('mostrar');
-                setTimeout(() => {
-                    document.body.removeChild(notificacion);
-                }, 300);
-            }, 3000);
-        }
-
-        // Agregar producto al carrito
-        function agregarAlCarrito(nombre, precio) {
-            // Verificar si el producto ya está en el carrito
-            const existeEnCarrito = carrito.some(item => item.nombre === nombre);
-            
-            if (existeEnCarrito) {
-                mostrarNotificacion('⚠️ Este producto es único, ya está en tu carrito');
-                return;
-            }
-            
-            carrito.push({ nombre, precio });
-            actualizarCarrito();
-            mostrarNotificacion('✔️ Producto agregado al carrito');
-        }
-
-        // Eliminar producto del carrito
-        function eliminarDelCarrito(index) {
-            carrito.splice(index, 1);
-            actualizarCarrito();
-            mostrarNotificacion('🗑️ Producto eliminado');
-        }
-        // Al cargar la página
-if (localStorage.getItem('carrito')) {
-    carrito = JSON.parse(localStorage.getItem('carrito'));
-    actualizarCarrito();
-}
-
-// Al actualizar el carrito
-function actualizarCarrito() {
-    // ... código existente ...
-    localStorage.setItem('carrito', JSON.stringify(carrito));
-}
-
-        // Actualizar vista del carrito
-        function actualizarCarrito() {
-            itemsCarrito.innerHTML = '';
-            let subtotal = 0;
-            const costoEnvio = 3000; // Costo fijo de envío
-            
-            carrito.forEach((item, index) => {
-                subtotal += item.precio;
-                itemsCarrito.innerHTML += `
-                    <div class="item-carrito">
-                        <span>${item.nombre} - $${item.precio.toLocaleString('es-AR')}</span>
-                        <button onclick="eliminarDelCarrito(${index})">X</button>
-                    </div>
-                `;
-            });
-            
-            const total = subtotal + costoEnvio;
-            document.getElementById('totalCarrito').textContent = `$${total.toLocaleString('es-AR')}`;
-            contadorCarrito.textContent = carrito.length;
-            
-            // Actualizar el subtotal si lo muestras
-            document.querySelector('.costo-envio span:last-child').textContent = `$${costoEnvio.toLocaleString('es-AR')}`;
-        }
-
-        // Event listeners para abrir/cerrar carrito
-        abrirCarrito.addEventListener('click', () => {
-            modalCarrito.style.display = 'block';
-        });
-
-        cerrarCarrito.addEventListener('click', () => {
-            modalCarrito.style.display = 'none';
-        });
-
-        // Cerrar modal al hacer clic fuera de él
-        window.addEventListener('click', (event) => {
-            if (event.target === modalCarrito) {
-                modalCarrito.style.display = 'none';
-            }
-        });
-
-        // Configuración de Mercado Pago (simulada - reemplaza con tus credenciales)
-        const mp = new MercadoPago('TEST-12345678-1234-1234-1234-123456789012', {
-            locale: 'es-AR'
-        });
-
-        // Finalizar compra
-document.getElementById('finalizarCompra').addEventListener('click', function() {
-    // Obtener todos los valores del formulario
-    const datosEnvio = {
-        nombre: document.getElementById('nombreCliente').value,
-        email: document.getElementById('emailCliente').value,
-        telefono: document.getElementById('telefonoCliente').value,
-        direccion: {
-            calle: document.getElementById('direccionCalle').value,
-            extra: document.getElementById('direccionExtra').value,
-            codigoPostal: document.getElementById('codigoPostal').value,
-            localidad: document.getElementById('localidad').value,
-            provincia: document.getElementById('provincia').value
-        },
-        metodoEnvio: document.querySelector('input[name="metodo-envio"]:checked').value,
-        comentarios: document.getElementById('comentarios').value
-    };
-
-    // Validación básica
-    if (!datosEnvio.nombre || !datosEnvio.email || !datosEnvio.direccion.calle || 
-        !datosEnvio.direccion.codigoPostal || !datosEnvio.direccion.localidad || 
-        !datosEnvio.direccion.provincia) {
-        mostrarNotificacion('📝 Completa todos los campos obligatorios*');
-        return;
-    }
-
-    // Obtener método de pago seleccionado
-    const metodoPago = document.querySelector('input[name="metodo-pago"]:checked').value;
-    const subtotal = carrito.reduce((sum, item) => sum + item.precio, 0);
-    const total = subtotal + 3000; // Costo de envío
-
-    if (metodoPago === 'mercadopago') {
-        mostrarNotificacion('⌛ Redirigiendo a Mercado Pago...');
+    // Función para mostrar notificación
+    function mostrarNotificacion(mensaje) {
+        const notificacion = document.createElement('div');
+        notificacion.className = 'notificacion';
+        notificacion.textContent = mensaje;
+        document.body.appendChild(notificacion);
         
-        // Simulación de pago con Mercado Pago
         setTimeout(() => {
-            mostrarNotificacion('✅ Pago procesado con éxito');
-            carrito = [];
-            actualizarCarrito();
-            modalCarrito.style.display = 'none';
-        }, 2000);
-    } else {
-        mostrarNotificacion('✅ Compra finalizada (Transferencia Bancaria)');
-        // Mostrar datos para transferencia
-        alert(`Por favor realiza una transferencia de $${total.toLocaleString('es-AR')} a:\n\nBanco: Tu Banco\nCBU: 1234567890123456789012\nAlias: JUSTSING.TIENDA\n\nEnvíanos el comprobante a contacto@justsing.com`);
+            notificacion.classList.add('mostrar');
+        }, 10);
         
-        carrito = [];
-        actualizarCarrito();
-        modalCarrito.style.display = 'none';
+        setTimeout(() => {
+            notificacion.classList.remove('mostrar');
+            setTimeout(() => {
+                document.body.removeChild(notificacion);
+            }, 300);
+        }, 3000);
     }
-});
-            }
 
-            if (metodoPago === 'mercadopago') {
-                mostrarNotificacion('⌛ Redirigiendo a Mercado Pago...');
-                
-                // Simulación de pago con Mercado Pago
-                setTimeout(() => {
-                    mostrarNotificacion('✅ Pago procesado con éxito');
-                    carrito = [];
-                    actualizarCarrito();
-                    modalCarrito.style.display = 'none';
-                }, 2000);
-            } else {
-                mostrarNotificacion('✅ Compra finalizada (Transferencia Bancaria)');
-                // Mostrar datos para transferencia
-                alert(`Por favor realiza una transferencia de $${total.toLocaleString('es-AR')} a:\n\nBanco: Tu Banco\nCBU: 1234567890123456789012\nAlias: JUSTSING.TIENDA\n\nEnvíanos el comprobante a contacto@justsing.com`);
-                
+    // Agregar producto al carrito
+    function agregarAlCarrito(nombre, precio) {
+        // Verificar si el producto ya está en el carrito
+        const existeEnCarrito = carrito.some(item => item.nombre === nombre);
+        
+        if (existeEnCarrito) {
+            mostrarNotificacion('⚠️ Este producto es único, ya está en tu carrito');
+            return;
+        }
+        
+        carrito.push({ nombre, precio });
+        actualizarCarrito();
+        guardarCarrito();
+        mostrarNotificacion('✔️ Producto agregado al carrito');
+    }
+
+    // Eliminar producto del carrito
+    function eliminarDelCarrito(index) {
+        carrito.splice(index, 1);
+        actualizarCarrito();
+        guardarCarrito();
+        mostrarNotificacion('🗑️ Producto eliminado');
+    }
+
+    // Guardar carrito en localStorage
+    function guardarCarrito() {
+        localStorage.setItem('carrito', JSON.stringify(carrito));
+    }
+
+    // Actualizar vista del carrito
+    function actualizarCarrito() {
+        itemsCarrito.innerHTML = '';
+        let subtotal = 0;
+        const costoEnvio = 3000; // Costo fijo de envío
+        
+        carrito.forEach((item, index) => {
+            subtotal += item.precio;
+            itemsCarrito.innerHTML += `
+                <div class="item-carrito">
+                    <span>${item.nombre} - $${item.precio.toLocaleString('es-AR')}</span>
+                    <button onclick="eliminarDelCarrito(${index})">X</button>
+                </div>
+            `;
+        });
+        
+        const total = subtotal + costoEnvio;
+        document.getElementById('totalCarrito').textContent = `$${total.toLocaleString('es-AR')}`;
+        contadorCarrito.textContent = carrito.length;
+        
+        // Actualizar el subtotal si lo muestras
+        document.querySelector('.costo-envio span:last-child').textContent = `$${costoEnvio.toLocaleString('es-AR')}`;
+    }
+
+    // Event listeners para abrir/cerrar carrito
+    abrirCarrito.addEventListener('click', () => {
+        modalCarrito.style.display = 'block';
+    });
+
+    cerrarCarrito.addEventListener('click', () => {
+        modalCarrito.style.display = 'none';
+    });
+
+    // Cerrar modal al hacer clic fuera de él
+    window.addEventListener('click', (event) => {
+        if (event.target === modalCarrito) {
+            modalCarrito.style.display = 'none';
+        }
+    });
+
+    // Configuración de Mercado Pago (simulada - reemplaza con tus credenciales)
+    const mp = new MercadoPago('TEST-12345678-1234-1234-1234-123456789012', {
+        locale: 'es-AR'
+    });
+
+    // Finalizar compra
+    document.getElementById('finalizarCompra').addEventListener('click', function() {
+        // Obtener todos los valores del formulario
+        const datosEnvio = {
+            nombre: document.getElementById('nombreCliente').value,
+            email: document.getElementById('emailCliente').value,
+            telefono: document.getElementById('telefonoCliente').value,
+            direccion: {
+                calle: document.getElementById('direccionCalle').value,
+                extra: document.getElementById('direccionExtra').value,
+                codigoPostal: document.getElementById('codigoPostal').value,
+                localidad: document.getElementById('localidad').value,
+                provincia: document.getElementById('provincia').value
+            },
+            metodoEnvio: document.querySelector('input[name="metodo-envio"]:checked').value,
+            comentarios: document.getElementById('comentarios').value
+        };
+
+        // Validación básica
+        if (!datosEnvio.nombre || !datosEnvio.email || !datosEnvio.direccion.calle || 
+            !datosEnvio.direccion.codigoPostal || !datosEnvio.direccion.localidad || 
+            !datosEnvio.direccion.provincia) {
+            mostrarNotificacion('📝 Completa todos los campos obligatorios*');
+            return;
+        }
+
+        // Obtener método de pago seleccionado
+        const metodoPago = document.querySelector('input[name="metodo-pago"]:checked').value;
+        const subtotal = carrito.reduce((sum, item) => sum + item.precio, 0);
+        const total = subtotal + 3000; // Costo de envío
+
+        if (metodoPago === 'mercadopago') {
+            mostrarNotificacion('⌛ Redirigiendo a Mercado Pago...');
+            
+            // Simulación de pago con Mercado Pago
+            setTimeout(() => {
+                mostrarNotificacion('✅ Pago procesado con éxito');
                 carrito = [];
                 actualizarCarrito();
+                guardarCarrito();
                 modalCarrito.style.display = 'none';
-            }
-        });
-    </script>
+            }, 2000);
+        } else {
+            mostrarNotificacion('✅ Compra finalizada (Transferencia Bancaria)');
+            // Mostrar datos para transferencia
+            alert(`Por favor realiza una transferencia de $${total.toLocaleString('es-AR')} a:\n\nBanco: Tu Banco\nCBU: 1234567890123456789012\nAlias: JUSTSING.TIENDA\n\nEnvíanos el comprobante a contacto@justsing.com`);
+            
+            carrito = [];
+            actualizarCarrito();
+            guardarCarrito();
+            modalCarrito.style.display = 'none';
+        }
+    });
+
+    // Inicializar carrito al cargar la página
+    actualizarCarrito();
+</script>
 </body>
 </html>
