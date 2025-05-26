@@ -443,7 +443,67 @@
             .modal {
                 width: 100%;
             }
-        }
+            @media (max-width: 768px) {
+    /* 1. Ajustar grid de productos */
+    .productos-destacados {
+        grid-template-columns: 1fr !important; /* 1 columna en móvil */
+        gap: 15px;
+        padding: 0 15px;
+    }
+
+    /* 2. Reducir tamaño de imágenes */
+    .producto img {
+        height: 200px; /* Más pequeño que los 300px originales */
+    }
+
+    /* 3. Ajustar texto del producto */
+    .producto h3 {
+        color: var(--color-primario); /* Cambio sugerido para mejor legibilidad */
+        text-shadow: none;
+        font-size: 1.1rem;
+        background-color: rgba(255,255,255,0.9);
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    /* 4. Modal del carrito a pantalla completa */
+    .modal {
+        width: 100% !important;
+        padding: 15px;
+    }
+
+    /* 5. Ajustar navbar inferior */
+    .nav-inferior {
+        padding: 8px 0;
+    }
+    .nav-inferior a {
+        font-size: 12px;
+        margin: 0 10px;
+    }
+
+    /* 6. Botones más grandes para tactil */
+    .btn-carrito, .btn-finalizar {
+        padding: 12px;
+        font-size: 1rem;
+    }
+
+    /* 7. Ajustar método de envío/pago */
+    .opcion-envio, .opciones-pago label {
+        padding: 10px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    /* 8. Ocultar título en navbar */
+    .titulo-pagina {
+        display: none;
+    }
+    
+    /* 9. Ajustar formulario */
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
     </style>
 </head>
 <body>
@@ -494,14 +554,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Barra de navegación inferior -->
-    <div class="nav-inferior">
-        <a href="#">Inicio</a>
-        <a href="#">Productos</a>
-        <a href="#">Contacto</a>
-    </div>
-
     <!-- Modal del carrito -->
     <div class="modal" id="modalCarrito">
         <span class="cerrar-modal" id="cerrarCarrito">&times;</span>
