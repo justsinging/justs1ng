@@ -602,8 +602,8 @@
                 <p class="precio">$13.000</p>
                 <button class="btn-carrito" onclick="agregarAlCarrito('Totebag 13', 13000)">Agregar al carrito</button>
             </div>
-        </div>
     </section>
+    <div id="wallet_container"></div>  <!-- Botón de Mercado Pago aparecerá aquí -->
     <!-- Modal del carrito -->
     <div class="modal" id="modalCarrito">
         <span class="cerrar-modal" id="cerrarCarrito">&times;</span>
@@ -978,7 +978,16 @@
                 }
             });
         });
-
+function updatePreference() {
+  const producto1Qty = parseInt(document.getElementById("qty-producto1").value);
+  const producto2Qty = parseInt(document.getElementById("qty-producto2").value);
+  
+  preference.items[0].quantity = producto1Qty;
+  preference.items[1].quantity = producto2Qty;
+  
+  // Vuelve a renderizar el botón
+  mp.checkout({ preference: preference });
+}
         // Verificar si viene de una redirección de Mercado Pago
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.has('preference_id')) {
@@ -993,6 +1002,46 @@
         git add pagos.html styles.css
 git commit -m "Agrego sección de métodos de pago"
 git push origin main
+        }
+  // Inicializa Mercado Pago con tu clave pública
+  const mp = new MercadoPago('APP_USR-0aa95e81-e09e-42d7-95ea-540547141761', {
+    locale: 'es-AR'
+  });
+
+  // Configura los productos y el envío
+  const preference = {
+    items: [
+      {
+        title: "Tote Bag Florero",
+        unit_price: 25000,
+        quantity: 1,
+      },
+      {
+        title: "Tote Bag Mujer",
+        unit_price: 16500,
+        quantity: 1,
+      },
+      {
+        title: "Envío a domicilio",
+        unit_price: 4000,
+        quantity: 1,
+      }
+    ],
+    // Opcional: URLs después del pago
+    back_urls: {
+      success: "https://tupagina.com/exito.html",
+      failure: "https://tupagina.com/error.html",
+    },
+  };
+
+  // Crea el botón de pago
+  mp.checkout({
+    preference: preference,
+    render: {
+      container: '#wallet_container',
+      label: 'Pagar con Mercado Pago',
+    }
+  });
     </script>
 </body>
 </html>
