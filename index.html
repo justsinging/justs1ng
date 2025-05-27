@@ -62,6 +62,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             position: relative;
         }
+        <a href="pagos.html" class="boton-flotante">⚠️ ¿Cómo pagar?</a>
         .logo {
             cursor: pointer;
         }
@@ -544,6 +545,15 @@
         flex-direction: column;
         gap: 0;
     }
+        .boton-flotante {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #ff4081;
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+}
     </style>
 </head>
 <body>
@@ -980,6 +990,9 @@
             // Limpiar parámetros de la URL
             window.history.replaceState({}, document.title, window.location.pathname);
         }
+        git add pagos.html styles.css
+git commit -m "Agrego sección de métodos de pago"
+git push origin main
     </script>
 </body>
 </html>
