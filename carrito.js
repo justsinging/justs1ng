@@ -131,4 +131,3 @@ async function finalizarCompra() {
     for (const fieldId of requiredFields) {
         if (!document.getElementById(fieldId).value) {
             mostrarNotificacion('📝 Completa todos los campos oblig
-</script>
