@@ -1,1 +1,35 @@
+<!-- pagos.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cómo Pagar - Mi Tienda</title>
+    <!-- Tus estilos -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Métodos de Pago</h1>
+        <!-- Contenido de transferencias, Mercado Pago, etc. -->
+    </div>
+  <div class="metodo-pago">
+    <h2>1. Transferencia Bancaria </h2>
+    <p>Usa estos datos para enviar el pago a nuestra cuenta de Mercado Pago:</p>
+    <div class="datos-transferencia">
+        <p><strong>Alias:</strong> <code>JustSing</code> <button onclick="copiarDato('JustSing')">Copiar</button></p>
+        <p><strong>CVU:</strong> <code>0000003100093480929286</code> <button onclick="copiarDato('0000003100093480929286')">Copiar</button></p>
+    </div>
+</div>
 
+<div class="metodo-pago">
+    <h2>2. Link de Pago (Mercado Pago)</h2>
+    <p>Si prefieres pagar con tarjeta/débito, usa este link seguro:</p>
+    <a href="https://mpago.la/XXXXXXXXXXXXX" class="boton-mp">Pagar con Mercado Pago</a>
+</div>
+</body>
+</html>
