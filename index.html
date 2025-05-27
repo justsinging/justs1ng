@@ -570,6 +570,51 @@
     box-shadow: 0 3px 10px rgba(0,0,0,0.2);
     font-size: 14px;
 }
+        /* Estilos para opciones de pago */
+.opciones-pago {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.opcion-pago {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.opcion-pago:hover {
+    border-color: #9a031e;
+}
+
+.opcion-pago input[type="radio"] {
+    margin-right: 15px;
+}
+
+.pago-desc {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.pago-titulo {
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.pago-beneficio {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Estilo para opción seleccionada */
+.opcion-pago input[type="radio"]:checked ~ .pago-desc .pago-titulo {
+    color: #9a031e;
+}
     </style>
 </head>
 <body>
@@ -587,6 +632,15 @@
         <button class="carrito-btn" id="abrirCarrito">
             <i class="fas fa-shopping-cart"></i>
             <span class="carrito-count" id="contadorCarrito">0</span>
+            <span class="pago-titulo">
+    <i class="fas fa-university"></i> Transferencia bancaria
+</span>
+            <span class="pago-titulo">
+    <i class="fa-wallet"></i> Mercado Pago
+</span>
+            <span class="pago-titulo">
+    <i class="fa-credit-card"></i> Tarjeta 
+</span>
         </button>
     </nav>
     
@@ -665,20 +719,37 @@
             </div>
             
             <!-- Sección de método de pago -->
-            <div class="metodo-pago">
-                <h3><i class="fas fa-credit-card"></i> Método de pago</h3>
-                <div class="opciones-pago">
-                    <label>
-                        <input type="radio" name="pago" value="transferencia" checked>
-                        <span>Transferencia bancaria</span>
-                    </label>
-                    
-                    <label>
-                        <input type="radio" name="pago" value="mercadopago">
-                        <span>Mercado Pago</span>
-                    </label>
-                </div>
+        <!-- Sección de método de pago -->
+<div class="metodo-pago">
+    <h3><i class="fas fa-credit-card"></i> Método de pago</h3>
+    <div class="opciones-pago">
+        <!-- Transferencia Bancaria -->
+        <label class="opcion-pago">
+            <input type="radio" name="pago" value="transferencia" checked>
+            <div class="pago-desc">
+                <span class="pago-titulo">Transferencia bancaria</span>
             </div>
+        </label>
+        
+        <!-- Mercado Pago -->
+        <label class="opcion-pago">
+            <input type="radio" name="pago" value="mercadopago">
+            <div class="pago-desc">
+                <span class="pago-titulo">Mercado Pago</span>
+                <span class="pago-beneficio">(Saldo, dinero en cuenta)</span>
+            </div>
+        </label>
+        
+        <!-- Tarjeta de crédito/débito -->
+        <label class="opcion-pago">
+            <input type="radio" name="pago" value="tarjeta">
+            <div class="pago-desc">
+                <span class="pago-titulo">Tarjeta de crédito/débito</span>
+                <span class="pago-beneficio">(Visa, Mastercard, etc.)</span>
+            </div>
+        </label>
+    </div>
+</div>
             
             <!-- Contenedor para el botón de Mercado Pago -->
             <div id="mercadopago-boton-container">
