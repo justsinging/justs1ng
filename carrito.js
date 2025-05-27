@@ -1,4 +1,4 @@
- // Variables globales
+// Variables globales
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 const modalCarrito = document.getElementById('modalCarrito');
 const abrirCarrito = document.getElementById('abrirCarrito');
@@ -92,7 +92,47 @@ function actualizarCostosEnvio() {
     totalCarritoElement.textContent = `$${total.toLocaleString('es-AR')}`;
 }
 
-// Inicialización del carrito al cargar la página
+// Configuración de Mercado Pago
+const mp = new MercadoPago('APP_USR-0aa95e81-e09e-42d7-95ea-540547141761', {
+    locale: 'es-AR'
+});
+
+// Función para finalizar compra
+async function finalizarCompra() {
+    // Validar formulario
+    const requiredFields = ['nombreCliente', 'emailCliente', 'telefonoCliente', 
+                          'direccionCalle', 'codigoPostal', 'localidad', 'provincia'];
+    
+    for (const fieldId of requiredFields) {
+        if (!document.getElementById(fieldId).value) {
+            mostrarNotificacion('📝 Completa todos los campos obligatorios');
+            return;
+        }
+    }
+    
+    const metodoPago = document.querySelector('input[name="pago"]:checked').value;
+    
+    if (metodoPago === 'transferencia') {
+        const envioSeleccionado = document.querySelector('input[name="envio"]:checked').value;
+        const costoEnvio = envioSeleccionado === 'express' ? 4000 : 3000;
+        const subtotal = carrito.reduce((sum, item) => sum + item.precio, 0);
+        const total = (subtotal + costoEnvio) * 0.9; // 10% descuento
+        
+        mostrarNotificacion('✅ Compra finalizada (Transferencia Bancaria)');
+        alert(`Por favor realiza una transferencia de $${total.toLocaleString('es-AR')} a:\n\nCVU: 0000003100093480929286\nAlias: JustSing\n\nEnvíanos el comprobante a just.sin.g0706@gmail.com`);
+        
+        // Vaciar carrito
+        carrito = [];
+        actualizarCarrito();
+        localStorage.removeItem('carrito');
+        modalCarrito.style.display = 'none';
+    } else if (metodoPago === 'mercadopago') {
+        mostrarNotificacion('⌛ Redirigiendo a Mercado Pago...');
+        // Lógica de Mercado Pago aquí
+    }
+}
+
+// Inicialización al cargar la página
 document.addEventListener('DOMContentLoaded', function() {
     actualizarCarrito();
     
@@ -115,19 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
             modalCarrito.style.display = 'none';
         }
     });
-});
-
-// Configuración de Mercado Pago (simplificada)
-const mp = new MercadoPago('APP_USR-0aa95e81-e09e-42d7-95ea-540547141761', {
-    locale: 'es-AR'
-});
-
-// Función para finalizar compra
-async function finalizarCompra() {
-    // Validar formulario
-    const requiredFields = ['nombreCliente', 'emailCliente', 'telefonoCliente', 
-                          'direccionCalle', 'codigoPostal', 'localidad', 'provincia'];
     
-    for (const fieldId of requiredFields) {
-        if (!document.getElementById(fieldId).value) {
-            mostrarNotificacion('📝 Completa todos los campos oblig
+    // Asignar evento al botón de finalizar compra
+    document.getElementById('finalizar-compra').addEventListener('click', finalizarCompra);
+});
