@@ -97,37 +97,138 @@ const mp = new MercadoPago('APP_USR-0aa95e81-e09e-42d7-95ea-540547141761', {
     locale: 'es-AR'
 });
 
-async function finalizarCompra() {
-    // ... (código previo de validación)
+// Función para crear preferencia de pago
+async function crearPreferenciaMercadoPago() {
+    const nombre = document.getElementById('nombreCliente').value;
+    const email = document.getElementById('emailCliente').value;
+    const telefono = document.getElementById('telefonoCliente').value;
+    const direccion = document.getElementById('direccionCalle').value;
+    const codigoPostal = document.getElementById('codigoPostal').value;
+    const localidad = document.getElementById('localidad').value;
+    const provincia = document.getElementById('provincia').value;
     
-    const metodoPago = document.querySelector('input[name="pago"]:checked').value;
+    const envioSeleccionado = document.querySelector('input[name="envio"]:checked').value;
+    const costoEnvio = envioSeleccionado === 'express' ? 4000 : 3000;
     
-    if (metodoPago === 'transferencia') {
-        // Lógica para transferencia bancaria
-        const total = (subtotal + costoEnvio) * 0.9; // 10% descuento
-        alert(`Por favor realiza una transferencia de $${total.toLocaleString('es-AR')}...`);
-    } 
-    else if (metodoPago === 'mercadopago' || metodoPago === 'tarjeta') {
-        // Ambas opciones usan Mercado Pago
-        mostrarNotificacion('⌛ Redirigiendo a Mercado Pago...');
-        await mostrarBotonMercadoPago();
+    const subtotal = carrito.reduce((sum, item) => sum + item.precio, 0);
+    const total = subtotal + costoEnvio;
+    
+    const preferenceData = {
+        items: carrito.map(item => ({
+            title: item.nombre,
+            unit_price: item.precio,
+            quantity: 1,
+            description: "Producto único de JustSing",
+            picture_url: obtenerImagenProducto(item.nombre)
+        })),
+        payer: {
+            name: nombre,
+            email: email,
+            phone: {
+                number: telefono
+            },
+            address: {
+                street_name: direccion,
+                zip_code: codigoPostal
+            }
+        },
+        shipments: {
+            cost: costoEnvio,
+            mode: 'not_specified'
+        },
+        back_urls: {
+            success: window.location.href,
+            failure: window.location.href,
+            pending: window.location.href
+        },
+        auto_return: 'approved'
+    };
+    
+    try {
+        const response = await fetch('https://api.mercadopago.com/checkout/preferences', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer TEST-6749756929605397-052312-3fefdcf7d53b1ac7f95928e293a7ba4e-2429370643'
+            },
+            body: JSON.stringify(preferenceData)
+        });
+        
+        return await response.json();
+    } catch (error) {
+        console.error('Error al crear preferencia:', error);
+        mostrarNotificacion('❌ Error al iniciar el pago');
+        return null;
     }
-    
-    // ... (resto del código)
 }
+
+// Función auxiliar para obtener imagen del producto
+function obtenerImagenProducto(nombreProducto) {
+    const productos = {
+        'Totebag Florero': 'https://i.postimg.cc/66cjFV71/IMG-9268.jpg',
+        'Totebag Mujer': 'https://i.postimg.cc/VkrKS3K3/IMG-9274.jpg',
+        'Totebag Lavanda': 'https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg',
+        'Totebag 13': 'https://i.imgur.com/L8VFmta.jpeg'
+    };
+    return productos[nombreProducto] || '';
+}
+
+// Función para mostrar botón de Mercado Pago
+async function mostrarBotonMercadoPago() {
+    const preference = await crearPreferenciaMercadoPago();
+    if (!preference) return;
+    
+    const bricksBuilder = mp.bricks();
+    document.getElementById('mercadopago-boton').innerHTML = '';
+    
+    bricksBuilder.create('wallet', 'mercadopago-boton', {
+        initialization: {
+            preferenceId: preference.id,
+        },
+        customization: {
+            visual: {
+                buttonBackground: '#9a031e',
+                borderRadius: '6px',
+                height: '48px'
+            }
+        }
+    });
+    
+    document.getElementById('mercadopago-boton-container').style.display = 'block';
+}
+
+// Función para validar formulario
+function validarFormulario() {
+    const requiredFields = [
+        'nombreCliente', 'emailCliente', 'telefonoCliente',
+        'direccionCalle', 'codigoPostal', 'localidad', 'provincia'
+    ];
+    
     for (const fieldId of requiredFields) {
         if (!document.getElementById(fieldId).value) {
-            mostrarNotificacion('📝 Completa todos los campos obligatorios');
-            return;
+            mostrarNotificacion(`📝 Completa el campo: ${fieldId.replace(/([A-Z])/g, ' $1').trim()}`);
+            return false;
         }
     }
     
+    if (carrito.length === 0) {
+        mostrarNotificacion('🛒 Tu carrito está vacío');
+        return false;
+    }
+    
+    return true;
+}
+
+// Función para finalizar compra
+async function finalizarCompra() {
+    if (!validarFormulario()) return;
+    
     const metodoPago = document.querySelector('input[name="pago"]:checked').value;
+    const envioSeleccionado = document.querySelector('input[name="envio"]:checked').value;
+    const costoEnvio = envioSeleccionado === 'express' ? 4000 : 3000;
+    const subtotal = carrito.reduce((sum, item) => sum + item.precio, 0);
     
     if (metodoPago === 'transferencia') {
-        const envioSeleccionado = document.querySelector('input[name="envio"]:checked').value;
-        const costoEnvio = envioSeleccionado === 'express' ? 4000 : 3000;
-        const subtotal = carrito.reduce((sum, item) => sum + item.precio, 0);
         const total = (subtotal + costoEnvio) * 0.9; // 10% descuento
         
         mostrarNotificacion('✅ Compra finalizada (Transferencia Bancaria)');
@@ -138,9 +239,10 @@ async function finalizarCompra() {
         actualizarCarrito();
         localStorage.removeItem('carrito');
         modalCarrito.style.display = 'none';
-    } else if (metodoPago === 'mercadopago') {
+    } 
+    else if (metodoPago === 'mercadopago' || metodoPago === 'tarjeta') {
         mostrarNotificacion('⌛ Redirigiendo a Mercado Pago...');
-        // Lógica de Mercado Pago aquí
+        await mostrarBotonMercadoPago();
     }
 }
 
@@ -157,6 +259,30 @@ document.addEventListener('DOMContentLoaded', function() {
     abrirCarrito.addEventListener('click', () => {
         modalCarrito.style.display = 'block';
     });
+    
+    cerrarCarrito.addEventListener('click', () => {
+        modalCarrito.style.display = 'none';
+    });
+    
+    window.addEventListener('click', (event) => {
+        if (event.target === modalCarrito) {
+            modalCarrito.style.display = 'none';
+        }
+    });
+    
+    // Asignar evento al botón de finalizar compra
+    document.getElementById('finalizar-compra').addEventListener('click', finalizarCompra);
+    
+    // Verificar si viene de una redirección de Mercado Pago
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('preference_id')) {
+        mostrarNotificacion('✅ Pago procesado con éxito');
+        carrito = [];
+        actualizarCarrito();
+        localStorage.removeItem('carrito');
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+});
     
     cerrarCarrito.addEventListener('click', () => {
         modalCarrito.style.display = 'none';
