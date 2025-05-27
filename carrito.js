@@ -97,12 +97,24 @@ const mp = new MercadoPago('APP_USR-0aa95e81-e09e-42d7-95ea-540547141761', {
     locale: 'es-AR'
 });
 
-// Función para finalizar compra
 async function finalizarCompra() {
-    // Validar formulario
-    const requiredFields = ['nombreCliente', 'emailCliente', 'telefonoCliente', 
-                          'direccionCalle', 'codigoPostal', 'localidad', 'provincia'];
+    // ... (código previo de validación)
     
+    const metodoPago = document.querySelector('input[name="pago"]:checked').value;
+    
+    if (metodoPago === 'transferencia') {
+        // Lógica para transferencia bancaria
+        const total = (subtotal + costoEnvio) * 0.9; // 10% descuento
+        alert(`Por favor realiza una transferencia de $${total.toLocaleString('es-AR')}...`);
+    } 
+    else if (metodoPago === 'mercadopago' || metodoPago === 'tarjeta') {
+        // Ambas opciones usan Mercado Pago
+        mostrarNotificacion('⌛ Redirigiendo a Mercado Pago...');
+        await mostrarBotonMercadoPago();
+    }
+    
+    // ... (resto del código)
+}
     for (const fieldId of requiredFields) {
         if (!document.getElementById(fieldId).value) {
             mostrarNotificacion('📝 Completa todos los campos obligatorios');
