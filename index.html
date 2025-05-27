@@ -11,6 +11,7 @@
             --color-primario: #9a031e;
             --color-fondo: #A3B18A;
         }
+        
         body {
             margin: 0;
             font-family: 'Comfortaa', sans-serif;
@@ -42,17 +43,16 @@
             backdrop-filter: blur(2px);
         }
 
-        /* Barra superior (texto fino) */
+        /* Barra superior */
         .barra-superior {
             background-color: var(--color-primario);
             color: white;
             text-align: center;
             padding: 8px;
             font-size: 12px;
-            position: relative;
         }
 
-        /* Navbar superior (logo + carrito) */
+        /* Navbar superior */
         .navbar {
             display: flex;
             justify-content: space-between;
@@ -62,9 +62,11 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             position: relative;
         }
+        
         .logo img {
             height: 50px;
         }
+        
         .titulo-pagina {
             font-family: 'Comfortaa', cursive;
             font-size: 23px;
@@ -74,6 +76,7 @@
             left: 50%;
             transform: translateX(-50%);
         }
+        
         .carrito-btn {
             background: none;
             border: none;
@@ -81,6 +84,7 @@
             cursor: pointer;
             position: relative;
         }
+        
         .carrito-count {
             position: absolute;
             top: -10px;
@@ -95,33 +99,6 @@
             justify-content: center;
             font-size: 12px;
         }
-        .item-carrito {
-            display: flex;
-            justify-content: space-between;
-            margin: 10px 0;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        .item-carrito button {
-            background-color: #ff0000;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            padding: 2px 5px;
-            cursor: pointer;
-        }
-        .total {
-            font-weight: bold;
-            margin-top: 20px;
-            text-align: right;
-        }
-        .cerrar-modal {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            cursor: pointer;
-        }
 
         /* Barra de navegación inferior */
         .nav-inferior {
@@ -134,6 +111,7 @@
             bottom: 0;
             width: 100%;
         }
+        
         .nav-inferior a {
             margin: 0 15px;
             text-decoration: none;
@@ -146,6 +124,7 @@
             padding: 40px 20px 80px;
             text-align: center;
         }
+        
         .productos-destacados {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -155,6 +134,7 @@
             width: 95%;
             max-width: 1600px;
         }
+        
         .producto {
             background: transparent;
             border: 4px solid white;
@@ -165,6 +145,7 @@
             flex-direction: column;
             align-items: center;
         }
+        
         .producto h3 {
             color: #9a031e;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
@@ -172,6 +153,7 @@
             text-align: center;
             width: 100%;
         }
+        
         .precio {
             color: #9a031e;
             font-weight: bold;
@@ -182,6 +164,7 @@
             padding: 5px 10px;
             border-radius: 5px;
         }
+        
         .producto img {
             width: 100%;
             height: 300px;
@@ -189,6 +172,7 @@
             border-radius: 5px;
             border: 1px solid #f0f0f0;
         }
+        
         .btn-carrito {
             background-color: var(--color-primario);
             color: white;
@@ -201,6 +185,7 @@
             align-self: center;
             transition: background-color 0.3s;
         }
+        
         .btn-carrito:hover {
             background-color: #7a0218;
         }
@@ -211,7 +196,7 @@
             position: fixed;
             top: 0;
             right: 0;
-            width: 350px; /* Aumentado para mejor visualización */
+            width: 350px;
             height: 100%;
             background-color: white;
             box-shadow: -2px 0 10px rgba(0,0,0,0.1);
@@ -219,10 +204,42 @@
             padding: 20px;
             overflow-y: auto;
         }
+        
         .modal h2 {
             color: var(--color-primario);
             border-bottom: 1px solid #ddd;
             padding-bottom: 10px;
+        }
+        
+        .item-carrito {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .item-carrito button {
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 2px 5px;
+            cursor: pointer;
+        }
+        
+        .cerrar-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        
+        .total {
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: right;
         }
 
         /* Notificaciones */
@@ -240,27 +257,9 @@
             transition: opacity 0.3s ease;
             font-size: 14px;
         }
+        
         .notificacion.mostrar {
             opacity: 1;
-        }
-
-        /* Resumen de costos */
-        .resumen-costos {
-            margin-top: 20px;
-            border-top: 1px solid #eee;
-            padding-top: 15px;
-        }
-        .costo-envio, .total {
-            display: flex;
-            justify-content: space-between;
-            margin: 10px 0;
-            font-size: 16px;
-        }
-        .total {
-            font-weight: bold;
-            font-size: 18px;
-            border-top: 1px solid #eee;
-            padding-top: 10px;
         }
 
         /* Sección de envío y pago */
@@ -269,11 +268,11 @@
             border-top: 1px solid #eee;
             padding-top: 20px;
         }
-
+        
         .metodo-envio, .metodo-pago {
             margin-bottom: 25px;
         }
-
+        
         .metodo-envio h3, .metodo-pago h3 {
             color: #9a031e;
             margin-bottom: 15px;
@@ -281,14 +280,14 @@
             align-items: center;
             gap: 10px;
         }
-
-        .opciones-envio {
+        
+        .opciones-envio, .opciones-pago {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-
-        .opcion-envio {
+        
+        .opcion-envio, .opcion-pago {
             display: flex;
             align-items: center;
             padding: 12px 15px;
@@ -297,78 +296,47 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-
-        .opcion-envio:hover {
+        
+        .opcion-envio:hover, .opcion-pago:hover {
             border-color: #9a031e;
         }
-
-        .opcion-envio input[type="radio"] {
+        
+        .opcion-envio input[type="radio"], .opcion-pago input[type="radio"] {
             margin-right: 15px;
         }
-
-        .envio-desc {
+        
+        .envio-desc, .pago-desc {
             flex: 1;
             display: flex;
             flex-direction: column;
         }
-
-        .envio-titulo {
+        
+        .envio-titulo, .pago-titulo {
             font-weight: bold;
             margin-bottom: 3px;
         }
-
+        
+        .envio-precio, .pago-beneficio {
+            font-size: 12px;
+            color: #666;
+        }
+        
         .envio-precio {
             color: #9a031e;
             font-weight: bold;
         }
 
-        .envio-tiempo {
-            font-size: 12px;
-            color: #666;
-        }
-
-        .opciones-pago {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .opciones-pago label {
-            display: flex;
-            align-items: center;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .opciones-pago label:hover {
-            border-color: #9a031e;
-        }
-
-        .opciones-pago input[type="radio"] {
-            margin-right: 15px;
-        }
-
+        /* Formulario */
         .datos-envio-form {
             margin-top: 25px;
             border-top: 1px solid #eee;
             padding-top: 20px;
         }
-
-        .datos-envio-form h3 {
-            color: #9a031e;
-            margin: 20px 0 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
+        
         .form-group {
             margin-bottom: 15px;
         }
-
+        
         .form-group input {
             width: 100%;
             padding: 12px 15px;
@@ -376,17 +344,17 @@
             border-radius: 5px;
             font-family: 'Comfortaa', sans-serif;
         }
-
+        
         .form-row {
             display: flex;
             gap: 15px;
         }
-
+        
         .form-row .form-group {
             flex: 1;
             margin-bottom: 0;
         }
-
+        
         .btn-finalizar {
             width: 100%;
             background-color: #9a031e;
@@ -400,17 +368,17 @@
             margin-top: 20px;
             transition: background 0.3s;
         }
-
+        
         .btn-finalizar:hover {
             background-color: #7a0218;
         }
 
-        /* Estilos para Mercado Pago */
+        /* Mercado Pago */
         #mercadopago-boton-container {
             margin-top: 20px;
-            display: none; /* Oculto inicialmente */
+            display: none;
         }
-
+        
         .mercadopago-button {
             padding: 15px !important;
             font-family: 'Comfortaa', sans-serif !important;
@@ -418,212 +386,83 @@
             background-color: #9a031e !important;
         }
 
-        /* Estilos para elementos seleccionados */
-        input[type="radio"]:checked + .envio-desc,
-        input[type="radio"]:checked + span {
-            font-weight: bold;
-            color: #9a031e;
+        /* Botón flotante */
+        .boton-flotante {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: #9a031e;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 50px;
+            text-decoration: none;
+            z-index: 1000;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            font-size: 14px;
         }
 
-        .opcion-envio input[type="radio"]:checked ~ .envio-desc {
-            border-left: 3px solid #9a031e;
-            padding-left: 12px;
-        }
-
-       @media (max-width: 768px) {
-    .productos-destacados {
-        display: flex;
-        flex-direction: column;
-        gap: 30px;
-        padding: 0 10px;
-    }
-    @media (max-width: 768px) {
-    #mercadopago-boton-container {
-        padding: 0 15px;
-    }
-    
-    .mercadopago-button {
-        width: 100% !important;
-    }
-    .producto {
-        width: 100%;
-        max-width: 350px;
-        margin: 0 auto;
-        border: 2px solid var(--color-primario);
-        background-color: rgba(255,255,255,0.9);
-    }
-    
-    .producto img {
-        height: 280px;
-        object-fit: contain; /* Muestra toda la imagen sin recortar */
-    }
-    
-    .producto h3 {
-        color: var(--color-primario);
-        font-size: 1.2rem;
-        margin: 15px 0;
-    }
-    
-    .btn-carrito {
-        width: 100%;
-        padding: 12px;
-        font-size: 1rem;
-    }
-}
+        /* Estilos responsive */
+        @media (max-width: 768px) {
+            .productos-destacados {
+                grid-template-columns: 1fr;
+                padding: 0 15px;
+            }
+            
             .titulo-pagina {
                 display: none;
             }
+            
             .modal {
                 width: 100%;
+                padding: 15px;
             }
-            @media (max-width: 768px) {
-    /* 1. Ajustar grid de productos */
-                @media (max-width: 480px) {
-    .producto img {
-        height: 100px;
-    }
-                    @media (max-width: 300px) {
-    .precio {
-        font-size: 1rem;
-    }
-    .hero h2 {
-        font-size: 1.5rem;
+            
+            .producto {
+                width: 100%;
+                max-width: 350px;
+                margin: 0 auto;
+            }
+            
+            .producto img {
+                height: 280px;
+                object-fit: contain;
+            }
+            
+            .nav-inferior a {
+                font-size: 12px;
+                margin: 0 10px;
+            }
+            
+            .btn-carrito, .btn-finalizar {
+                padding: 12px;
+                font-size: 1rem;
+            }
+            
+            .opcion-envio, .opcion-pago, .opciones-pago label {
+                padding: 10px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
         
-    .productos-destacados {
-        grid-template-columns: 1fr !important; /* 1 columna en móvil */
-        gap: 15px;
-        padding: 0 15px;
-    }
-
-    /* 2. Reducir tamaño de imágenes */
-    .producto img {
-        height: 200px; /* Más pequeño que los 300px originales */
-    }
-
-    /* 3. Ajustar texto del producto */
-    .producto h3 {
-        color: var(--color-primario); /* Cambio sugerido para mejor legibilidad */
-        text-shadow: none;
-        font-size: 1.1rem;
-        background-color: rgba(255,255,255,0.9);
-        padding: 5px;
-        border-radius: 5px;
-    }
-
-    /* 4. Modal del carrito a pantalla completa */
-    .modal {
-        width: 100% !important;
-        padding: 15px;
-    }
-
-    /* 5. Ajustar navbar inferior */
-    .nav-inferior {
-        padding: 8px 0;
-    }
-    .nav-inferior a {
-        font-size: 12px;
-        margin: 0 10px;
-    }
-
-    /* 6. Botones más grandes para tactil */
-    .btn-carrito, .btn-finalizar {
-        padding: 12px;
-        font-size: 1rem;
-    }
-
-    /* 7. Ajustar método de envío/pago */
-    .opcion-envio, .opciones-pago label {
-        padding: 10px;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    /* 8. Ocultar título en navbar */
-    .titulo-pagina {
-        display: none;
-    }
-    
-    /* 9. Ajustar formulario */
-    .form-row {
-        flex-direction: column;
-        gap: 0;
-    }
-        .boton-flotante {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #ff4081;
-    color: white;
-    padding: 10px;
-    border-radius: 50%;
-}
-        .boton-flotante {
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    background: #9a031e;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 50px;
-    text-decoration: none;
-    z-index: 1000;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-    font-size: 14px;
-}
-        /* Estilos para opciones de pago */
-.opciones-pago {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.opcion-pago {
-    display: flex;
-    align-items: center;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.opcion-pago:hover {
-    border-color: #9a031e;
-}
-
-.opcion-pago input[type="radio"] {
-    margin-right: 15px;
-}
-
-.pago-desc {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.pago-titulo {
-    font-weight: bold;
-    margin-bottom: 3px;
-}
-
-.pago-beneficio {
-    font-size: 12px;
-    color: #666;
-}
-
-/* Estilo para opción seleccionada */
-.opcion-pago input[type="radio"]:checked ~ .pago-desc .pago-titulo {
-    color: #9a031e;
-}
-        <span class="pago-titulo">
-    <i class="fas fa-university"></i> Transferencia bancaria
-</span>
-            <span class="pago-titulo">
-    <i class="fa-wallet"></i> Mercado Pago
-</span>
-            <span class="pago-titulo">
-    <i class="fa-credit-card"></i> Tarjeta 
-</span>
+        @media (max-width: 480px) {
+            .producto img {
+                height: 200px;
+            }
+            
+            .hero h2 {
+                font-size: 1.5rem;
+            }
+            
+            .precio {
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -632,7 +471,7 @@
         Cada producto es producción única
     </div>
 
-    <!-- Navbar superior (logo + carrito) -->
+    <!-- Navbar superior -->
     <nav class="navbar">
         <div class="logo" onclick="window.location.href='#'">
             <img src="https://i.imgur.com/NCqfx6D.jpeg" alt="Logo">
@@ -641,20 +480,19 @@
         <button class="carrito-btn" id="abrirCarrito">
             <i class="fas fa-shopping-cart"></i>
             <span class="carrito-count" id="contadorCarrito">0</span>
-            
         </button>
     </nav>
     
     <!-- Productos destacados -->
-  <section class="hero">
-    <h2>Productos Destacados</h2>
-    <div class="productos-destacados">
-        <div class="producto">
-            <img src="https://i.postimg.cc/66cjFV71/IMG-9268.jpg" alt="Totebag Florero">
-            <h3>Totebag Florero</h3>
-            <p class="precio">$25.000</p>
-            <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Florero', 25000)">Agregar al carrito</button>
-        </div>
+    <section class="hero">
+        <h2>Productos Destacados</h2>
+        <div class="productos-destacados">
+            <div class="producto">
+                <img src="https://i.postimg.cc/66cjFV71/IMG-9268.jpg" alt="Totebag Florero">
+                <h3>Totebag Florero</h3>
+                <p class="precio">$25.000</p>
+                <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Florero', 25000)">Agregar al carrito</button>
+            </div>
             <div class="producto">
                 <img src="https://i.postimg.cc/VkrKS3K3/IMG-9274.jpg" alt="Totebag Mujer">
                 <h3>Totebag Mujer</h3>
@@ -673,8 +511,11 @@
                 <p class="precio">$13.000</p>
                 <button class="btn-carrito" onclick="agregarAlCarrito('Totebag 13', 13000)">Agregar al carrito</button>
             </div>
+        </div>
     </section>
-    <div id="wallet_container"></div>  <!-- Botón de Mercado Pago aparecerá aquí -->
+    
+    <div id="wallet_container"></div>
+    
     <!-- Modal del carrito -->
     <div class="modal" id="modalCarrito">
         <span class="cerrar-modal" id="cerrarCarrito">&times;</span>
@@ -695,7 +536,7 @@
         
         <!-- Sección de envío y pago -->
         <div class="seccion-envio-pago">
-            <!-- Sección de método de envío -->
+            <!-- Método de envío -->
             <div class="metodo-envio">
                 <h3><i class="fas fa-truck"></i> Método de envío</h3>
                 <div class="opciones-envio">
@@ -719,38 +560,38 @@
                 </div>
             </div>
             
-            <!-- Sección de método de pago -->
-        <!-- Sección de método de pago -->
-<div class="metodo-pago">
-    <h3><i class="fas fa-credit-card"></i> Método de pago</h3>
-    <div class="opciones-pago">
-        <!-- Transferencia Bancaria -->
-        <label class="opcion-pago">
-            <input type="radio" name="pago" value="transferencia" checked>
-            <div class="pago-desc">
-                <span class="pago-titulo">Transferencia bancaria</span>
+            <!-- Método de pago -->
+            <div class="metodo-pago">
+                <h3><i class="fas fa-credit-card"></i> Método de pago</h3>
+                <div class="opciones-pago">
+                    <label class="opcion-pago">
+                        <input type="radio" name="pago" value="transferencia" checked>
+                        <div class="pago-desc">
+                            <i class="fas fa-university"></i>
+                            <span class="pago-titulo">Transferencia bancaria</span>
+                            <span class="pago-beneficio">(10% de descuento)</span>
+                        </div>
+                    </label>
+                    
+                    <label class="opcion-pago">
+                        <input type="radio" name="pago" value="mercadopago">
+                        <div class="pago-desc">
+                            <i class="fas fa-wallet"></i>
+                            <span class="pago-titulo">Mercado Pago</span>
+                            <span class="pago-beneficio">(Saldo, dinero en cuenta)</span>
+                        </div>
+                    </label>
+                    
+                    <label class="opcion-pago">
+                        <input type="radio" name="pago" value="tarjeta">
+                        <div class="pago-desc">
+                            <i class="fas fa-credit-card"></i>
+                            <span class="pago-titulo">Tarjeta de crédito/débito</span>
+                            <span class="pago-beneficio">(Visa, Mastercard, etc.)</span>
+                        </div>
+                    </label>
+                </div>
             </div>
-        </label>
-        
-        <!-- Mercado Pago -->
-        <label class="opcion-pago">
-            <input type="radio" name="pago" value="mercadopago">
-            <div class="pago-desc">
-                <span class="pago-titulo">Mercado Pago</span>
-                <span class="pago-beneficio">(Saldo, dinero en cuenta)</span>
-            </div>
-        </label>
-        
-        <!-- Tarjeta de crédito/débito -->
-        <label class="opcion-pago">
-            <input type="radio" name="pago" value="tarjeta">
-            <div class="pago-desc">
-                <span class="pago-titulo">Tarjeta de crédito/débito</span>
-                <span class="pago-beneficio">(Visa, Mastercard, etc.)</span>
-            </div>
-        </label>
-    </div>
-</div>
             
             <!-- Contenedor para el botón de Mercado Pago -->
             <div id="mercadopago-boton-container">
@@ -758,7 +599,7 @@
             </div>
         </div>
         
-        <!-- Formulario de datos para envío -->
+        <!-- Formulario de datos -->
         <div class="datos-envio-form">
             <h3><i class="fas fa-user"></i> Tus datos</h3>
             <div class="form-group">
@@ -796,7 +637,8 @@
             FINALIZAR COMPRA
         </button>
     </div>
-  <script src="https://sdk.mercadopago.com/js/v2"></script>
-<script src="carrito.js"></script>
+
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <script src="carrito.js"></script>
 </body>
 </html>
