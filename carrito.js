@@ -27,7 +27,7 @@ function mostrarNotificacion(mensaje) {
     }, 3000);
 }
 
-// In carrito.js, enhance the product object structure:
+// Función para agregar al carrito
 function agregarAlCarrito(nombre, precio) {
     const existeEnCarrito = carrito.some(item => item.nombre === nombre);
     
@@ -36,12 +36,11 @@ function agregarAlCarrito(nombre, precio) {
         return;
     }
     
-    // Add more product details to cart
     carrito.push({ 
         nombre, 
         precio,
         imagen: obtenerImagenProducto(nombre),
-        sku: generarSKU(nombre) // Add this function
+        sku: generarSKU(nombre)
     });
     
     actualizarCarrito();
@@ -49,16 +48,10 @@ function agregarAlCarrito(nombre, precio) {
     mostrarNotificacion('✔️ Producto agregado al carrito');
 }
 
+// Función para generar SKU
 function generarSKU(nombre) {
     return 'JS-' + nombre.replace(/\s+/g, '').substring(0, 3).toUpperCase() + 
            Math.floor(100 + Math.random() * 900);
-}
-    }
-    
-    carrito.push({ nombre, precio });
-    actualizarCarrito();
-    guardarCarrito();
-    mostrarNotificacion('✔️ Producto agregado al carrito');
 }
 
 // Eliminar producto del carrito
@@ -95,7 +88,7 @@ function actualizarCarrito() {
 
 // Actualizar costos de envío
 function actualizarCostosEnvio() {
-    const envioSeleccionado = document.querySelector('input[name="envio"]:checked').value;
+    const envioSeleccionado = document.querySelector('input[name="envio"]:checked')?.value || 'estandar';
     let costoEnvio = 0;
     
     switch(envioSeleccionado) {
@@ -111,75 +104,6 @@ function actualizarCostosEnvio() {
     totalCarritoElement.textContent = `$${total.toLocaleString('es-AR')}`;
 }
 
-// Configuración de Mercado Pago
-const mp = new MercadoPago('APP_USR-0aa95e81-e09e-42d7-95ea-540547141761', {
-    locale: 'es-AR'
-});
-
-// Función para crear preferencia de pago
-async function crearPreferenciaMercadoPago() {
-  const response = await fetch('http://localhost:3000/crear-pago', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      items: carrito,  // Tus productos
-      cliente: {       // Datos del comprador
-        email: document.getElementById('emailCliente').value
-      }
-    })
-  });
-  return await response.json();
-}
-    
-    const preferenceData = {
-        items: carrito.map(item => ({
-            title: item.nombre,
-            unit_price: item.precio,
-            quantity: 1,
-            description: "Producto único de JustSing",
-            picture_url: obtenerImagenProducto(item.nombre)
-        })),
-        payer: {
-            name: nombre,
-            email: email,
-            phone: {
-                number: telefono
-            },
-            address: {
-                street_name: direccion,
-                zip_code: codigoPostal
-            }
-        },
-        shipments: {
-            cost: costoEnvio,
-            mode: 'not_specified'
-        },
-        back_urls: {
-            success: window.location.href,
-            failure: window.location.href,
-            pending: window.location.href
-        },
-        auto_return: 'approved'
-    };
-    
-    try {
-        const response = await fetch('https://api.mercadopago.com/checkout/preferences', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer TEST-6749756929605397-052312-3fefdcf7d53b1ac7f95928e293a7ba4e-2429370643'
-            },
-            body: JSON.stringify(preferenceData)
-        });
-        
-        return await response.json();
-    } catch (error) {
-        console.error('Error al crear preferencia:', error);
-        mostrarNotificacion('❌ Error al iniciar el pago');
-        return null;
-    }
-}
-
 // Función auxiliar para obtener imagen del producto
 function obtenerImagenProducto(nombreProducto) {
     const productos = {
@@ -191,50 +115,25 @@ function obtenerImagenProducto(nombreProducto) {
     return productos[nombreProducto] || '';
 }
 
-// Función para mostrar botón de Mercado Pago
-async function mostrarBotonMercadoPago() {
-    const preference = await crearPreferenciaMercadoPago();
-    if (!preference) return;
-    
-    const bricksBuilder = mp.bricks();
-    document.getElementById('mercadopago-boton').innerHTML = '';
-    
-    bricksBuilder.create('wallet', 'mercadopago-boton', {
-        initialization: {
-            preferenceId: preference.id,
-        },
-        customization: {
-            visual: {
-                buttonBackground: '#9a031e',
-                borderRadius: '6px',
-                height: '48px'
-            }
-        }
-    });
-    
-    document.getElementById('mercadopago-boton-container').style.display = 'block';
-}
-    ];
-    function validarFormulario() {
+// Función para validar formulario
+function validarFormulario() {
     const email = document.getElementById('emailCliente').value;
     const telefono = document.getElementById('telefonoCliente').value;
+    const requiredFields = ['nombreCliente', 'emailCliente', 'telefonoCliente', 'direccionCliente'];
 
-    }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-  mostrarNotificacion("Email inválido");
-  return false;
-}
-    // Add phone validation
+        mostrarNotificacion("Email inválido");
+        return false;
+    }
+
     if (!/^[0-9]{10,15}$/.test(telefono)) {
         mostrarNotificacion('📱 Por favor ingresa un teléfono válido');
         return false;
     }
     
-    // Rest of existing validation...
-}
     for (const fieldId of requiredFields) {
         if (!document.getElementById(fieldId).value) {
-            mostrarNotificacion(`📝 Completa el campo: ${fieldId.replace(/([A-Z])/g, ' $1').trim()}`);
+            mostrarNotificacion(`📝 Completa el campo: ${fieldId.replace('Cliente', '').replace(/([A-Z])/g, ' $1').trim()}`);
             return false;
         }
     }
@@ -251,26 +150,38 @@ async function mostrarBotonMercadoPago() {
 async function finalizarCompra() {
     if (!validarFormulario()) return;
     
-    const metodoPago = document.querySelector('input[name="pago"]:checked').value;
-    const envioSeleccionado = document.querySelector('input[name="envio"]:checked').value;
-    const costoEnvio = envioSeleccionado === 'express' ? 4000 : 3000;
-    const subtotal = carrito.reduce((sum, item) => sum + item.precio, 0);
+    const btn = document.getElementById('finalizar-compra');
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
     
-    if (metodoPago === 'transferencia') {
-        const total = (subtotal + costoEnvio) * 0.9; // 10% descuento
+    try {
+        const metodoPago = document.querySelector('input[name="pago"]:checked').value;
+        const envioSeleccionado = document.querySelector('input[name="envio"]:checked').value;
+        const costoEnvio = envioSeleccionado === 'express' ? 4000 : 3000;
+        const subtotal = carrito.reduce((sum, item) => sum + item.precio, 0);
         
-        mostrarNotificacion('✅ Compra finalizada (Transferencia Bancaria)');
-        alert(`Por favor realiza una transferencia de $${total.toLocaleString('es-AR')} a:\n\nCVU: 0000003100093480929286\nAlias: JustSing\n\nEnvíanos el comprobante a just.sin.g0706@gmail.com`);
-        
-        // Vaciar carrito
-        carrito = [];
-        actualizarCarrito();
-        localStorage.removeItem('carrito');
-        modalCarrito.style.display = 'none';
-    } 
-    else if (metodoPago === 'mercadopago' || metodoPago === 'tarjeta') {
-        mostrarNotificacion('⌛ Redirigiendo a Mercado Pago...');
-        await mostrarBotonMercadoPago();
+        if (metodoPago === 'transferencia') {
+            const total = (subtotal + costoEnvio) * 0.9; // 10% descuento
+            
+            mostrarNotificacion('✅ Compra finalizada (Transferencia Bancaria)');
+            alert(`Por favor realiza una transferencia de $${total.toLocaleString('es-AR')} a:\n\nCVU: 0000003100093480929286\nAlias: JustSing\n\nEnvíanos el comprobante a just.sin.g0706@gmail.com`);
+            
+            // Vaciar carrito
+            carrito = [];
+            actualizarCarrito();
+            localStorage.removeItem('carrito');
+            modalCarrito.style.display = 'none';
+        } 
+        else if (metodoPago === 'mercadopago' || metodoPago === 'tarjeta') {
+            mostrarNotificacion('⌛ Redirigiendo a Mercado Pago...');
+            await mostrarBotonMercadoPago();
+        }
+    } catch (error) {
+        mostrarNotificacion('❌ Error al procesar el pago');
+    } finally {
+        btn.disabled = false;
+        btn.textContent = originalText;
     }
 }
 
@@ -310,62 +221,4 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.removeItem('carrito');
         window.history.replaceState({}, document.title, window.location.pathname);
     }
-});
-    
-    window.addEventListener('click', (event) => {
-        if (event.target === modalCarrito) {
-            modalCarrito.style.display = 'none';
-        }
-    });
-async function finalizarCompra() {
-    if (!validarFormulario()) return;
-    
-    const btn = document.getElementById('finalizar-compra');
-    const originalText = btn.textContent;
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
-    
-    try {
-        // Existing payment logic...
-    } catch (error) {
-        mostrarNotificacion('❌ Error al procesar el pago');
-    } finally {
-        btn.disabled = false;
-        btn.textContent = originalText;
-    }
-}
-    // Add to finalizarCompra function after successful payment:
-function enviarConfirmacionPedido(datosCliente) {
-    // Here you would typically send this to your backend
-    console.log('Pedido confirmado:', {
-        productos: carrito,
-        cliente: datosCliente,
-        total: calcularTotal(),
-        fecha: new Date().toISOString()
-    });
-    
-    // For demo purposes, just show in console
-    return Promise.resolve();
-}
-// Configuración de MercadoPago (SOLO frontend)
-const mp = new MercadoPago('APP_USR-0aa95e81-e09e-42d7-95ea-540547141761'); // Public key
-
-// Función para crear preferencia (ahora llama a tu backend)
-async function crearPreferenciaMercadoPago() {
-  try {
-    const response = await fetch('http://localhost:3000/crear-pago', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        items: carrito,
-        cliente: obtenerDatosCliente() // Implementa esta función
-      })
-    });
-    return await response.json();
-  } catch (error) {
-    console.error("Error:", error);
-    mostrarNotificacion("❌ Error al procesar el pago");
-  }
-}
- document.getElementById('finalizar-compra').addEventListener('click', finalizarCompra);
 });
