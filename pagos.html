@@ -88,6 +88,72 @@
         .item-carrito:hover {
             background-color: #f8f9fa;
         }
+        .formulario-tarjeta {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .formulario-tarjeta h4 {
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+        
+        .grupo-formulario {
+            margin-bottom: 15px;
+        }
+        
+        .grupo-formulario label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .grupo-formulario input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .fila-tarjeta {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .fila-tarjeta .grupo-formulario {
+            flex: 1;
+        }
+        
+        .btn-confirmar-pago {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        
+        .btn-confirmar-pago:hover {
+            background-color: #218838;
+        }
+        
+        .iconos-tarjetas {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .iconos-tarjetas img {
+            height: 30px;
+        }
     </style>
 </head>
 <body>
@@ -118,13 +184,7 @@
                 <div class="form-check mb-2">
                     <input class="form-check-input" type="radio" name="metodoPago" id="transferencia">
                     <label class="form-check-label" for="transferencia">
-                        <i class="fas fa-university me-2"></i>Transferencia Bancaria (10% de descuento)
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="metodoPago" id="efectivo">
-                    <label class="form-check-label" for="efectivo">
-                        <i class="fas fa-money-bill-wave me-2"></i>Efectivo al retirar
+                        <i class="fas fa-university me-2"></i>Transferencia Bancaria
                     </label>
                 </div>
             </div>
@@ -161,7 +221,51 @@
             </div>
         </div>
     </div>
-
+ <div class="modal fade" id="modalPagoTarjeta" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Pago con Tarjeta</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="formulario-tarjeta">
+                        <div class="iconos-tarjetas">
+                            <img src="https://cdn-icons-png.flaticon.com/512/196/196578.png" alt="Visa">
+                            <img src="https://cdn-icons-png.flaticon.com/512/196/196561.png" alt="Mastercard">
+                            <img src="https://cdn-icons-png.flaticon.com/512/196/196565.png" alt="American Express">
+                        </div>
+                        
+                        <div class="grupo-formulario">
+                            <label for="numeroTarjeta">Número de Tarjeta</label>
+                            <input type="text" id="numeroTarjeta" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatearNumeroTarjeta(this)">
+                        </div>
+                        
+                        <div class="grupo-formulario">
+                            <label for="nombreTarjeta">Nombre en la Tarjeta</label>
+                            <input type="text" id="nombreTarjeta" placeholder="JUAN PEREZ">
+                        </div>
+                        
+                        <div class="fila-tarjeta">
+                            <div class="grupo-formulario">
+                                <label for="fechaVencimiento">Fecha de Vencimiento</label>
+                                <input type="text" id="fechaVencimiento" placeholder="MM/AA" maxlength="5" oninput="formatearFechaVencimiento(this)">
+                            </div>
+                            
+                            <div class="grupo-formulario">
+                                <label for="codigoSeguridad">CVV/CVC</label>
+                                <input type="text" id="codigoSeguridad" placeholder="123" maxlength="4" oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                            </div>
+                        </div>
+                        
+                        <button class="btn-confirmar-pago" onclick="procesarPagoTarjeta()">
+                            <i class="fas fa-lock me-2"></i>Confirmar Pago
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- jQuery (necesario para algunas funciones de Bootstrap) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- Bootstrap JS -->
