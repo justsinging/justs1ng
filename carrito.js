@@ -27,13 +27,32 @@ function mostrarNotificacion(mensaje) {
     }, 3000);
 }
 
-// Agregar producto al carrito
+// In carrito.js, enhance the product object structure:
 function agregarAlCarrito(nombre, precio) {
     const existeEnCarrito = carrito.some(item => item.nombre === nombre);
     
     if (existeEnCarrito) {
         mostrarNotificacion('⚠️ Este producto es único, ya está en tu carrito');
         return;
+    }
+    
+    // Add more product details to cart
+    carrito.push({ 
+        nombre, 
+        precio,
+        imagen: obtenerImagenProducto(nombre),
+        sku: generarSKU(nombre) // Add this function
+    });
+    
+    actualizarCarrito();
+    guardarCarrito();
+    mostrarNotificacion('✔️ Producto agregado al carrito');
+}
+
+function generarSKU(nombre) {
+    return 'JS-' + nombre.replace(/\s+/g, '').substring(0, 3).toUpperCase() + 
+           Math.floor(100 + Math.random() * 900);
+}
     }
     
     carrito.push({ nombre, precio });
@@ -196,14 +215,24 @@ async function mostrarBotonMercadoPago() {
     
     document.getElementById('mercadopago-boton-container').style.display = 'block';
 }
-
-// Función para validar formulario
-function validarFormulario() {
-    const requiredFields = [
-        'nombreCliente', 'emailCliente', 'telefonoCliente',
-        'direccionCalle', 'codigoPostal', 'localidad', 'provincia'
     ];
+    function validarFormulario() {
+    const email = document.getElementById('emailCliente').value;
+    const telefono = document.getElementById('telefonoCliente').value;
+
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  mostrarNotificacion("Email inválido");
+  return false;
+}
+    // Add phone validation
+    if (!/^[0-9]{10,15}$/.test(telefono)) {
+        mostrarNotificacion('📱 Por favor ingresa un teléfono válido');
+        return false;
+    }
     
+    // Rest of existing validation...
+}
     for (const fieldId of requiredFields) {
         if (!document.getElementById(fieldId).value) {
             mostrarNotificacion(`📝 Completa el campo: ${fieldId.replace(/([A-Z])/g, ' $1').trim()}`);
@@ -284,16 +313,60 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
     
-    cerrarCarrito.addEventListener('click', () => {
-        modalCarrito.style.display = 'none';
-    });
-    
     window.addEventListener('click', (event) => {
         if (event.target === modalCarrito) {
             modalCarrito.style.display = 'none';
         }
     });
+async function finalizarCompra() {
+    if (!validarFormulario()) return;
     
-    // Asignar evento al botón de finalizar compra
-    document.getElementById('finalizar-compra').addEventListener('click', finalizarCompra);
+    const btn = document.getElementById('finalizar-compra');
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+    
+    try {
+        // Existing payment logic...
+    } catch (error) {
+        mostrarNotificacion('❌ Error al procesar el pago');
+    } finally {
+        btn.disabled = false;
+        btn.textContent = originalText;
+    }
+}
+    // Add to finalizarCompra function after successful payment:
+function enviarConfirmacionPedido(datosCliente) {
+    // Here you would typically send this to your backend
+    console.log('Pedido confirmado:', {
+        productos: carrito,
+        cliente: datosCliente,
+        total: calcularTotal(),
+        fecha: new Date().toISOString()
+    });
+    
+    // For demo purposes, just show in console
+    return Promise.resolve();
+}
+// Configuración de MercadoPago (SOLO frontend)
+const mp = new MercadoPago('APP_USR-0aa95e81-e09e-42d7-95ea-540547141761'); // Public key
+
+// Función para crear preferencia (ahora llama a tu backend)
+async function crearPreferenciaMercadoPago() {
+  try {
+    const response = await fetch('http://localhost:3000/crear-pago', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: carrito,
+        cliente: obtenerDatosCliente() // Implementa esta función
+      })
+    });
+    return await response.json();
+  } catch (error) {
+    console.error("Error:", error);
+    mostrarNotificacion("❌ Error al procesar el pago");
+  }
+}
+ document.getElementById('finalizar-compra').addEventListener('click', finalizarCompra);
 });
