@@ -33,6 +33,11 @@
             cursor: pointer;
         }
         
+        .carrito-btn:hover {
+            background-color: #2980b9;
+            transform: scale(1.05);
+        }
+        
         .carrito-contador {
             position: absolute;
             top: -5px;
@@ -49,6 +54,10 @@
             font-weight: bold;
         }
         
+        .carrito-contador.empty {
+            display: none;
+        }
+        
         .btn-agregar-carrito {
             background-color: #2ecc71;
             color: white;
@@ -57,6 +66,27 @@
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s;
+        }
+        
+        .btn-agregar-carrito:hover {
+            background-color: #27ae60;
+        }
+        
+        /* Estilos para las notificaciones */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1100;
+        }
+        
+        /* Estilos para items del carrito */
+        .item-carrito {
+            transition: all 0.3s;
+        }
+        
+        .item-carrito:hover {
+            background-color: #f8f9fa;
         }
     </style>
 </head>
@@ -75,32 +105,58 @@
             </div>
         </div>
         
-        <!-- Métodos de pago... -->
+        <!-- Sección de métodos de pago -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h3 class="mb-3">Opciones de Pago</h3>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="metodoPago" id="mercadoPago" checked>
+                    <label class="form-check-label" for="mercadoPago">
+                        <i class="fab fa-cc-mastercard me-2"></i>Mercado Pago (Tarjeta de crédito/débito)
+                    </label>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="metodoPago" id="transferencia">
+                    <label class="form-check-label" for="transferencia">
+                        <i class="fas fa-university me-2"></i>Transferencia Bancaria (10% de descuento)
+                    </label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="metodoPago" id="efectivo">
+                    <label class="form-check-label" for="efectivo">
+                        <i class="fas fa-money-bill-wave me-2"></i>Efectivo al retirar
+                    </label>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Botón del carrito -->
     <div class="carrito-flotante">
-        <button class="carrito-btn" onclick="mostrarCarrito()">
+        <button class="carrito-btn" id="botonCarrito" onclick="mostrarCarrito()">
             <i class="fas fa-shopping-cart"></i>
-            <span class="carrito-contador" id="contador-carrito">0</span>
+            <span class="carrito-contador empty" id="contador-carrito">0</span>
         </button>
     </div>
 
     <!-- Modal del carrito -->
-    <div class="modal fade" id="carritoModal" tabindex="-1">
-        <div class="modal-dialog">
+    <div class="modal fade" id="carritoModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title">Tu Carrito</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="lista-carrito">
-                    <p>Tu carrito está vacío</p>
+                    <div class="text-center py-4">
+                        <i class="fas fa-shopping-cart fa-3x mb-3 text-muted"></i>
+                        <p class="text-muted">Tu carrito está vacío</p>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <p class="me-auto fw-bold">Total: $<span id="total-carrito">0</span></p>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="procederAlPago()">Pagar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Seguir comprando</button>
+                    <button type="button" class="btn btn-success" id="btn-pagar" onclick="procederAlPago()">Finalizar compra</button>
                 </div>
             </div>
         </div>
@@ -113,29 +169,80 @@
     
     <script>
         // Carrito como array
-        let carrito = [];
+        let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+        let carritoModal = null;
         
-        // Función para agregar al carrito (VERIFICADA)
-        function agregarAlCarrito(nombre, precio) {
-            console.log("Agregando al carrito:", nombre, precio); // Para depuración
-            carrito.push({nombre, precio});
-            actualizarCarrito();
-            mostrarNotificacion(`${nombre} agregado al carrito`);
+        // Función para sanitizar entradas (seguridad básica)
+        function sanitizarEntrada(texto) {
+            const div = document.createElement('div');
+            div.textContent = texto;
+            return div.innerHTML;
         }
         
-        // Función para actualizar el carrito (VERIFICADA)
+        // Función para agregar al carrito
+        function agregarAlCarrito(nombre, precio) {
+            if (typeof nombre !== 'string' || typeof precio !== 'number') {
+                console.error('Datos del producto inválidos');
+                return;
+            }
+            
+            // Sanitizar entradas
+            nombre = sanitizarEntrada(nombre);
+            precio = Number(precio.toFixed(2));
+            
+            // Verificar si el producto ya está en el carrito
+            const productoExistente = carrito.find(item => 
+                item.nombre.toLowerCase().trim() === nombre.toLowerCase().trim()
+            );
+            
+            if (productoExistente) {
+                mostrarNotificacion('Este producto ya está en tu carrito', 'warning');
+                return;
+            }
+            
+            carrito.push({
+                nombre: nombre,
+                precio: precio,
+                cantidad: 1,
+                fechaAgregado: new Date().toISOString()
+            });
+            
+            actualizarCarrito();
+            guardarCarrito();
+            mostrarNotificacion(`"${nombre}" agregado al carrito`, 'success');
+        }
+        
+        // Función para guardar el carrito en localStorage
+        function guardarCarrito() {
+            try {
+                localStorage.setItem('carrito', JSON.stringify(carrito));
+            } catch (e) {
+                console.error('Error al guardar en localStorage:', e);
+                mostrarNotificacion('Error al guardar el carrito', 'danger');
+            }
+        }
+        
+        // Función para actualizar el carrito
         function actualizarCarrito() {
-            console.log("Actualizando carrito..."); // Para depuración
             // Actualizar contador
-            document.getElementById('contador-carrito').textContent = carrito.length;
+            const contador = document.getElementById('contador-carrito');
+            contador.textContent = carrito.length;
+            contador.className = carrito.length > 0 ? 'carrito-contador' : 'carrito-contador empty';
             
             // Actualizar modal
             const lista = document.getElementById('lista-carrito');
-            const total = document.getElementById('total-carrito');
+            const totalElement = document.getElementById('total-carrito');
+            const btnPagar = document.getElementById('btn-pagar');
             
             if (carrito.length === 0) {
-                lista.innerHTML = '<p>Tu carrito está vacío</p>';
-                total.textContent = '0';
+                lista.innerHTML = `
+                    <div class="text-center py-4">
+                        <i class="fas fa-shopping-cart fa-3x mb-3 text-muted"></i>
+                        <p class="text-muted">Tu carrito está vacío</p>
+                    </div>
+                `;
+                totalElement.textContent = '0';
+                btnPagar.disabled = true;
                 return;
             }
             
@@ -143,72 +250,181 @@
             let sumaTotal = 0;
             
             carrito.forEach((item, index) => {
+                const subtotal = item.precio * item.cantidad;
+                sumaTotal += subtotal;
+                
                 html += `
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        ${item.nombre}
-                        <span>
-                            $${item.precio}
-                            <button class="btn btn-sm btn-danger ms-2" onclick="eliminarDelCarrito(${index})">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </span>
+                    <li class="list-group-item item-carrito">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">${item.nombre}</h6>
+                                <small class="text-muted">
+                                    $${item.precio.toLocaleString('es-AR')} c/u × ${item.cantidad}
+                                </small>
+                            </div>
+                            <div>
+                                <span class="fw-bold">$${subtotal.toLocaleString('es-AR')}</span>
+                                <button class="btn btn-sm btn-danger ms-2" onclick="eliminarDelCarrito(${index})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
                     </li>
                 `;
-                sumaTotal += item.precio;
             });
             
             html += '</ul>';
             lista.innerHTML = html;
-            total.textContent = sumaTotal;
+            totalElement.textContent = sumaTotal.toLocaleString('es-AR');
+            btnPagar.disabled = false;
         }
         
-        // Función para eliminar items (VERIFICADA)
+        // Función para eliminar items
         function eliminarDelCarrito(index) {
-            console.log("Eliminando item:", index); // Para depuración
-            carrito.splice(index, 1);
-            actualizarCarrito();
-        }
-        
-        // Mostrar modal del carrito (VERIFICADA)
-        function mostrarCarrito() {
-            console.log("Mostrando carrito..."); // Para depuración
-            if (carrito.length === 0) {
-                alert("Tu carrito está vacío");
+            if (index < 0 || index >= carrito.length) {
+                console.error('Índice de producto inválido');
                 return;
             }
-            const modal = new bootstrap.Modal(document.getElementById('carritoModal'));
-            modal.show();
+            
+            if (confirm(`¿Eliminar "${carrito[index].nombre}" del carrito?`)) {
+                const productoEliminado = carrito[index].nombre;
+                carrito.splice(index, 1);
+                actualizarCarrito();
+                guardarCarrito();
+                mostrarNotificacion(`"${productoEliminado}" eliminado del carrito`, 'danger');
+            }
+        }
+        
+        // Mostrar modal del carrito
+        function mostrarCarrito() {
+            if (!carritoModal) {
+                carritoModal = new bootstrap.Modal(document.getElementById('carritoModal'));
+            }
+            carritoModal.show();
         }
         
         // Función para proceder al pago
         function procederAlPago() {
-            if (carrito.length === 0) return;
-            alert("Redirigiendo al proceso de pago...");
-            // Aquí iría la redirección real
+            if (carrito.length === 0) {
+                mostrarNotificacion('Tu carrito está vacío', 'warning');
+                return;
+            }
+            
+            // Obtener método de pago seleccionado
+            const metodoPago = document.querySelector('input[name="metodoPago"]:checked');
+            
+            if (!metodoPago) {
+                mostrarNotificacion('Por favor selecciona un método de pago', 'warning');
+                return;
+            }
+            
+            const metodo = metodoPago.id;
+            const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+            
+            switch(metodo) {
+                case 'transferencia':
+                    const totalConDescuento = (total * 0.9).toFixed(2);
+                    mostrarNotificacion('Transferencia bancaria seleccionada', 'info');
+                    
+                    alert(`TRANSFERENCIA BANCARIA\n\n` +
+                          `Por favor realiza una transferencia de:\n` +
+                          `$${Number(totalConDescuento).toLocaleString('es-AR')}\n\n` +
+                          `Datos bancarios:\n` +
+                          `CBU: 1234567890123456789012\n` +
+                          `Alias: MI.TIENDA\n\n` +
+                          `Envía el comprobante por WhatsApp al +5491112345678`);
+                    
+                    // Vaciar carrito después de la compra
+                    carrito = [];
+                    actualizarCarrito();
+                    guardarCarrito();
+                    break;
+                    
+                case 'efectivo':
+                    mostrarNotificacion('Efectivo al retirar seleccionado', 'info');
+                    alert(`EFECTIVO AL RETIRAR\n\n` +
+                          `Total a pagar: $${total.toLocaleString('es-AR')}\n\n` +
+                          `Dirección de retiro:\n` +
+                          `Calle Falsa 123, Local 456\n` +
+                          `Horario: Lunes a Viernes de 10 a 18hs`);
+                    break;
+                    
+                case 'mercadoPago':
+                default:
+                    mostrarNotificacion('Redirigiendo a Mercado Pago...', 'info');
+                    // Simulación de redirección
+                    setTimeout(() => {
+                        alert(`PAGO CON MERCADO PAGO\n\n` +
+                              `Serás redirigido a Mercado Pago para completar tu compra de:\n` +
+                              `$${total.toLocaleString('es-AR')}`);
+                        
+                        // Vaciar carrito después de la compra
+                        carrito = [];
+                        actualizarCarrito();
+                        guardarCarrito();
+                    }, 1500);
+                    break;
+            }
+            
+            // Cerrar modal
+            if (carritoModal) {
+                carritoModal.hide();
+            }
         }
         
-        // Mostrar notificación (VERIFICADA)
-        function mostrarNotificacion(mensaje) {
-            const notificacion = document.createElement('div');
-            notificacion.className = 'position-fixed bottom-0 end-0 p-3';
-            notificacion.style.zIndex = '1100';
-            notificacion.innerHTML = `
-                <div class="toast show" role="alert">
-                    <div class="toast-header bg-success text-white">
-                        <strong class="me-auto">Éxito</strong>
-                        <button type="button" class="btn-close btn-close-white" onclick="this.parentElement.parentElement.remove()"></button>
+        // Mostrar notificación mejorada
+        function mostrarNotificacion(mensaje, tipo = 'success') {
+            const tipos = {
+                'success': { bg: 'bg-success', icon: 'fa-check-circle', titulo: 'Éxito' },
+                'warning': { bg: 'bg-warning', icon: 'fa-exclamation-triangle', titulo: 'Advertencia' },
+                'danger': { bg: 'bg-danger', icon: 'fa-times-circle', titulo: 'Error' },
+                'info': { bg: 'bg-info', icon: 'fa-info-circle', titulo: 'Información' }
+            };
+            
+            const tipoConfig = tipos[tipo] || tipos['success'];
+            const notificacionId = 'notificacion-' + Date.now();
+            
+            const notificacionHTML = `
+                <div id="${notificacionId}" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header text-white ${tipoConfig.bg}">
+                        <i class="fas ${tipoConfig.icon} me-2"></i>
+                        <strong class="me-auto">${tipoConfig.titulo}</strong>
+                        <button type="button" class="btn-close btn-close-white" onclick="document.getElementById('${notificacionId}').remove()">
+                            <span aria-hidden="true"></span>
+                        </button>
                     </div>
                     <div class="toast-body">
-                        ${mensaje}
+                        ${sanitizarEntrada(mensaje)}
                     </div>
                 </div>
             `;
-            document.body.appendChild(notificacion);
             
+            const contenedor = document.createElement('div');
+            contenedor.className = 'toast-container';
+            contenedor.innerHTML = notificacionHTML;
+            document.body.appendChild(contenedor);
+            
+            // Eliminar automáticamente después de 5 segundos
             setTimeout(() => {
-                notificacion.remove();
-            }, 3000);
+                const notificacion = document.getElementById(notificacionId);
+                if (notificacion) {
+                    notificacion.classList.remove('show');
+                    setTimeout(() => notificacion.remove(), 300);
+                }
+            }, 5000);
         }
+        
+        // Inicialización al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar modal
+            carritoModal = new bootstrap.Modal(document.getElementById('carritoModal'));
+            
+            // Actualizar carrito
+            actualizarCarrito();
+            
+            // Configurar evento para el botón de pagar
+            document.getElementById('btn-pagar').disabled = carrito.length === 0;
+        });
     </script>
 </body>
 </html>
