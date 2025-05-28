@@ -529,6 +529,61 @@
             // Configurar evento para el botón de pagar
             document.getElementById('btn-pagar').disabled = carrito.length === 0;
         });
+        <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <script>
+  const mp = new MercadoPago("TU_PUBLIC_KEY", {
+    locale: "es-CO", // Ajusta según tu país (es-AR, es-MX, etc.)
+  });
+
+  const bricksBuilder = mp.bricks();
+
+  const renderPaymentBrick = async (bricksBuilder) => {
+    const settings = {
+      initialization: {
+        amount: 10000, // Monto del pago (ej: $10.000 COP)
+        payer: {
+          email: "comprador@test.com", // Opcional (puedes pedirlo en tu formulario)
+        },
+      },
+      customization: {
+        paymentMethods: {
+          creditCard: "all",
+          debitCard: "all",
+          ticket: false, // Desactiva medios en efectivo si no los usas
+        },
+      },
+      callbacks: {
+        onReady: () => {
+          // El Brick está listo
+        },
+        onSubmit: async ({ selectedPaymentMethod, formData }) => {
+          // Envía los datos de la tarjeta a tu backend para procesar el pago
+          const response = await fetch("/procesar-pago", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          });
+          const result = await response.json();
+          if (result.status === "approved") {
+            alert("¡Pago exitoso!");
+          }
+        },
+        onError: (error) => {
+          console.error("Error en el pago:", error);
+        },
+      },
+    };
+
+    window.paymentBrickController = await bricksBuilder.create(
+      "payment",
+      "paymentBrick_container",
+      settings
+    );
+  };
+
+  renderPaymentBrick(bricksBuilder);
     </script>
 </body>
 </html>
