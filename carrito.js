@@ -118,19 +118,18 @@ const mp = new MercadoPago('APP_USR-0aa95e81-e09e-42d7-95ea-540547141761', {
 
 // Función para crear preferencia de pago
 async function crearPreferenciaMercadoPago() {
-    const nombre = document.getElementById('nombreCliente').value;
-    const email = document.getElementById('emailCliente').value;
-    const telefono = document.getElementById('telefonoCliente').value;
-    const direccion = document.getElementById('direccionCalle').value;
-    const codigoPostal = document.getElementById('codigoPostal').value;
-    const localidad = document.getElementById('localidad').value;
-    const provincia = document.getElementById('provincia').value;
-    
-    const envioSeleccionado = document.querySelector('input[name="envio"]:checked').value;
-    const costoEnvio = envioSeleccionado === 'express' ? 4000 : 3000;
-    
-    const subtotal = carrito.reduce((sum, item) => sum + item.precio, 0);
-    const total = subtotal + costoEnvio;
+  const response = await fetch('http://localhost:3000/crear-pago', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      items: carrito,  // Tus productos
+      cliente: {       // Datos del comprador
+        email: document.getElementById('emailCliente').value
+      }
+    })
+  });
+  return await response.json();
+}
     
     const preferenceData = {
         items: carrito.map(item => ({
