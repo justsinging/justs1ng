@@ -33,3 +33,29 @@ app.post('/crear-pago', async (req, res) => {
 });
 
 app.listen(3000, () => console.log('Servidor en http://localhost:3000'));
+const express = require('express');
+const mercadopago = require('mercadopago');
+const app = express();
+
+// Configura MercadoPago (usa TU clave)
+mercadopago.configure({
+  access_token: 'TU-CLAVE-SECRETA'  // Reemplázala con tu clave real
+});
+
+// Permite leer datos del frontend
+app.use(express.json());
+
+// Ruta para crear pagos
+app.post('/crear-pago', async (req, res) => {
+  const preference = await mercadopago.preferences.create({
+    items: req.body.items,
+    back_urls: {
+      success: "http://localhost:3000/exito",
+      failure: "http://localhost:3000/error"
+    }
+  });
+  res.json({ id: preference.body.id });
+});
+
+// Inicia el servidor
+app.listen(3000, () => console.log('Servidor listo en http://localhost:3000'));
