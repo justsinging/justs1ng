@@ -1,3 +1,26 @@
+/* Modificación de los productos */
+.producto {
+    aspect-ratio: 1/1; /* Formato cuadrado */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.producto img {
+    width: 100%;
+    height: 80%; /* 80% del espacio para la imagen */
+    object-fit: cover; /* Asegura que la imagen cubra el espacio */
+    border-radius: 5px 5px 0 0;
+}
+
+.producto-info {
+    height: 20%; /* 20% para la info */
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 /* styles.css */
 .metodo-pago {
     background: #fff;
@@ -20,4 +43,33 @@
     background: #f8f9fa;
     padding: 15px;
     border-radius: 5px;
+}
+.seccion-contacto {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 40px 20px;
+    margin: 30px auto;
+    max-width: 800px;
+    border-radius: 10px;
+}
+
+.formulario-contacto {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+textarea {
+    min-height: 150px;
+    resize: vertical;
+    padding: 12px;
+    font-family: 'Comfortaa', sans-serif;
+}
+
+.btn-enviar {
+    background-color: #9a031e;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
 }
