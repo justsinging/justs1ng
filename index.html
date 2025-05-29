@@ -100,12 +100,15 @@
             color: var(--color-primario);
         }
         
-        .productos-destacados {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-        
+       .productos-destacados {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 30px auto;
+    padding: 0 30px;
+    width: 100%;  /* Cambiado de 95% a 100% */
+    max-width: 1200px; /* Ajustado de 1600px */
+}
         .producto {
             background: white;
             border-radius: 8px;
