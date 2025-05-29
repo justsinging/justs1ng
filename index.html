@@ -358,6 +358,25 @@
                 max-width: none;
             }
         }
+        .notificacion {
+  position: fixed;
+  bottom: 100px;
+  right: 30px;
+  background-color: #9a031e;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 5px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  z-index: 1002;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  font-size: 14px;
+  pointer-events: none; /* Evita que interfiera con clics */
+}
+
+.notificacion.mostrar {
+  opacity: 1;
+}
     </style>
 </head>
 <body>
@@ -387,36 +406,36 @@
                 <img src="https://i.postimg.cc/66cjFV71/IMG-9268.jpg" alt="Totebag Florero con diseño artístico floral" width="250" height="300">
                 <h3>Totebag Florero</h3>
                 <p class="precio">$25.000</p>
-                <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Florero', 25000, 'https://i.postimg.cc/66cjFV71/IMG-9268.jpg')">
-                    Agregar al carrito
-                </button>
+               <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Florero', 25000)" data-unico="true">
+  Agregar al carrito
+</button>
             </article>
             
             <article class="producto">
                 <img src="https://i.imgur.com/L8VFmta.jpeg"  width="250" height="300">
                 <h3>Tote Bag 13</h3>
                 <p class="precio">$13.000</p>
-                <button class="btn-carrito" onclick="agregarAlCarrito('Tote Bag 13', 35000, 'https://i.imgur.com/L8VFmta.jpeg')">
-                    Agregar al carrito
-                </button>
+               <button class="btn-carrito" onclick="agregarAlCarrito('Totebag 13', 13000)" data-unico="true">
+  Agregar al carrito
+</button>
             </article>
             
             <article class="producto">
                 <img src="https://i.postimg.cc/VkrKS3K3/IMG-9274.jpg"  width="250" height="300">
                 <h3>Tote Bag Mujer</h3>
                 <p class="precio">$16.500</p>
-                <button class="btn-carrito" onclick="agregarAlCarrito('Tote Bag Mujer', 16500, 'https://i.postimg.cc/VkrKS3K3/IMG-9274.jpg')">
-                    Agregar al carrito
-                </button>
+               <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Mujer', 16500)" data-unico="true">
+  Agregar al carrito
+</button>
             </article>
             
             <article class="producto">
                 <img src="https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg" width="250" height="300">
-                <h3>Libreta Artesanal</h3>
+                <h3>Tote Bag Lavanda</h3>
                 <p class="precio">$18.500</p>
-                <button class="btn-carrito" onclick="agregarAlCarrito('Tote Bag Lavanda', 18500, 'https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg')">
-                    Agregar al carrito
-                </button>
+               <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Lavanda', 18500)" data-unico="true">
+  Agregar al carrito
+</button>
             </article>
         </div>
     </main>
@@ -530,7 +549,14 @@
                     cantidad: 1
                 });
             }
-            
+            // Deshabilitar el botón del producto agregado
+document.querySelectorAll(`.btn-carrito`).forEach(boton => {
+  if (boton.textContent.includes(nombre)) {
+    boton.disabled = true;
+    boton.textContent = 'En tu carrito';
+    boton.style.backgroundColor = '#5a5a5a';
+  }
+});
             actualizarCarrito();
             mostrarNotificacion(`${nombre} agregado al carrito`);
         }
@@ -576,7 +602,14 @@
             actualizarCarrito();
             mostrarNotificacion('Producto eliminado del carrito');
         }
-        
+        // Reactivar botón cuando se elimina del carrito
+document.querySelectorAll(`.btn-carrito`).forEach(boton => {
+  if (boton.textContent.includes('En tu carrito') && !carrito.some(item => boton.textContent.includes(item.nombre))) {
+    boton.disabled = false;
+    boton.textContent = 'Agregar al carrito';
+    boton.style.backgroundColor = '#9a031e';
+  }
+});
         function mostrarNotificacion(mensaje) {
             notificacion.textContent = mensaje;
             notificacion.classList.add('mostrar');
