@@ -374,12 +374,121 @@
 .notificacion.mostrar {
   opacity: 1;
 }
-        #contacto {
-            display: none;
-            padding: 20px;
-            background: #f5f5f5;
-            margin-top: 10px;
+        /* Estilo para el botón existente (ajusta según necesites) */
+        #contact-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
+        
+        /* Estilo para el bloque de contacto (inicialmente oculto) */
+        #contact-block {
+            display: none;
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            width: 300px;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            z-index: 1000;
+        }
+        
+        /* Estilos para el formulario dentro del bloque */
+        * Estilo para el botón existente (ajusta según necesites) */
+        #contact-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        /* Estilo para el bloque de contacto (inicialmente oculto) */
+        #contact-block {
+            display: none;
+            position: fixed;
+            bottom: 70px;
+            right: 20px;
+            width: 300px;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            z-index: 1000;
+        }
+        
+        /* Estilos para el formulario dentro del bloque */
+        #contact-block form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #contact-block input, 
+        #contact-block textarea {
+            margin-bottom: 10px;
+            padding: 8px;
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- Contenido de tu página... -->
+    
+    <!-- Este es tu botón existente en la parte inferior derecha -->
+    <button id="contact-button">Contacto</button>
+    
+    <!-- Este es el bloque de contacto que se mostrará/ocultará -->
+    <div id="contact-block">
+        <h3>Contáctanos</h3>
+        <form>
+            <input type="text" placeholder="Nombre" required>
+            <input type="email" placeholder="Email" required>
+            <textarea placeholder="Tu mensaje" rows="4" required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+<div id="contact-block">
+        <h3>Contáctanos</h3>
+        <form>
+            <input type="text" placeholder="Nombre" required>
+            <input type="email" placeholder="Email" required>
+            <textarea placeholder="Tu mensaje" rows="4" required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+</div>
+    <script>
+        document.getElementById('contact-button').addEventListener('click', function() {
+            var contactBlock = document.getElementById('contact-block');
+            if (contactBlock.style.display === 'block') {
+                contactBlock.style.display = 'none';
+            } else {
+                contactBlock.style.display = 'block';
+            }
+        });
+        
+        // Opcional: Cerrar el bloque al hacer clic fuera de él
+        document.addEventListener('click', function(event) {
+            var contactBlock = document.getElementById('contact-block');
+            var contactButton = document.getElementById('contact-button');
+            
+            if (event.target !== contactBlock && 
+                event.target !== contactButton && 
+                !contactBlock.contains(event.target)) {
+                contactBlock.style.display = 'none';
+            }
+        });
     </style>
 </head>
 <body>
@@ -712,6 +821,26 @@ document.querySelectorAll(`.btn-carrito`).forEach(boton => {
                 contacto.style.display = 'none';
             } else {
                 contacto.style.display = 'block';
+            }
+        });
+        document.getElementById('contact-button').addEventListener('click', function() {
+            var contactBlock = document.getElementById('contact-block');
+            if (contactBlock.style.display === 'block') {
+                contactBlock.style.display = 'none';
+            } else {
+                contactBlock.style.display = 'block';
+            }
+        });
+        
+        // Opcional: Cerrar el bloque al hacer clic fuera de él
+        document.addEventListener('click', function(event) {
+            var contactBlock = document.getElementById('contact-block');
+            var contactButton = document.getElementById('contact-button');
+            
+            if (event.target !== contactBlock && 
+                event.target !== contactButton && 
+                !contactBlock.contains(event.target)) {
+                contactBlock.style.display = 'none';
             }
         });
     </script>
