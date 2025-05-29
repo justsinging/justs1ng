@@ -3,28 +3,350 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="JustSing - Tienda de productos únicos y personalizados">
-    <title>JustSing - Productos artesanales</title>
-    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="description" content="JustSing - Tienda de productos artesanales únicos y personalizados">
+    <title>JustSing - Productos artesanales personalizados</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* [Todos los estilos anteriores permanecen iguales] */
+        /* Estilos base para consistencia */
+        :root {
+            --color-primario: #6a5acd;
+            --color-secundario: #ff7f50;
+            --color-fondo: #f9f9f9;
+            --color-texto: #333;
+            --color-borde: #ddd;
+            --sombra: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--color-texto);
+            background-color: var(--color-fondo);
+            line-height: 1.6;
+        }
+        
+        .barra-superior {
+            background-color: var(--color-primario);
+            color: white;
+            text-align: center;
+            padding: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: white;
+            box-shadow: var(--sombra);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            cursor: pointer;
+        }
+        
+        .logo img {
+            border-radius: 50%;
+        }
+        
+        .titulo-pagina {
+            font-family: 'Comfortaa', cursive;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--color-primario);
+        }
+        
+        .carrito-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            position: relative;
+            color: var(--color-primario);
+        }
+        
+        .carrito-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--color-secundario);
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .hero {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--color-primario);
+        }
+        
+        .productos-destacados {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .producto {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--sombra);
+            transition: transform 0.3s ease;
+        }
+        
+        .producto:hover {
+            transform: translateY(-5px);
+        }
+        
+        .producto img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        
+        .producto h2 {
+            margin: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .precio {
+            margin: 0 1rem 1rem;
+            font-weight: bold;
+            color: var(--color-secundario);
+            font-size: 1.2rem;
+        }
+        
+        .btn-carrito {
+            display: block;
+            width: calc(100% - 2rem);
+            margin: 0 1rem 1rem;
+            padding: 0.8rem;
+            background-color: var(--color-primario);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-carrito:hover {
+            background-color: var(--color-secundario);
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .modal.abierto {
+            right: 0;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--color-borde);
+        }
+        
+        .modal-header h2 {
+            margin: 0;
+            color: var(--color-primario);
+        }
+        
+        .cerrar-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--color-texto);
+        }
+        
+        .productos-carrito {
+            padding: 1rem;
+        }
+        
+        .item-carrito {
+            display: flex;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--color-borde);
+        }
+        
+        .item-carrito img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+        
+        .info-item {
+            flex-grow: 1;
+        }
+        
+        .eliminar-item {
+            background: none;
+            border: none;
+            color: #ff4444;
+            cursor: pointer;
+        }
+        
+        .total-carrito {
+            padding: 1rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: right;
+            border-top: 2px solid var(--color-primario);
+        }
+        
+        .datos-envio-form {
+            padding: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-group input, 
+        .form-group select, 
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--color-borde);
+            border-radius: 4px;
+            font-family: inherit;
+        }
+        
+        .btn-finalizar {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--color-primario);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-finalizar:hover {
+            background-color: var(--color-secundario);
+        }
+        
+        .nav-inferior {
+            display: flex;
+            justify-content: space-around;
+            padding: 1rem 0;
+            background-color: white;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        
+        .nav-inferior a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--color-texto);
+            font-size: 0.9rem;
+        }
+        
+        .nav-inferior i {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+            color: var(--color-primario);
+        }
+        
+        .notificacion {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--color-primario);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            box-shadow: var(--sombra);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+        
+        .notificacion.mostrar {
+            opacity: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+            
+            .hero {
+                padding: 1rem;
+                padding-bottom: 80px;
+            }
+            
+            .modal {
+                width: 100%;
+                max-width: none;
+            }
+        }
     </style>
 </head>
 <body>
     <header>
         <!-- Barra superior -->
-        <div class="barra-superior">
-            Cada producto es producción única
+        <div class="barra-superior" aria-label="Mensaje promocional">
+            Cada producto es una producción única - Hecho a mano con amor
         </div>
 
         <!-- Navbar superior -->
-        <nav class="navbar">
-            <div class="logo" onclick="window.location.href='#'">
+        <nav class="navbar" aria-label="Navegación principal">
+            <div class="logo" onclick="window.location.href='index.html'" role="button" aria-label="Ir a inicio">
                 <img src="https://i.imgur.com/NCqfx6D.jpeg" alt="Logo de JustSing" width="50" height="50">
             </div>
-            <div class="titulo-pagina">JustSing</div>
+            <h1 class="titulo-pagina">JustSing</h1>
             <button class="carrito-btn" id="abrirCarrito" aria-label="Abrir carrito de compras">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="carrito-count" id="contadorCarrito">0</span>
@@ -33,61 +355,230 @@
     </header>
     
     <main class="hero">
-        <h1>Productos Destacados</h1>
+        <h2>Productos Destacados</h2>
         <div class="productos-destacados">
             <article class="producto">
-                <img src="https://i.postimg.cc/66cjFV71/IMG-9268.jpg" alt="Totebag Florero con diseño artístico" width="250" height="300">
-                <h2>Totebag Florero</h2>
+                <img src="https://i.postimg.cc/66cjFV71/IMG-9268.jpg" alt="Totebag Florero con diseño artístico floral" width="250" height="300">
+                <h3>Totebag Florero</h3>
                 <p class="precio">$25.000</p>
-                <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Florero', 25000)">Agregar al carrito</button>
+                <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Florero', 25000, 'https://i.postimg.cc/66cjFV71/IMG-9268.jpg')">
+                    Agregar al carrito
+                </button>
             </article>
-            <!-- [Resto de productos] -->
+            
+            <article class="producto">
+                <img src="https://i.imgur.com/L8VFmta.jpeg"  width="250" height="300">
+                <h3>Tote Bag 13</h3>
+                <p class="precio">$13.000</p>
+                <button class="btn-carrito" onclick="agregarAlCarrito('Tote Bag 13', 35000, 'https://i.imgur.com/L8VFmta.jpeg')">
+                    Agregar al carrito
+                </button>
+            </article>
+            
+            <article class="producto">
+                <img src="https://i.postimg.cc/VkrKS3K3/IMG-9274.jpg"  width="250" height="300">
+                <h3>Tote Bag Mujer</h3>
+                <p class="precio">$16.500</p>
+                <button class="btn-carrito" onclick="agregarAlCarrito('Tote Bag Mujer', 16500, 'https://i.postimg.cc/VkrKS3K3/IMG-9274.jpg')">
+                    Agregar al carrito
+                </button>
+            </article>
+            
+            <article class="producto">
+                <img src="https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg" width="250" height="300">
+                <h3>Libreta Artesanal</h3>
+                <p class="precio">$18.500</p>
+                <button class="btn-carrito" onclick="agregarAlCarrito('Tote Bag Lavanda', 18500, 'https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg')">
+                    Agregar al carrito
+                </button>
+            </article>
         </div>
     </main>
     
     <!-- Modal del carrito -->
-    <aside class="modal" id="modalCarrito">
-        <!-- [Contenido del modal anterior] -->
+    <aside class="modal" id="modalCarrito" aria-modal="true" aria-labelledby="tituloCarrito">
+        <div class="modal-header">
+            <h2 id="tituloCarrito">Tu Carrito de Compras</h2>
+            <button class="cerrar-modal" id="cerrarCarrito" aria-label="Cerrar carrito de compras">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="productos-carrito" id="listaCarrito">
+            <!-- Los productos del carrito se agregarán aquí dinámicamente -->
+            <div class="carrito-vacio">
+                <p>Tu carrito está vacío</p>
+            </div>
+        </div>
+        
+        <div class="total-carrito">
+            Total: $<span id="totalCarrito">0</span>
+        </div>
         
         <!-- Formulario de datos corregido -->
         <form class="datos-envio-form" id="formularioEnvio" action="#" method="POST">
             <h3><i class="fas fa-user"></i> Tus datos</h3>
             
             <div class="form-group">
-                <label for="nombreCliente">Nombre completo</label>
-                <input type="text" id="nombreCliente" name="nombre" placeholder="Nombre completo*" required>
+                <label for="nombreCliente">Nombre completo*</label>
+                <input type="text" id="nombreCliente" name="nombre" placeholder="Ej: María González" required>
             </div>
             
             <div class="form-group">
-                <label for="emailCliente">Correo electrónico</label>
-                <input type="email" id="emailCliente" name="email" placeholder="Email*" required>
+                <label for="emailCliente">Correo electrónico*</label>
+                <input type="email" id="emailCliente" name="email" placeholder="Ej: ejemplo@correo.com" required>
             </div>
             
             <div class="form-group">
-                <label for="telefonoCliente">Teléfono</label>
-                <input type="tel" id="telefonoCliente" name="telefono" pattern="[0-9]{10}" placeholder="Teléfono*" required>
+                <label for="telefonoCliente">Teléfono*</label>
+                <input type="tel" id="telefonoCliente" name="telefono" pattern="[0-9]{10}" placeholder="Ej: 3101234567" required>
             </div>
             
-            <!-- [Resto del formulario] -->
+            <h3><i class="fas fa-truck"></i> Datos de envío</h3>
+            
+            <div class="form-group">
+                <label for="direccionCliente">Dirección*</label>
+                <input type="text" id="direccionCliente" name="direccion" placeholder="Calle, número, apartamento" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="ciudadCliente">Ciudad*</label>
+                <input type="text" id="ciudadCliente" name="ciudad" placeholder="Ej: Bogotá" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="notasPedido">Notas adicionales</label>
+                <textarea id="notasPedido" name="notas" placeholder="Indicaciones especiales para el envío"></textarea>
+            </div>
             
             <button type="submit" id="finalizar-compra" class="btn-finalizar">
-                FINALIZAR COMPRA
+                <i class="fas fa-credit-card"></i> FINALIZAR COMPRA
             </button>
         </form>
     </aside>
     
-    <footer class="nav-inferior">
-        <a href="#"><i class="fas fa-home"></i> Inicio</a>
-        <a href="#"><i class="fas fa-store"></i> Tienda</a>
-        <a href="#"><i class="fas fa-info-circle"></i> Nosotros</a>
-        <a href="#"><i class="fas fa-envelope"></i> Contacto</a>
+    <footer class="nav-inferior" aria-label="Navegación inferior">
+        <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
+        <a href="tienda.html"><i class="fas fa-store"></i> Tienda</a>
+        <a href="nosotros.html"><i class="fas fa-info-circle"></i> Nosotros</a>
+        <a href="contacto.html"><i class="fas fa-envelope"></i> Contacto</a>
     </footer>
 
     <!-- Notificación -->
-    <div class="notificacion" id="notificacion" role="alert"></div>
+    <div class="notificacion" id="notificacion" role="alert" aria-live="assertive"></div>
 
     <!-- Scripts -->
     <script src="https://sdk.mercadopago.com/js/v2"></script>
-    <script src="carrito.js"></script>
+    <script>
+        // Variables globales
+        let carrito = [];
+        const modalCarrito = document.getElementById('modalCarrito');
+        const abrirCarrito = document.getElementById('abrirCarrito');
+        const cerrarCarrito = document.getElementById('cerrarCarrito');
+        const listaCarrito = document.getElementById('listaCarrito');
+        const contadorCarrito = document.getElementById('contadorCarrito');
+        const totalCarrito = document.getElementById('totalCarrito');
+        const formularioEnvio = document.getElementById('formularioEnvio');
+        const notificacion = document.getElementById('notificacion');
+        
+        // Event listeners
+        abrirCarrito.addEventListener('click', toggleCarrito);
+        cerrarCarrito.addEventListener('click', toggleCarrito);
+        formularioEnvio.addEventListener('submit', finalizarCompra);
+        
+        // Funciones
+        function toggleCarrito() {
+            modalCarrito.classList.toggle('abierto');
+        }
+        
+        function agregarAlCarrito(nombre, precio, imagen) {
+            const productoExistente = carrito.find(item => item.nombre === nombre);
+            
+            if (productoExistente) {
+                productoExistente.cantidad++;
+            } else {
+                carrito.push({
+                    nombre,
+                    precio,
+                    imagen,
+                    cantidad: 1
+                });
+            }
+            
+            actualizarCarrito();
+            mostrarNotificacion(`${nombre} agregado al carrito`);
+        }
+        
+        function actualizarCarrito() {
+            // Limpiar lista
+            listaCarrito.innerHTML = '';
+            
+            if (carrito.length === 0) {
+                listaCarrito.innerHTML = '<div class="carrito-vacio"><p>Tu carrito está vacío</p></div>';
+                contadorCarrito.textContent = '0';
+                totalCarrito.textContent = '0';
+                return;
+            }
+            
+            // Actualizar items
+            let total = 0;
+            carrito.forEach(item => {
+                const itemHTML = `
+                    <div class="item-carrito">
+                        <img src="${item.imagen}" alt="${item.nombre}">
+                        <div class="info-item">
+                            <h4>${item.nombre}</h4>
+                            <p>$${item.precio.toLocaleString()} x ${item.cantidad}</p>
+                            <p>Subtotal: $${(item.precio * item.cantidad).toLocaleString()}</p>
+                        </div>
+                        <button class="eliminar-item" onclick="eliminarDelCarrito('${item.nombre}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                listaCarrito.innerHTML += itemHTML;
+                total += item.precio * item.cantidad;
+            });
+            
+            // Actualizar contador y total
+            contadorCarrito.textContent = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+            totalCarrito.textContent = total.toLocaleString();
+        }
+        
+        function eliminarDelCarrito(nombre) {
+            carrito = carrito.filter(item => item.nombre !== nombre);
+            actualizarCarrito();
+            mostrarNotificacion('Producto eliminado del carrito');
+        }
+        
+        function mostrarNotificacion(mensaje) {
+            notificacion.textContent = mensaje;
+            notificacion.classList.add('mostrar');
+            
+            setTimeout(() => {
+                notificacion.classList.remove('mostrar');
+            }, 3000);
+        }
+        
+        function finalizarCompra(e) {
+            e.preventDefault();
+            
+            if (carrito.length === 0) {
+                mostrarNotificacion('Tu carrito está vacío');
+                return;
+            }
+            
+            // Aquí iría la integración con MercadoPago
+            // Por ahora simulamos una compra exitosa
+            mostrarNotificacion('Compra realizada con éxito!');
+            carrito = [];
+            actualizarCarrito();
+            toggleCarrito();
+            formularioEnvio.reset();
+        }
+        
+        // Inicializar carrito
+        actualizarCarrito();
+    </script>
 </body>
 </html>
