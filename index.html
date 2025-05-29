@@ -10,8 +10,7 @@
     <link rel="stylesheet" href="styles.css">
     <style>
         /* Estilos base para consistencia */
-        :root {
-            --color-primario: #9a031e; !important;
+        :root {--color-primario: #9a031e; !important;
             --color-secundario: #588157; !important;
             --color-fondo: #f9f9f9;
             --color-texto: #000000;
@@ -196,9 +195,7 @@
         
         .modal.abierto {
             right: 0;
-        }
-        
-        .modal-header {
+        }.modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -377,6 +374,12 @@
 .notificacion.mostrar {
   opacity: 1;
 }
+        #contacto {
+            display: none;
+            padding: 20px;
+            background: #f5f5f5;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -402,7 +405,17 @@
     <a href="#"><i class="fas fa-store"></i> Tienda</a>
     <a href="#contacto"><i class="fas fa-envelope"></i> Contacto</a>
 </nav>
-
+<button id="botonContacto">Contacto</button>
+    
+    <div id="contacto">
+        <h2>Formulario de Contacto</h2>
+        <form>
+            <input type="text" placeholder="Nombre"><br>
+            <input type="email" placeholder="Email"><br>
+            <textarea placeholder="Mensaje"></textarea><br>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
 <!-- Sección de contacto -->
 <section id="contacto" class="seccion-contacto">
     <h2>Contacto</h2>
@@ -693,6 +706,14 @@ document.querySelectorAll(`.btn-carrito`).forEach(boton => {
         
         // Inicializar carrito
         actualizarCarrito();
+        document.getElementById('botonContacto').addEventListener('click', function() {
+            var contacto = document.getElementById('contacto');
+            if (contacto.style.display === 'block') {
+                contacto.style.display = 'none';
+            } else {
+                contacto.style.display = 'block';
+            }
+        });
     </script>
 </body>
 </html>
