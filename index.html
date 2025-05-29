@@ -397,6 +397,28 @@
                 <span class="carrito-count" id="contadorCarrito">0</span>
             </button>
         </nav>
+        <nav class="nav-inferior">
+    <a href="#"><i class="fas fa-home"></i> Inicio</a>
+    <a href="#"><i class="fas fa-store"></i> Tienda</a>
+    <a href="#contacto"><i class="fas fa-envelope"></i> Contacto</a>
+</nav>
+
+<!-- Sección de contacto -->
+<section id="contacto" class="seccion-contacto">
+    <h2>Contacto</h2>
+    <form id="formularioContacto" class="formulario-contacto">
+        <div class="form-group">
+            <input type="text" id="nombreContacto" placeholder="Nombre completo" required>
+        </div>
+        <div class="form-group">
+            <input type="email" id="emailContacto" placeholder="Email" required>
+        </div>
+        <div class="form-group">
+            <textarea id="mensajeContacto" placeholder="Escribe tu duda o consulta aquí..." required></textarea>
+        </div>
+        <button type="submit" class="btn-enviar">Enviar consulta</button>
+    </form>
+</section>
     </header>
     
     <main class="hero">
@@ -505,10 +527,43 @@
     <footer class="nav-inferior" aria-label="Navegación inferior">
         <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
         <a href="tienda.html"><i class="fas fa-store"></i> Tienda</a>
-        <a href="nosotros.html"><i class="fas fa-info-circle"></i> Nosotros</a>
         <a href="contacto.html"><i class="fas fa-envelope"></i> Contacto</a>
     </footer>
-
+<div id="paso-pago" style="display: none;">
+    <h2>Método de pago</h2>
+    
+    <div class="opciones-pago">
+        <label class="opcion-pago">
+            <input type="radio" name="metodo-pago" value="mercadopago" checked>
+            <div class="pago-desc">
+                <i class="fab fa-cc-mastercard"></i>
+                <span class="pago-titulo">Mercado Pago</span>
+                <span class="pago-beneficio">(Tarjetas, efectivo o saldo)</span>
+            </div>
+        </label>
+        
+        <label class="opcion-pago">
+            <input type="radio" name="metodo-pago" value="transferencia">
+            <div class="pago-desc">
+                <i class="fas fa-university"></i>
+                <span class="pago-titulo">Transferencia bancaria</span>
+                <span class="pago-beneficio">(10% de descuento)</span>
+            </div>
+        </label>
+    </div>
+    
+    <div id="mercadopago-boton-container"></div>
+    
+    <div id="datos-transferencia" style="display: none;">
+        <h3>Datos para transferencia</h3>
+        <p>La transferencia será envíada a una cuenta de Mercado Pago
+        <p>CVU: 0000003100093480929286</p>
+        <p>Alias: JustSing</p>
+        <p>Una vez realizada la transferencia, envíanos el comprobante a just.sin.g0706@gmail.com</p>
+    </div>
+    
+    <button id="volver-carrito" class="btn-secundario">Volver al carrito</button>
+</div>
     <!-- Notificación -->
     <div class="notificacion" id="notificacion" role="alert" aria-live="assertive"></div>
 
