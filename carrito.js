@@ -58,3 +58,71 @@ function eliminarDelCarrito(nombre) {
   carrito = carrito.filter(item => item.nombre !== nombre);
   actualizarCarrito();
 }
+// Configuración de Mercado Pago
+const mp = new MercadoPago('APP_USR-0aa95e81-e09e-42d7-95ea-540547141761', {
+    locale: 'es-AR'
+});
+
+document.getElementById('finalizar-compra').addEventListener('click', function() {
+    document.getElementById('itemsCarrito').style.display = 'none';
+    document.getElementById('paso-pago').style.display = 'block';
+    
+    // Mostrar u ocultar opciones según selección
+    document.querySelectorAll('input[name="metodo-pago"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            if(this.value === 'mercadopago') {
+                document.getElementById('datos-transferencia').style.display = 'none';
+                // Aquí iría la generación del botón de Mercado Pago
+            } else {
+                document.getElementById('datos-transferencia').style.display = 'block';
+                document.getElementById('mercadopago-boton-container').style.display = 'none';
+            }
+        });
+    });
+});
+
+// Volver al carrito
+document.getElementById('volver-carrito').addEventListener('click', function() {
+    document.getElementById('paso-pago').style.display = 'none';
+    document.getElementById('itemsCarrito').style.display = 'block';
+});
+
+// Envío del formulario de contacto
+document.getElementById('formularioContacto').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const nombre = document.getElementById('nombreContacto').value;
+    const email = document.getElementById('emailContacto').value;
+    const mensaje = document.getElementById('mensajeContacto').value;
+    
+    // Aquí iría el código para enviar el email (necesitarías un backend)
+    // Ejemplo con EmailJS (debes configurarlo primero):
+    emailjs.send("service_tuServicio", "template_tuTemplate", {
+        from_name: nombre,
+        from_email: email,
+        message: mensaje
+    }).then(function() {
+        alert('Consulta enviada con éxito');
+    }, function(error) {
+        alert('Error al enviar: ' + JSON.stringify(error));
+    });
+    
+    this.reset();
+});
+// En carrito.js
+function configurarMercadoPago(total) {
+    const mp = new MercadoPago('APP_USR-0aa95e81-e09e-42d7-95ea-540547141761', {
+        locale: 'es-AR'
+    });
+
+    mp.checkout({
+        preference: {
+            id: 'TU_PREFERENCE_ID' // Debes generar esto desde tu backend
+        },
+        render: {
+            container: '#mercadopago-boton-container',
+            label: 'Pagar con Mercado Pago',
+            type: 'wallet'
+        }
+    });
+}
