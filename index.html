@@ -7,11 +7,11 @@
     <title>JustSing - Productos artesanales</title>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="styles.css">
     <style>
         /* Estilos base para consistencia */
-        :root {--color-primario: #9a031e; !important;
-            --color-secundario: #588157; !important;
+        :root {
+            --color-primario: #9a031e;
+            --color-secundario: #588157;
             --color-fondo: #f9f9f9;
             --color-texto: #000000;
             --color-borde: #ddd;
@@ -53,6 +53,8 @@
         
         .logo img {
             border-radius: 50%;
+            width: 50px;
+            height: 50px;
         }
         
         .titulo-pagina {
@@ -60,6 +62,7 @@
             font-size: 1.8rem;
             font-weight: 700;
             color: var(--color-primario);
+            margin: 0;
         }
         
         .carrito-btn {
@@ -69,6 +72,7 @@
             cursor: pointer;
             position: relative;
             color: var(--color-primario);
+            padding: 0;
         }
         
         .carrito-count {
@@ -93,44 +97,36 @@
             margin: 0 auto;
         }
         
-        .hero h1 {
+        .hero h1, .hero h2 {
             text-align: center;
             margin-bottom: 2rem;
             color: var(--color-primario);
         }
         
-       .productos-destacados {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-    margin: 30px auto;
-    padding: 0 30px;
-    width: 100%;  /* Cambiado de 95% a 100% */
-    max-width: 1100px; /* Ajustado de 1600px */
-}
         .productos-destacados {
-    grid-template-columns: repeat(4, 1fr);
-}
-
-@media (max-width: 1000px) {
-    .productos-destacados {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 600px) {
-    .productos-destacados {
-        grid-template-columns: 1fr;
-    }
-}
-        .productos-destacados {
-    padding: 0 15px; /* Reducir padding lateral */
-    gap: 15px; /* Reducir espacio entre productos */
-}
-
-.producto {
-    padding: 10px; /* Reducir padding interno */
-}
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px auto;
+            padding: 0 30px;
+            width: 100%;
+            max-width: 1100px;
+        }
+        
+        @media (max-width: 1000px) {
+            .productos-destacados {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .productos-destacados {
+                grid-template-columns: 1fr;
+                padding: 0 15px;
+                gap: 15px;
+            }
+        }
+        
         .producto {
             background: white;
             border-radius: 8px;
@@ -147,9 +143,10 @@
             width: 100%;
             height: 300px;
             object-fit: cover;
+            display: block;
         }
         
-        .producto h2 {
+        .producto h3 {
             margin: 1rem;
             font-size: 1.2rem;
         }
@@ -179,6 +176,11 @@
             background-color: var(--color-secundario);
         }
         
+        .btn-carrito:disabled {
+            background-color: #5a5a5a;
+            cursor: not-allowed;
+        }
+        
         .modal {
             position: fixed;
             top: 0;
@@ -195,7 +197,9 @@
         
         .modal.abierto {
             right: 0;
-        }.modal-header {
+        }
+        
+        .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -214,6 +218,7 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--color-texto);
+            padding: 0;
         }
         
         .productos-carrito {
@@ -243,6 +248,7 @@
             border: none;
             color: #ff4444;
             cursor: pointer;
+            align-self: flex-start;
         }
         
         .total-carrito {
@@ -275,6 +281,7 @@
             border: 1px solid var(--color-borde);
             border-radius: 4px;
             font-family: inherit;
+            box-sizing: border-box;
         }
         
         .btn-finalizar {
@@ -323,21 +330,86 @@
         
         .notificacion {
             position: fixed;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
+            bottom: 100px;
+            right: 30px;
             background-color: var(--color-primario);
             color: white;
-            padding: 1rem 2rem;
-            border-radius: 4px;
-            box-shadow: var(--sombra);
+            padding: 12px 24px;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            z-index: 1002;
             opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 1000;
+            transition: opacity 0.3s ease;
+            font-size: 14px;
+            pointer-events: none;
         }
         
         .notificacion.mostrar {
             opacity: 1;
+        }
+        
+        #contact-button {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            padding: 10px 20px;
+            background: var(--color-primario);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+        
+        #contact-block {
+            display: none;
+            position: fixed;
+            bottom: 130px;
+            right: 20px;
+            width: 300px;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            z-index: 1000;
+        }
+        
+        #contact-block h3 {
+            margin-top: 0;
+            color: var(--color-primario);
+        }
+        
+        #contact-block form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #contact-block input, 
+        #contact-block textarea {
+            margin-bottom: 10px;
+            padding: 8px;
+            border: 1px solid var(--color-borde);
+            border-radius: 4px;
+        }
+        
+        #contact-block textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        #contact-block button[type="submit"] {
+            background-color: var(--color-primario);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .carrito-vacio {
+            text-align: center;
+            padding: 20px;
+            color: #666;
         }
         
         @media (max-width: 768px) {
@@ -354,141 +426,17 @@
                 width: 100%;
                 max-width: none;
             }
-        }
-        .notificacion {
-  position: fixed;
-  bottom: 100px;
-  right: 30px;
-  background-color: #9a031e;
-  color: white;
-  padding: 12px 24px;
-  border-radius: 5px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-  z-index: 1002;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  font-size: 14px;
-  pointer-events: none; /* Evita que interfiera con clics */
-}
-
-.notificacion.mostrar {
-  opacity: 1;
-}
-        /* Estilo para el botón existente (ajusta según necesites) */
-        #contact-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        
-        /* Estilo para el bloque de contacto (inicialmente oculto) */
-        #contact-block {
-            display: none;
-            position: fixed;
-            bottom: 70px;
-            right: 20px;
-            width: 300px;
-            padding: 20px;
-            background: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            border-radius: 5px;
-            z-index: 1000;
-        }
-        
-        /* Estilos para el formulario dentro del bloque */
-        * Estilo para el botón existente (ajusta según necesites) */
-        #contact-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        
-        /* Estilo para el bloque de contacto (inicialmente oculto) */
-        #contact-block {
-            display: none;
-            position: fixed;
-            bottom: 70px;
-            right: 20px;
-            width: 300px;
-            padding: 20px;
-            background: white;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            border-radius: 5px;
-            z-index: 1000;
-        }
-        
-        /* Estilos para el formulario dentro del bloque */
-        #contact-block form {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        #contact-block input, 
-        #contact-block textarea {
-            margin-bottom: 10px;
-            padding: 8px;
-        }
-        
-    </style>
-</head>
-<body>
-    <!-- Contenido de tu página... -->
-    
-    <!-- Este es tu botón existente en la parte inferior derecha -->
-    <button id="contact-button">Contacto</button>
-    
-    <!-- Este es el bloque de contacto que se mostrará/ocultará -->
-    <div id="contact-block">
-        <h3>Contáctanos</h3>
-        <form>
-            <input type="text" placeholder="Nombre" required>
-            <input type="email" placeholder="Email" required>
-            <textarea placeholder="Tu mensaje" rows="4" required></textarea>
-            <button type="submit">Enviar</button>
-        </form>
-    </div>
-<div id="contact-block">
-        <h3>Contáctanos</h3>
-        <form>
-            <input type="text" placeholder="Nombre" required>
-            <input type="email" placeholder="Email" required>
-            <textarea placeholder="Tu mensaje" rows="4" required></textarea>
-            <button type="submit">Enviar</button>
-        </form>
-</div>
-    <script>
-        document.getElementById('contact-button').addEventListener('click', function() {
-            var contactBlock = document.getElementById('contact-block');
-            if (contactBlock.style.display === 'block') {
-                contactBlock.style.display = 'none';
-            } else {
-                contactBlock.style.display = 'block';
-            }
-        });
-        
-        // Opcional: Cerrar el bloque al hacer clic fuera de él
-        document.addEventListener('click', function(event) {
-            var contactBlock = document.getElementById('contact-block');
-            var contactButton = document.getElementById('contact-button');
             
-            if (event.target !== contactBlock && 
-                event.target !== contactButton && 
-                !contactBlock.contains(event.target)) {
-                contactBlock.style.display = 'none';
+            #contact-button {
+                bottom: 70px;
             }
-        });
+            
+            #contact-block {
+                bottom: 120px;
+                width: calc(100% - 40px);
+                right: 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -509,77 +457,45 @@
                 <span class="carrito-count" id="contadorCarrito">0</span>
             </button>
         </nav>
-        <nav class="nav-inferior">
-    <a href="#"><i class="fas fa-home"></i> Inicio</a>
-    <a href="#"><i class="fas fa-store"></i> Tienda</a>
-    <a href="#contacto"><i class="fas fa-envelope"></i> Contacto</a>
-</nav>
-<button id="botonContacto">Contacto</button>
-    
-    <div id="contacto">
-        <h2>Formulario de Contacto</h2>
-        <form>
-            <input type="text" placeholder="Nombre"><br>
-            <input type="email" placeholder="Email"><br>
-            <textarea placeholder="Mensaje"></textarea><br>
-            <button type="submit">Enviar</button>
-        </form>
-    </div>
-<!-- Sección de contacto -->
-<section id="contacto" class="seccion-contacto">
-    <h2>Contacto</h2>
-    <form id="formularioContacto" class="formulario-contacto">
-        <div class="form-group">
-            <input type="text" id="nombreContacto" placeholder="Nombre completo" required>
-        </div>
-        <div class="form-group">
-            <input type="email" id="emailContacto" placeholder="Email" required>
-        </div>
-        <div class="form-group">
-            <textarea id="mensajeContacto" placeholder="Escribe tu duda o consulta aquí..." required></textarea>
-        </div>
-        <button type="submit" class="btn-enviar">Enviar consulta</button>
-    </form>
-</section>
     </header>
     
     <main class="hero">
         <h2>Productos Destacados</h2>
         <div class="productos-destacados">
             <article class="producto">
-                <img src="https://i.postimg.cc/66cjFV71/IMG-9268.jpg" alt="Totebag Florero con diseño artístico floral" width="250" height="300">
+                <img src="https://i.postimg.cc/66cjFV71/IMG-9268.jpg" alt="Totebag Florero con diseño artístico floral">
                 <h3>Totebag Florero</h3>
                 <p class="precio">$25.000</p>
-               <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Florero', 25000)" data-unico="true">
-  Agregar al carrito
-</button>
+                <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Florero', 25000, 'https://i.postimg.cc/66cjFV71/IMG-9268.jpg')" data-unico="true">
+                    Agregar al carrito
+                </button>
             </article>
             
             <article class="producto">
-                <img src="https://i.imgur.com/L8VFmta.jpeg"  width="250" height="300">
+                <img src="https://i.imgur.com/L8VFmta.jpeg" alt="Tote Bag 13">
                 <h3>Tote Bag 13</h3>
                 <p class="precio">$13.000</p>
-               <button class="btn-carrito" onclick="agregarAlCarrito('Totebag 13', 13000)" data-unico="true">
-  Agregar al carrito
-</button>
+                <button class="btn-carrito" onclick="agregarAlCarrito('Totebag 13', 13000, 'https://i.imgur.com/L8VFmta.jpeg')" data-unico="true">
+                    Agregar al carrito
+                </button>
             </article>
             
             <article class="producto">
-                <img src="https://i.postimg.cc/VkrKS3K3/IMG-9274.jpg"  width="250" height="300">
+                <img src="https://i.postimg.cc/VkrKS3K3/IMG-9274.jpg" alt="Tote Bag Mujer">
                 <h3>Tote Bag Mujer</h3>
                 <p class="precio">$16.500</p>
-               <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Mujer', 16500)" data-unico="true">
-  Agregar al carrito
-</button>
+                <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Mujer', 16500, 'https://i.postimg.cc/VkrKS3K3/IMG-9274.jpg')" data-unico="true">
+                    Agregar al carrito
+                </button>
             </article>
             
             <article class="producto">
-                <img src="https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg" width="250" height="300">
+                <img src="https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg" alt="Tote Bag Lavanda">
                 <h3>Tote Bag Lavanda</h3>
                 <p class="precio">$18.500</p>
-               <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Lavanda', 18500)" data-unico="true">
-  Agregar al carrito
-</button>
+                <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Lavanda', 18500, 'https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg')" data-unico="true">
+                    Agregar al carrito
+                </button>
             </article>
         </div>
     </main>
@@ -604,7 +520,7 @@
             Total: $<span id="totalCarrito">0</span>
         </div>
         
-        <!-- Formulario de datos corregido -->
+        <!-- Formulario de datos -->
         <form class="datos-envio-form" id="formularioEnvio" action="#" method="POST">
             <h3><i class="fas fa-user"></i> Tus datos</h3>
             
@@ -646,46 +562,27 @@
         </form>
     </aside>
     
+    <!-- Botón de contacto flotante -->
+    <button id="contact-button">Contacto</button>
+    
+    <!-- Bloque de contacto -->
+    <div id="contact-block">
+        <h3>Contáctanos</h3>
+        <form>
+            <input type="text" placeholder="Nombre" required>
+            <input type="email" placeholder="Email" required>
+            <textarea placeholder="Tu mensaje" rows="4" required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+    
+    <!-- Navegación inferior -->
     <footer class="nav-inferior" aria-label="Navegación inferior">
         <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
-        <a href="tienda.html"><i class="fas fa-store"></i> Tienda</a>
-        <a href="contacto.html"><i class="fas fa-envelope"></i> Contacto</a>
+        <a href="#"><i class="fas fa-store"></i> Tienda</a>
+        <a href="#"><i class="fas fa-envelope"></i> Contacto</a>
     </footer>
-<div id="paso-pago" style="display: none;">
-    <h2>Método de pago</h2>
     
-    <div class="opciones-pago">
-        <label class="opcion-pago">
-            <input type="radio" name="metodo-pago" value="mercadopago" checked>
-            <div class="pago-desc">
-                <i class="fab fa-cc-mastercard"></i>
-                <span class="pago-titulo">Mercado Pago</span>
-                <span class="pago-beneficio">(Tarjetas, efectivo o saldo)</span>
-            </div>
-        </label>
-        
-        <label class="opcion-pago">
-            <input type="radio" name="metodo-pago" value="transferencia">
-            <div class="pago-desc">
-                <i class="fas fa-university"></i>
-                <span class="pago-titulo">Transferencia bancaria</span>
-                <span class="pago-beneficio">(10% de descuento)</span>
-            </div>
-        </label>
-    </div>
-    
-    <div id="mercadopago-boton-container"></div>
-    
-    <div id="datos-transferencia" style="display: none;">
-        <h3>Datos para transferencia</h3>
-        <p>La transferencia será envíada a una cuenta de Mercado Pago
-        <p>CVU: 0000003100093480929286</p>
-        <p>Alias: JustSing</p>
-        <p>Una vez realizada la transferencia, envíanos el comprobante a just.sin.g0706@gmail.com</p>
-    </div>
-    
-    <button id="volver-carrito" class="btn-secundario">Volver al carrito</button>
-</div>
     <!-- Notificación -->
     <div class="notificacion" id="notificacion" role="alert" aria-live="assertive"></div>
 
@@ -702,15 +599,29 @@
         const totalCarrito = document.getElementById('totalCarrito');
         const formularioEnvio = document.getElementById('formularioEnvio');
         const notificacion = document.getElementById('notificacion');
+        const contactButton = document.getElementById('contact-button');
+        const contactBlock = document.getElementById('contact-block');
         
         // Event listeners
         abrirCarrito.addEventListener('click', toggleCarrito);
         cerrarCarrito.addEventListener('click', toggleCarrito);
         formularioEnvio.addEventListener('submit', finalizarCompra);
+        contactButton.addEventListener('click', toggleContactBlock);
+        
+        // Cerrar el bloque de contacto al hacer clic fuera
+        document.addEventListener('click', function(event) {
+            if (!contactBlock.contains(event.target) {
+                contactBlock.style.display = 'none';
+            }
+        });
         
         // Funciones
         function toggleCarrito() {
             modalCarrito.classList.toggle('abierto');
+        }
+        
+        function toggleContactBlock() {
+            contactBlock.style.display = contactBlock.style.display === 'block' ? 'none' : 'block';
         }
         
         function agregarAlCarrito(nombre, precio, imagen) {
@@ -726,14 +637,15 @@
                     cantidad: 1
                 });
             }
+            
             // Deshabilitar el botón del producto agregado
-document.querySelectorAll(`.btn-carrito`).forEach(boton => {
-  if (boton.textContent.includes(nombre)) {
-    boton.disabled = true;
-    boton.textContent = 'En tu carrito';
-    boton.style.backgroundColor = '#5a5a5a';
-  }
-});
+            document.querySelectorAll('.btn-carrito').forEach(boton => {
+                if (boton.textContent.includes(nombre)) {
+                    boton.disabled = true;
+                    boton.textContent = 'En tu carrito';
+                }
+            });
+            
             actualizarCarrito();
             mostrarNotificacion(`${nombre} agregado al carrito`);
         }
@@ -746,6 +658,14 @@ document.querySelectorAll(`.btn-carrito`).forEach(boton => {
                 listaCarrito.innerHTML = '<div class="carrito-vacio"><p>Tu carrito está vacío</p></div>';
                 contadorCarrito.textContent = '0';
                 totalCarrito.textContent = '0';
+                
+                // Reactivar todos los botones cuando el carrito está vacío
+                document.querySelectorAll('.btn-carrito').forEach(boton => {
+                    boton.disabled = false;
+                    boton.textContent = 'Agregar al carrito';
+                    boton.style.backgroundColor = '';
+                });
+                
                 return;
             }
             
@@ -760,7 +680,7 @@ document.querySelectorAll(`.btn-carrito`).forEach(boton => {
                             <p>$${item.precio.toLocaleString()} x ${item.cantidad}</p>
                             <p>Subtotal: $${(item.precio * item.cantidad).toLocaleString()}</p>
                         </div>
-                        <button class="eliminar-item" onclick="eliminarDelCarrito('${item.nombre}')">
+                        <button class="eliminar-item" onclick="eliminarDelCarrito('${item.nombre}')" aria-label="Eliminar ${item.nombre} del carrito">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -778,71 +698,16 @@ document.querySelectorAll(`.btn-carrito`).forEach(boton => {
             carrito = carrito.filter(item => item.nombre !== nombre);
             actualizarCarrito();
             mostrarNotificacion('Producto eliminado del carrito');
+            
+            // Reactivar el botón del producto eliminado
+            document.querySelectorAll('.btn-carrito').forEach(boton => {
+                if (boton.textContent.includes(nombre)) {
+                    boton.disabled = false;
+                    boton.textContent = 'Agregar al carrito';
+                    boton.style.backgroundColor = '';
+                }
+            });
         }
-        // Reactivar botón cuando se elimina del carrito
-document.querySelectorAll(`.btn-carrito`).forEach(boton => {
-  if (boton.textContent.includes('En tu carrito') && !carrito.some(item => boton.textContent.includes(item.nombre))) {
-    boton.disabled = false;
-    boton.textContent = 'Agregar al carrito';
-    boton.style.backgroundColor = '#9a031e';
-  }
-});
+        
         function mostrarNotificacion(mensaje) {
-            notificacion.textContent = mensaje;
-            notificacion.classList.add('mostrar');
-            
-            setTimeout(() => {
-                notificacion.classList.remove('mostrar');
-            }, 3000);
-        }
-        
-        function finalizarCompra(e) {
-            e.preventDefault();
-            
-            if (carrito.length === 0) {
-                mostrarNotificacion('Tu carrito está vacío');
-                return;
-            }
-            
-            // Aquí iría la integración con MercadoPago
-            // Por ahora simulamos una compra exitosa
-            mostrarNotificacion('Compra realizada con éxito!');
-            carrito = [];
-            actualizarCarrito();
-            toggleCarrito();
-            formularioEnvio.reset();
-        }
-        
-        // Inicializar carrito
-        actualizarCarrito();
-        document.getElementById('botonContacto').addEventListener('click', function() {
-            var contacto = document.getElementById('contacto');
-            if (contacto.style.display === 'block') {
-                contacto.style.display = 'none';
-            } else {
-                contacto.style.display = 'block';
-            }
-        });
-        document.getElementById('contact-button').addEventListener('click', function() {
-            var contactBlock = document.getElementById('contact-block');
-            if (contactBlock.style.display === 'block') {
-                contactBlock.style.display = 'none';
-            } else {
-                contactBlock.style.display = 'block';
-            }
-        });
-        
-        // Opcional: Cerrar el bloque al hacer clic fuera de él
-        document.addEventListener('click', function(event) {
-            var contactBlock = document.getElementById('contact-block');
-            var contactButton = document.getElementById('contact-button');
-            
-            if (event.target !== contactBlock && 
-                event.target !== contactButton && 
-                !contactBlock.contains(event.target)) {
-                contactBlock.style.display = 'none';
-            }
-        });
-    </script>
-</body>
-</html>
+           
