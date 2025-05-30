@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cómo Pagar - Mi Tienda</title>
+    <title>Métodos de Pago</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -72,99 +72,64 @@
             background-color: #27ae60;
         }
         
-        /* Estilos para las notificaciones */
-        .toast-container {
+        /* Estilos para el formulario de contacto */
+        #formulario-contacto {
+            display: none;
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1100;
-        }
-        
-        /* Estilos para items del carrito */
-        .item-carrito {
-            transition: all 0.3s;
-        }
-        
-        .item-carrito:hover {
-            background-color: #f8f9fa;
+            bottom: 100px;
+            right: 30px;
+            width: 300px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
+    <!-- Contenido principal -->
     <div class="container py-4">
-        <h1 class="text-center mb-4">Métodos de Pago</h1>
+        <!-- ... (tu contenido existente) ... -->
         
-        <!-- Producto de ejemplo -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <h3>Producto de Ejemplo</h3>
-                <p>Descripción del producto de prueba para el carrito</p>
-                <button class="btn-agregar-carrito" onclick="agregarAlCarrito('Producto Ejemplo', 1000)">
-                    <i class="fas fa-cart-plus me-2"></i>Agregar al carrito
-                </button>
-            </div>
-        </div>
-        
-        <!-- Sección de métodos de pago -->
-        <div class="card mb-4">
-            <div class="card-body">
-                <h3 class="mb-3">Opciones de Pago</h3>
-                <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="metodoPago" id="mercadoPago" checked>
-                    <label class="form-check-label" for="mercadoPago">
-                        <i class="fab fa-cc-mastercard me-2"></i>Mercado Pago (Tarjeta de crédito/débito)
-                    </label>
-                </div>
-                <div class="form-check mb-2">
-                    <input class="form-check-input" type="radio" name="metodoPago" id="transferencia">
-                    <label class="form-check-label" for="transferencia">
-                        <i class="fas fa-university me-2"></i>Transferencia Bancaria (10% de descuento)
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="metodoPago" id="efectivo">
-                    <label class="form-check-label" for="efectivo">
-                        <i class="fas fa-money-bill-wave me-2"></i>Efectivo al retirar
-                    </label>
-                </div>
-            </div>
-        </div>
+        <!-- Botón de contacto alternativo (puedes colocarlo donde prefieras) -->
+        <button id="btn-contacto" class="btn btn-primary fixed-bottom m-3" style="width: fit-content;">
+            <i class="fas fa-envelope me-2"></i>Contacto
+        </button>
     </div>
 
-    <!-- Botón del carrito -->
+    <!-- Botón flotante del carrito -->
     <div class="carrito-flotante">
-        <button class="carrito-btn" id="botonCarrito" onclick="mostrarCarrito()">
+        <button class="carrito-btn" id="botonCarrito">
             <i class="fas fa-shopping-cart"></i>
             <span class="carrito-contador empty" id="contador-carrito">0</span>
         </button>
     </div>
 
-    <!-- Modal del carrito -->
-    <div class="modal fade" id="carritoModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title">Tu Carrito</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body" id="lista-carrito">
-                    <div class="text-center py-4">
-                        <i class="fas fa-shopping-cart fa-3x mb-3 text-muted"></i>
-                        <p class="text-muted">Tu carrito está vacío</p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <p class="me-auto fw-bold">Total: $<span id="total-carrito">0</span></p>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Seguir comprando</button>
-                    <button type="button" class="btn btn-success" id="btn-pagar" onclick="procederAlPago()">Finalizar compra</button>
-                </div>
+    <!-- Formulario de contacto (ahora oculto por defecto) -->
+    <div id="formulario-contacto">
+        <h5>Contacto</h5>
+        <form>
+            <div class="mb-3">
+                <input type="text" class="form-control" placeholder="Nombre">
             </div>
-        </div>
+            <div class="mb-3">
+                <input type="email" class="form-control" placeholder="Email">
+            </div>
+            <div class="mb-3">
+                <textarea class="form-control" placeholder="Mensaje"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Enviar</button>
+        </form>
     </div>
 
-    <!-- jQuery (necesario para algunas funciones de Bootstrap) -->
+    <!-- Modal del carrito -->
+    <div class="modal fade" id="carritoModal" tabindex="-1" aria-hidden="true">
+        <!-- ... (contenido del modal del carrito existente) ... -->
+    </div>
+
+    <!-- jQuery y Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
@@ -172,77 +137,64 @@
         let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
         let carritoModal = null;
         
-        // Función para sanitizar entradas (seguridad básica)
-        function sanitizarEntrada(texto) {
-            const div = document.createElement('div');
-            div.textContent = texto;
-            return div.innerHTML;
-        }
+        // Inicialización al cargar la página
+        $(document).ready(function() {
+            // Inicializar modal del carrito
+            carritoModal = new bootstrap.Modal(document.getElementById('carritoModal'));
+            
+            // Actualizar carrito al inicio
+            actualizarCarrito();
+            
+            // Evento para el botón del carrito
+            $('#botonCarrito').click(mostrarCarrito);
+            
+            // Evento para el botón de contacto
+            $('#btn-contacto').click(function() {
+                $('#formulario-contacto').toggle();
+            });
+            
+            // Evento para cerrar el formulario de contacto al hacer clic fuera
+            $(document).click(function(e) {
+                if (!$(e.target).closest('#formulario-contacto, #btn-contacto').length) {
+                    $('#formulario-contacto').hide();
+                }
+            });
+        });
         
         // Función para agregar al carrito
-        function agregarAlCarrito(nombre, precio) {
-            if (typeof nombre !== 'string' || typeof precio !== 'number') {
-                console.error('Datos del producto inválidos');
-                return;
-            }
-            
-            // Sanitizar entradas
-            nombre = sanitizarEntrada(nombre);
-            precio = Number(precio.toFixed(2));
-            
-            // Verificar si el producto ya está en el carrito
-            const productoExistente = carrito.find(item => 
-                item.nombre.toLowerCase().trim() === nombre.toLowerCase().trim()
-            );
+        window.agregarAlCarrito = function(nombre, precio) {
+            const productoExistente = carrito.find(item => item.nombre === nombre);
             
             if (productoExistente) {
-                mostrarNotificacion('Este producto ya está en tu carrito', 'warning');
+                alert('Este producto ya está en tu carrito');
                 return;
             }
             
-            carrito.push({
+            carrito.push({ 
                 nombre: nombre,
                 precio: precio,
-                cantidad: 1,
-                fechaAgregado: new Date().toISOString()
+                cantidad: 1
             });
             
             actualizarCarrito();
             guardarCarrito();
-            mostrarNotificacion(`"${nombre}" agregado al carrito`, 'success');
-        }
-        
-        // Función para guardar el carrito en localStorage
-        function guardarCarrito() {
-            try {
-                localStorage.setItem('carrito', JSON.stringify(carrito));
-            } catch (e) {
-                console.error('Error al guardar en localStorage:', e);
-                mostrarNotificacion('Error al guardar el carrito', 'danger');
-            }
-        }
+            alert('Producto agregado al carrito');
+        };
         
         // Función para actualizar el carrito
         function actualizarCarrito() {
-            // Actualizar contador
-            const contador = document.getElementById('contador-carrito');
-            contador.textContent = carrito.length;
-            contador.className = carrito.length > 0 ? 'carrito-contador' : 'carrito-contador empty';
+            const contador = $('#contador-carrito');
+            contador.text(carrito.length);
+            contador.toggleClass('empty', carrito.length === 0);
             
-            // Actualizar modal
-            const lista = document.getElementById('lista-carrito');
-            const totalElement = document.getElementById('total-carrito');
-            const btnPagar = document.getElementById('btn-pagar');
+            const lista = $('#lista-carrito');
+            const totalElement = $('#total-carrito');
+            const btnPagar = $('#btn-pagar');
             
             if (carrito.length === 0) {
-                lista.innerHTML = `
-                    <div class="text-center py-4">
-                        <i class="fas fa-shopping-cart fa-3x mb-3 text-muted"></i>
-                        <p class="text-muted">Tu carrito está vacío</p>
-                    </div>
-                `;
-                totalElement.textContent = '0';
-                btnPagar.disabled = true;
+                lista.html('<div class="text-center py-4"><i class="fas fa-shopping-cart fa-3x mb-3 text-muted"></i><p class="text-muted">Tu carrito está vacío</p></div>');
+                totalElement.text('0');
+                btnPagar.prop('disabled', true);
                 return;
             }
             
@@ -254,16 +206,14 @@
                 sumaTotal += subtotal;
                 
                 html += `
-                    <li class="list-group-item item-carrito">
+                    <li class="list-group-item">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <h6 class="mb-1">${item.nombre}</h6>
-                                <small class="text-muted">
-                                    $${item.precio.toLocaleString('es-AR')} c/u × ${item.cantidad}
-                                </small>
+                                <small class="text-muted">$${item.precio} × ${item.cantidad}</small>
                             </div>
                             <div>
-                                <span class="fw-bold">$${subtotal.toLocaleString('es-AR')}</span>
+                                <span>$${subtotal}</span>
                                 <button class="btn btn-sm btn-danger ms-2" onclick="eliminarDelCarrito(${index})">
                                     <i class="fas fa-trash"></i>
                                 </button>
@@ -274,157 +224,65 @@
             });
             
             html += '</ul>';
-            lista.innerHTML = html;
-            totalElement.textContent = sumaTotal.toLocaleString('es-AR');
-            btnPagar.disabled = false;
+            lista.html(html);
+            totalElement.text(sumaTotal);
+            btnPagar.prop('disabled', false);
         }
         
-        // Función para eliminar items
-        function eliminarDelCarrito(index) {
-            if (index < 0 || index >= carrito.length) {
-                console.error('Índice de producto inválido');
-                return;
-            }
-            
-            if (confirm(`¿Eliminar "${carrito[index].nombre}" del carrito?`)) {
-                const productoEliminado = carrito[index].nombre;
+        // Función para eliminar items del carrito
+        window.eliminarDelCarrito = function(index) {
+            if (confirm('¿Eliminar este producto del carrito?')) {
                 carrito.splice(index, 1);
                 actualizarCarrito();
                 guardarCarrito();
-                mostrarNotificacion(`"${productoEliminado}" eliminado del carrito`, 'danger');
             }
-        }
+        };
         
-        // Mostrar modal del carrito
+        // Función para mostrar el carrito
         function mostrarCarrito() {
-            if (!carritoModal) {
-                carritoModal = new bootstrap.Modal(document.getElementById('carritoModal'));
-            }
             carritoModal.show();
         }
         
+        // Función para guardar en localStorage
+        function guardarCarrito() {
+            localStorage.setItem('carrito', JSON.stringify(carrito));
+        }
+        
         // Función para proceder al pago
-        function procederAlPago() {
+        window.procederAlPago = function() {
             if (carrito.length === 0) {
-                mostrarNotificacion('Tu carrito está vacío', 'warning');
+                alert('Tu carrito está vacío');
                 return;
             }
             
-            // Obtener método de pago seleccionado
-            const metodoPago = document.querySelector('input[name="metodoPago"]:checked');
-            
-            if (!metodoPago) {
-                mostrarNotificacion('Por favor selecciona un método de pago', 'warning');
-                return;
-            }
-            
-            const metodo = metodoPago.id;
+            const metodoPago = $('input[name="metodoPago"]:checked').attr('id');
             const total = carrito.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
             
-            switch(metodo) {
+            switch(metodoPago) {
                 case 'transferencia':
                     const totalConDescuento = (total * 0.9).toFixed(2);
-                    mostrarNotificacion('Transferencia bancaria seleccionada', 'info');
-                    
-                    alert(`TRANSFERENCIA BANCARIA\n\n` +
-                          `Por favor realiza una transferencia de:\n` +
-                          `$${Number(totalConDescuento).toLocaleString('es-AR')}\n\n` +
-                          `Datos bancarios:\n` +
-                          `CBU: 1234567890123456789012\n` +
-                          `Alias: MI.TIENDA\n\n` +
-                          `Envía el comprobante por WhatsApp al +5491112345678`);
-                    
-                    // Vaciar carrito después de la compra
-                    carrito = [];
-                    actualizarCarrito();
-                    guardarCarrito();
-                    break;
-                    
-                case 'efectivo':
-                    mostrarNotificacion('Efectivo al retirar seleccionado', 'info');
-                    alert(`EFECTIVO AL RETIRAR\n\n` +
-                          `Total a pagar: $${total.toLocaleString('es-AR')}\n\n` +
-                          `Dirección de retiro:\n` +
-                          `Calle Falsa 123, Local 456\n` +
-                          `Horario: Lunes a Viernes de 10 a 18hs`);
+                    alert(`TRANSFERENCIA BANCARIA\n\nTotal: $${totalConDescuento}\n\nCBU: 1234567890123456789012\nAlias: MI.TIENDA`);
+                    finalizarCompra();
                     break;
                     
                 case 'mercadoPago':
-                default:
-                    mostrarNotificacion('Redirigiendo a Mercado Pago...', 'info');
-                    // Simulación de redirección
-                    setTimeout(() => {
-                        alert(`PAGO CON MERCADO PAGO\n\n` +
-                              `Serás redirigido a Mercado Pago para completar tu compra de:\n` +
-                              `$${total.toLocaleString('es-AR')}`);
-                        
-                        // Vaciar carrito después de la compra
-                        carrito = [];
-                        actualizarCarrito();
-                        guardarCarrito();
-                    }, 1500);
+                    alert('Redirigiendo a Mercado Pago...');
+                    // Aquí iría la redirección real
+                    finalizarCompra();
                     break;
+                    
+                default:
+                    alert(`Total a pagar: $${total}`);
+                    finalizarCompra();
             }
-            
-            // Cerrar modal
-            if (carritoModal) {
-                carritoModal.hide();
-            }
-        }
+        };
         
-        // Mostrar notificación mejorada
-        function mostrarNotificacion(mensaje, tipo = 'success') {
-            const tipos = {
-                'success': { bg: 'bg-success', icon: 'fa-check-circle', titulo: 'Éxito' },
-                'warning': { bg: 'bg-warning', icon: 'fa-exclamation-triangle', titulo: 'Advertencia' },
-                'danger': { bg: 'bg-danger', icon: 'fa-times-circle', titulo: 'Error' },
-                'info': { bg: 'bg-info', icon: 'fa-info-circle', titulo: 'Información' }
-            };
-            
-            const tipoConfig = tipos[tipo] || tipos['success'];
-            const notificacionId = 'notificacion-' + Date.now();
-            
-            const notificacionHTML = `
-                <div id="${notificacionId}" class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="toast-header text-white ${tipoConfig.bg}">
-                        <i class="fas ${tipoConfig.icon} me-2"></i>
-                        <strong class="me-auto">${tipoConfig.titulo}</strong>
-                        <button type="button" class="btn-close btn-close-white" onclick="document.getElementById('${notificacionId}').remove()">
-                            <span aria-hidden="true"></span>
-                        </button>
-                    </div>
-                    <div class="toast-body">
-                        ${sanitizarEntrada(mensaje)}
-                    </div>
-                </div>
-            `;
-            
-            const contenedor = document.createElement('div');
-            contenedor.className = 'toast-container';
-            contenedor.innerHTML = notificacionHTML;
-            document.body.appendChild(contenedor);
-            
-            // Eliminar automáticamente después de 5 segundos
-            setTimeout(() => {
-                const notificacion = document.getElementById(notificacionId);
-                if (notificacion) {
-                    notificacion.classList.remove('show');
-                    setTimeout(() => notificacion.remove(), 300);
-                }
-            }, 5000);
-        }
-        
-        // Inicialización al cargar la página
-        document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar modal
-            carritoModal = new bootstrap.Modal(document.getElementById('carritoModal'));
-            
-            // Actualizar carrito
+        function finalizarCompra() {
+            carrito = [];
             actualizarCarrito();
-            
-            // Configurar evento para el botón de pagar
-            document.getElementById('btn-pagar').disabled = carrito.length === 0;
-        });
+            guardarCarrito();
+            carritoModal.hide();
+        }
     </script>
 </body>
 </html>
