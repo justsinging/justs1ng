@@ -589,125 +589,166 @@
     <!-- Scripts -->
     <script src="https://sdk.mercadopago.com/js/v2"></script>
     <script>
-        // Variables globales
-        let carrito = [];
-        const modalCarrito = document.getElementById('modalCarrito');
-        const abrirCarrito = document.getElementById('abrirCarrito');
-        const cerrarCarrito = document.getElementById('cerrarCarrito');
-        const listaCarrito = document.getElementById('listaCarrito');
-        const contadorCarrito = document.getElementById('contadorCarrito');
-        const totalCarrito = document.getElementById('totalCarrito');
-        const formularioEnvio = document.getElementById('formularioEnvio');
-        const notificacion = document.getElementById('notificacion');
-        const contactButton = document.getElementById('contact-button');
-        const contactBlock = document.getElementById('contact-block');
-        
-        // Event listeners
-        abrirCarrito.addEventListener('click', toggleCarrito);
-        cerrarCarrito.addEventListener('click', toggleCarrito);
-        formularioEnvio.addEventListener('submit', finalizarCompra);
-        contactButton.addEventListener('click', toggleContactBlock);
-        
-        // Cerrar el bloque de contacto al hacer clic fuera
-        document.addEventListener('click', function(event) {
-            if (!contactBlock.contains(event.target) {
-                contactBlock.style.display = 'none';
-            }
+     // Variables globales
+let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+const modalCarrito = document.getElementById('modalCarrito');
+const abrirCarrito = document.getElementById('abrirCarrito');
+const cerrarCarrito = document.getElementById('cerrarCarrito');
+const listaCarrito = document.getElementById('listaCarrito');
+const contadorCarrito = document.getElementById('contadorCarrito');
+const totalCarrito = document.getElementById('totalCarrito');
+const formularioEnvio = document.getElementById('formularioEnvio');
+const notificacion = document.getElementById('notificacion');
+const contactButton = document.getElementById('contact-button');
+const contactBlock = document.getElementById('contact-block');
+
+// Inicialización al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    actualizarCarrito();
+});
+
+// Event listeners
+abrirCarrito.addEventListener('click', toggleCarrito);
+cerrarCarrito.addEventListener('click', toggleCarrito);
+contactButton.addEventListener('click', toggleContactBlock);
+
+// Cerrar contacto al hacer clic fuera
+document.addEventListener('click', (event) => {
+    if (!contactBlock.contains(event.target) && event.target !== contactButton) {
+        contactBlock.style.display = 'none';
+    }
+});
+
+// Funciones principales
+function toggleCarrito() {
+    modalCarrito.classList.toggle('abierto');
+}
+
+function toggleContactBlock() {
+    contactBlock.style.display = contactBlock.style.display === 'block' ? 'none' : 'block';
+}
+
+window.agregarAlCarrito = function(nombre, precio, imagen) {
+    const productoExistente = carrito.find(item => item.nombre === nombre);
+    
+    if (productoExistente) {
+        productoExistente.cantidad++;
+    } else {
+        carrito.push({
+            nombre,
+            precio,
+            imagen,
+            cantidad: 1,
+            fecha: new Date().toISOString()
         });
+    }
+    
+    actualizarBotonesProducto(nombre, true);
+    actualizarCarrito();
+    mostrarNotificacion(`${nombre} agregado al carrito`);
+    guardarCarrito();
+};
+
+function actualizarCarrito() {
+    listaCarrito.innerHTML = '';
+    
+    if (carrito.length === 0) {
+        listaCarrito.innerHTML = '<div class="carrito-vacio"><p>Tu carrito está vacío</p></div>';
+        contadorCarrito.textContent = '0';
+        totalCarrito.textContent = '0';
+        actualizarTodosBotonesProductos(false);
+        return;
+    }
+    
+    let total = 0;
+    carrito.forEach(item => {
+        const subtotal = item.precio * item.cantidad;
+        total += subtotal;
         
-        // Funciones
-        function toggleCarrito() {
-            modalCarrito.classList.toggle('abierto');
+        listaCarrito.innerHTML += `
+            <div class="item-carrito">
+                <img src="${item.imagen}" alt="${item.nombre}">
+                <div class="info-item">
+                    <h4>${item.nombre}</h4>
+                    <p>$${item.precio.toLocaleString('es-AR')} x ${item.cantidad}</p>
+                    <p>Subtotal: $${subtotal.toLocaleString('es-AR')}</p>
+                </div>
+                <button class="eliminar-item" onclick="eliminarDelCarrito('${item.nombre}')">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        `;
+    });
+    
+    contadorCarrito.textContent = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+    totalCarrito.textContent = total.toLocaleString('es-AR');
+}
+
+window.eliminarDelCarrito = function(nombre) {
+    carrito = carrito.filter(item => item.nombre !== nombre);
+    actualizarBotonesProducto(nombre, false);
+    actualizarCarrito();
+    mostrarNotificacion('Producto eliminado');
+    guardarCarrito();
+};
+
+// Funciones auxiliares
+function actualizarBotonesProducto(nombre, agregado) {
+    document.querySelectorAll('.btn-carrito').forEach(boton => {
+        if (boton.getAttribute('onclick').includes(`'${nombre}'`)) {
+            boton.disabled = agregado;
+            boton.textContent = agregado ? 'En tu carrito' : 'Agregar al carrito';
+            boton.style.backgroundColor = agregado ? '#5a5a5a' : '';
         }
-        
-        function toggleContactBlock() {
-            contactBlock.style.display = contactBlock.style.display === 'block' ? 'none' : 'block';
-        }
-        
-        function agregarAlCarrito(nombre, precio, imagen) {
-            const productoExistente = carrito.find(item => item.nombre === nombre);
-            
-            if (productoExistente) {
-                productoExistente.cantidad++;
-            } else {
-                carrito.push({
-                    nombre,
-                    precio,
-                    imagen,
-                    cantidad: 1
-                });
-            }
-            
-            // Deshabilitar el botón del producto agregado
-            document.querySelectorAll('.btn-carrito').forEach(boton => {
-                if (boton.textContent.includes(nombre)) {
-                    boton.disabled = true;
-                    boton.textContent = 'En tu carrito';
-                }
-            });
-            
-            actualizarCarrito();
-            mostrarNotificacion(`${nombre} agregado al carrito`);
-        }
-        
-        function actualizarCarrito() {
-            // Limpiar lista
-            listaCarrito.innerHTML = '';
-            
-            if (carrito.length === 0) {
-                listaCarrito.innerHTML = '<div class="carrito-vacio"><p>Tu carrito está vacío</p></div>';
-                contadorCarrito.textContent = '0';
-                totalCarrito.textContent = '0';
-                
-                // Reactivar todos los botones cuando el carrito está vacío
-                document.querySelectorAll('.btn-carrito').forEach(boton => {
-                    boton.disabled = false;
-                    boton.textContent = 'Agregar al carrito';
-                    boton.style.backgroundColor = '';
-                });
-                
-                return;
-            }
-            
-            // Actualizar items
-            let total = 0;
-            carrito.forEach(item => {
-                const itemHTML = `
-                    <div class="item-carrito">
-                        <img src="${item.imagen}" alt="${item.nombre}">
-                        <div class="info-item">
-                            <h4>${item.nombre}</h4>
-                            <p>$${item.precio.toLocaleString()} x ${item.cantidad}</p>
-                            <p>Subtotal: $${(item.precio * item.cantidad).toLocaleString()}</p>
-                        </div>
-                        <button class="eliminar-item" onclick="eliminarDelCarrito('${item.nombre}')" aria-label="Eliminar ${item.nombre} del carrito">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                `;
-                listaCarrito.innerHTML += itemHTML;
-                total += item.precio * item.cantidad;
-            });
-            
-            // Actualizar contador y total
-            contadorCarrito.textContent = carrito.reduce((sum, item) => sum + item.cantidad, 0);
-            totalCarrito.textContent = total.toLocaleString();
-        }
-        
-        function eliminarDelCarrito(nombre) {
-            carrito = carrito.filter(item => item.nombre !== nombre);
-            actualizarCarrito();
-            mostrarNotificacion('Producto eliminado del carrito');
-            
-            // Reactivar el botón del producto eliminado
-            document.querySelectorAll('.btn-carrito').forEach(boton => {
-                if (boton.textContent.includes(nombre)) {
-                    boton.disabled = false;
-                    boton.textContent = 'Agregar al carrito';
-                    boton.style.backgroundColor = '';
-                }
-            });
-        }
-        
-        function mostrarNotificacion(mensaje) {
-           
+    });
+}
+
+function actualizarTodosBotonesProductos(estado) {
+    document.querySelectorAll('.btn-carrito').forEach(boton => {
+        boton.disabled = estado;
+        boton.textContent = 'Agregar al carrito';
+        boton.style.backgroundColor = '';
+    });
+}
+
+function mostrarNotificacion(mensaje) {
+    notificacion.textContent = mensaje;
+    notificacion.classList.add('mostrar');
+    
+    setTimeout(() => {
+        notificacion.classList.remove('mostrar');
+    }, 3000);
+}
+
+function guardarCarrito() {
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+}
+
+// Manejo del formulario
+formularioEnvio.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    if (carrito.length === 0) {
+        mostrarNotificacion('Tu carrito está vacío');
+        return;
+    }
+    
+    const nombre = document.getElementById('nombreCliente').value;
+    const email = document.getElementById('emailCliente').value;
+    const telefono = document.getElementById('telefonoCliente').value;
+    
+    if (!nombre || !email || !telefono) {
+        mostrarNotificacion('Completa los campos obligatorios');
+        return;
+    }
+    
+    finalizarCompra();
+});
+
+function finalizarCompra() {
+    mostrarNotificacion('Compra realizada con éxito');
+    carrito = [];
+    actualizarCarrito();
+    guardarCarrito();
+    toggleCarrito();
+}
