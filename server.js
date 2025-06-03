@@ -18,7 +18,7 @@ mercadopago.configure({
 app.post('/crear-pago', async (req, res) => {
   try {
     // Validación básica de los datos recibidos
-    if (!req.body.items || !Array.isArray(req.body.items) {
+    if (!req.body.items || !Array.isArray(req.body.items)) {
       return res.status(400).json({ error: 'Formato de items inválido' });
     }
 
