@@ -466,36 +466,44 @@
                 <img src="https://i.postimg.cc/66cjFV71/IMG-9268.jpg" alt="Totebag Florero con diseño artístico floral">
                 <h3>Totebag Florero</h3>
                 <p class="precio">$25.000</p>
-                <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Florero', 25000, 'https://i.postimg.cc/66cjFV71/IMG-9268.jpg')" data-unico="true">
-                    Agregar al carrito
-                </button>
+                <button class="btn-carrito" 
+        onclick="agregarAlCarrito('Totebag Florero', 25000, 'https://i.postimg.cc/66cjFV71/IMG-9268.jpg', 'producto1')"
+        data-id="producto1">
+    Agregar al carrito
+</button>
             </article>
             
             <article class="producto">
                 <img src="https://i.imgur.com/L8VFmta.jpeg" alt="Tote Bag 13">
                 <h3>Tote Bag 13</h3>
                 <p class="precio">$13.000</p>
-                <button class="btn-carrito" onclick="agregarAlCarrito('Totebag 13', 13000, 'https://i.imgur.com/L8VFmta.jpeg')" data-unico="true">
-                    Agregar al carrito
-                </button>
+                <button class="btn-carrito" 
+        onclick="agregarAlCarrito('Totebag 13', 13000, 'https://i.imgur.com/L8VFmta.jpeg', 'producto2')"
+        data-id="producto2">
+    Agregar al carrito
+</button>
             </article>
             
             <article class="producto">
                 <img src="https://i.postimg.cc/VkrKS3K3/IMG-9274.jpg" alt="Tote Bag Mujer">
                 <h3>Tote Bag Mujer</h3>
                 <p class="precio">$16.500</p>
-                <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Mujer', 16500, 'https://i.postimg.cc/VkrKS3K3/IMG-9274.jpg')" data-unico="true">
-                    Agregar al carrito
-                </button>
+                <button class="btn-carrito" 
+        onclick="agregarAlCarrito('Totebag Mujer', 16500, 'https://i.postimg.cc/VkrKS3K3/IMG-9274.jpg', 'producto3')"
+        data-id="producto3">
+    Agregar al carrito
+</button>
             </article>
             
             <article class="producto">
                 <img src="https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg" alt="Tote Bag Lavanda">
                 <h3>Tote Bag Lavanda</h3>
                 <p class="precio">$18.500</p>
-                <button class="btn-carrito" onclick="agregarAlCarrito('Totebag Lavanda', 18500, 'https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg')" data-unico="true">
-                    Agregar al carrito
-                </button>
+                <button class="btn-carrito" 
+        onclick="agregarAlCarrito('Totebag Lavanda', 18500, 'https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg', 'producto4')"
+        data-id="producto4">
+    Agregar al carrito
+</button>
             </article>
         </div>
     </main>
@@ -588,145 +596,5 @@
 
     <!-- Scripts -->
     <script src="https://sdk.mercadopago.com/js/v2"></script>
-    <script>
-// Versión optimizada y 100% funcional
-document.addEventListener('DOMContentLoaded', function() {
-    // Variables del carrito
-    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    const modal = document.getElementById('modalCarrito');
-    const btnAbrirCarrito = document.getElementById('abrirCarrito');
-    const btnCerrarCarrito = document.getElementById('cerrarCarrito');
-    const listaCarrito = document.getElementById('listaCarrito');
-    const contadorCarrito = document.getElementById('contadorCarrito');
-    const totalCarrito = document.getElementById('totalCarrito');
-    const formularioEnvio = document.getElementById('formularioEnvio');
-    const notificacion = document.getElementById('notificacion');
-
-    // Event Listeners mejorados
-    btnAbrirCarrito.addEventListener('click', toggleCarrito);
-    btnCerrarCarrito.addEventListener('click', toggleCarrito);
-    formularioEnvio.addEventListener('submit', finalizarCompra);
-
-    // Delegación de eventos para los botones "Agregar al carrito"
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('btn-carrito')) {
-            const producto = e.target.closest('.producto');
-            const nombre = producto.querySelector('h3').textContent;
-            const precio = parseFloat(producto.querySelector('.precio').textContent.replace('$', '').replace('.', ''));
-            const imagen = producto.querySelector('img').src;
-            
-            agregarAlCarrito(nombre, precio, imagen);
-        }
-        
-        if (e.target.classList.contains('eliminar-item')) {
-            const item = e.target.closest('.item-carrito');
-            const nombre = item.querySelector('h4').textContent;
-            eliminarDelCarrito(nombre);
-        }
-    });
-
-    // Funciones del carrito
-    function toggleCarrito() {
-        modal.classList.toggle('abierto');
-    }
-
-    function agregarAlCarrito(nombre, precio, imagen) {
-        const productoExistente = carrito.find(item => item.nombre === nombre);
-        
-        if (productoExistente) {
-            productoExistente.cantidad++;
-        } else {
-            carrito.push({
-                nombre,
-                precio,
-                imagen,
-                cantidad: 1
-            });
-        }
-        
-        actualizarCarrito();
-        mostrarNotificacion(`"${nombre}" agregado al carrito`);
-    }
-
-    function eliminarDelCarrito(nombre) {
-        carrito = carrito.filter(item => item.nombre !== nombre);
-        actualizarCarrito();
-        mostrarNotificacion(`"${nombre}" eliminado del carrito`);
-    }
-
-    function actualizarCarrito() {
-        listaCarrito.innerHTML = '';
-        
-        if (carrito.length === 0) {
-            listaCarrito.innerHTML = '<div class="carrito-vacio"><p>Tu carrito está vacío</p></div>';
-            contadorCarrito.textContent = '0';
-            totalCarrito.textContent = '0';
-            return;
-        }
-        
-        let total = 0;
-        carrito.forEach(item => {
-            const subtotal = item.precio * item.cantidad;
-            total += subtotal;
-            
-            const itemHTML = `
-                <div class="item-carrito">
-                    <img src="${item.imagen}" alt="${item.nombre}">
-                    <div class="info-item">
-                        <h4>${item.nombre}</h4>
-                        <p>$${item.precio.toLocaleString()} × ${item.cantidad}</p>
-                        <p>Subtotal: $${subtotal.toLocaleString()}</p>
-                    </div>
-                    <button class="eliminar-item">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
-            `;
-            listaCarrito.innerHTML += itemHTML;
-        });
-        
-        contadorCarrito.textContent = carrito.reduce((sum, item) => sum + item.cantidad, 0);
-        totalCarrito.textContent = total.toLocaleString();
-        guardarCarrito();
-    }
-
-    function finalizarCompra(e) {
-        e.preventDefault();
-        
-        if (carrito.length === 0) {
-            mostrarNotificacion('Tu carrito está vacío');
-            return;
-        }
-        
-        // Validar formulario
-        const nombre = document.getElementById('nombreCliente').value;
-        const email = document.getElementById('emailCliente').value;
-        const telefono = document.getElementById('telefonoCliente').value;
-        
-        if (!nombre || !email || !telefono) {
-            mostrarNotificacion('Por favor completa todos los campos obligatorios');
-            return;
-        }
-        
-        mostrarNotificacion('Compra realizada con éxito');
-        carrito = [];
-        actualizarCarrito();
-        toggleCarrito();
-    }
-
-    function guardarCarrito() {
-        localStorage.setItem('carrito', JSON.stringify(carrito));
-    }
-
-    function mostrarNotificacion(mensaje) {
-        notificacion.textContent = mensaje;
-        notificacion.classList.add('mostrar');
-        
-        setTimeout(() => {
-            notificacion.classList.remove('mostrar');
-        }, 3000);
-    }
-
-    // Inicializar carrito al cargar
-    actualizarCarrito();
-});
+    <script src="carrito.js"></script>
+</body>
