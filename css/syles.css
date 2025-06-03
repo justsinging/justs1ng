@@ -38,8 +38,8 @@
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    width: 280px;
-    height: 380px;
+    width: 150px;
+    height: 180px;
     margin: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     transition: transform 0.3s, box-shadow 0.3s;
@@ -51,7 +51,7 @@
 }
 
 .producto img {
-    height: 220px;
+    height: 140px;
     object-fit: cover;
     border-radius: 5px 5px 0 0;
 }
