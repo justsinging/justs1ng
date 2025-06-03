@@ -285,7 +285,11 @@ function validarFormularioEnvio() {
         mostrarNotificacion('Por favor completa todos los campos obligatorios', true);
         return false;
     }
-    
+    // En validarFormularioEnvio()
+if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(nombre)) {
+    mostrarNotificacion('Nombre solo debe contener letras', true);
+    return false;
+}
     if (!/^\d{8,15}$/.test(telefono)) {
         mostrarNotificacion('El teléfono debe tener entre 8 y 15 dígitos', true);
         return false;
@@ -298,7 +302,11 @@ function validarFormularioEnvio() {
     
     return true;
 }
-
+// En validarFormularioEnvio()
+if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(nombre)) {
+    mostrarNotificacion('Nombre solo debe contener letras', true);
+    return false;
+}
 // Envío del formulario de contacto
 document.addEventListener('DOMContentLoaded', function() {
     const contactoForm = document.getElementById('formularioContacto');
