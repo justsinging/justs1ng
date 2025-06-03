@@ -59,10 +59,10 @@
 /* ------------------------- */
 /* BOTÓN "EN TU CARRITO"     */
 /* ------------------------- */
-.btn-carrito.en-carrito {
-    background-color: #e85d04 !important;
-    color: white !important;
-    cursor: not-allowed;
+.btn-agregar-carrito {
+    background-color: var(--color-primario);
+    color: white;
+}
 }
 
 /* ------------------------- */
