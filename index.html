@@ -1,1 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="JustSing - Tienda de productos artesanales únicos">
+    <title>JustSing - Productos artesanales</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <!-- Barra superior -->
+        <div class="barra-superior" aria-label="Mensaje promocional">
+            Cada producto es una producción única
+        </div>
 
+        <!-- Navbar superior -->
+        <nav class="navbar" aria-label="Navegación principal">
+            <div class="logo" onclick="window.location.href='index.html'" role="button" aria-label="Ir a inicio">
+                <img src="https://i.imgur.com/NCqfx6D.jpeg" alt="Logo de JustSing" width="50" height="50">
+            </div>
+            <h1 class="titulo-pagina">JustSing</h1>
+            <button class="carrito-btn" id="abrirCarrito" aria-label="Abrir carrito de compras">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="carrito-count" id="contadorCarrito">0</span>
+            </button>
+        </nav>
+    </header>
+    
+    <main class="hero">
+        <h2>Productos Destacados</h2>
+        <div class="productos-destacados">
+            <article class="producto">
+                <img src="https://i.postimg.cc/66cjFV71/IMG-9268.jpg" alt="Totebag Florero con diseño artístico floral">
+                <h3>Totebag Florero</h3>
+                <p class="precio">$25.000</p>
+                <button class="btn-carrito" 
+        onclick="agregarAlCarrito('Totebag Florero', 25000, 'https://i.postimg.cc/66cjFV71/IMG-9268.jpg', 'producto1')"
+        data-id="producto1">
+    Agregar al carrito
+</button>
+            </article>
+            
+            <article class="producto">
+                <img src="https://i.imgur.com/L8VFmta.jpeg" alt="Tote Bag 13">
+                <h3>Tote Bag 13</h3>
+                <p class="precio">$13.000</p>
+                <button class="btn-carrito" 
+        onclick="agregarAlCarrito('Totebag 13', 13000, 'https://i.imgur.com/L8VFmta.jpeg', 'producto2')"
+        data-id="producto2">
+    Agregar al carrito
+</button>
+            </article>
+            
+            <article class="producto">
+                <img src="https://i.postimg.cc/VkrKS3K3/IMG-9274.jpg" alt="Tote Bag Mujer">
+                <h3>Tote Bag Mujer</h3>
+                <p class="precio">$16.500</p>
+                <button class="btn-carrito" 
+        onclick="agregarAlCarrito('Totebag Mujer', 16500, 'https://i.postimg.cc/VkrKS3K3/IMG-9274.jpg', 'producto3')"
+        data-id="producto3">
+    Agregar al carrito
+</button>
+            </article>
+            
+            <article class="producto">
+                <img src="https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg" alt="Tote Bag Lavanda">
+                <h3>Tote Bag Lavanda</h3>
+                <p class="precio">$18.500</p>
+                <button class="btn-carrito" 
+        onclick="agregarAlCarrito('Totebag Lavanda', 18500, 'https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg', 'producto4')"
+        data-id="producto4">
+    Agregar al carrito
+</button>
+            </article>
+        </div>
+    </main>
+    
+    <!-- Modal del carrito -->
+    <aside class="modal" id="modalCarrito" aria-modal="true" aria-labelledby="tituloCarrito">
+        <div class="modal-header">
+            <h2 id="tituloCarrito">Tu Carrito de Compras</h2>
+            <button class="cerrar-modal" id="cerrarCarrito" aria-label="Cerrar carrito de compras">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="productos-carrito" id="listaCarrito">
+            <!-- Los productos del carrito se agregarán aquí dinámicamente -->
+            <div class="carrito-vacio">
+                <p>Tu carrito está vacío</p>
+            </div>
+        </div>
+        
+        <div class="total-carrito">
+            Total: $<span id="totalCarrito">0</span>
+        </div>
+        
+        <!-- Formulario de datos -->
+        <form class="datos-envio-form" id="formularioEnvio" action="#" method="POST">
+            <h3><i class="fas fa-user"></i> Tus datos</h3>
+            
+            <div class="form-group">
+                <label for="nombreCliente">Nombre completo*</label>
+                <input type="text" id="nombreCliente" name="nombre" placeholder="Ej: María González" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="emailCliente">Correo electrónico*</label>
+                <input type="email" id="emailCliente" name="email" placeholder="Ej: ejemplo@correo.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="telefonoCliente">Teléfono*</label>
+                <input type="tel" id="telefonoCliente" name="telefono" pattern="[0-9]{10}" placeholder="Ej: 3101234567" required>
+            </div>
+            
+            <h3><i class="fas fa-truck"></i> Datos de envío</h3>
+            
+            <div class="form-group">
+                <label for="direccionCliente">Dirección*</label>
+                <input type="text" id="direccionCliente" name="direccion" placeholder="Calle, número, apartamento" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="ciudadCliente">Ciudad*</label>
+                <input type="text" id="ciudadCliente" name="ciudad" placeholder="Ej: Bogotá" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="notasPedido">Notas adicionales</label>
+                <textarea id="notasPedido" name="notas" placeholder="Indicaciones especiales para el envío"></textarea>
+            </div>
+            
+            <button type="submit" id="finalizar-compra" class="btn-finalizar">
+                <i class="fas fa-credit-card"></i> FINALIZAR COMPRA
+            </button>
+        </form>
+    </aside>
+    
+    <!-- Botón de contacto flotante -->
+    <button id="contact-button">Contacto</button>
+    
+    <!-- Bloque de contacto -->
+    <div id="contact-block">
+        <h3>Contáctanos</h3>
+        <form>
+            <input type="text" placeholder="Nombre" required>
+            <input type="email" placeholder="Email" required>
+            <textarea placeholder="Tu mensaje" rows="4" required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+    </div>
+    
+    <!-- Navegación inferior -->
+    <footer class="nav-inferior" aria-label="Navegación inferior">
+        <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
+        <a href="#"><i class="fas fa-store"></i> Tienda</a>
+        <a href="#"><i class="fas fa-envelope"></i> Contacto</a>
+    </footer>
+    
+    <!-- Notificación -->
+    <div class="notificacion" id="notificacion" role="alert" aria-live="assertive"></div>
+
+    <!-- Scripts -->
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+    <script src="carrito.js"></script>
+</body>
