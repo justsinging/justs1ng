@@ -29,7 +29,11 @@ if (typeof MercadoPago !== 'undefined') {
 function guardarCarrito() {
     localStorage.setItem('carrito', JSON.stringify(carrito));
 }
-
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('btn-carrito')) {
+        // Lógica aquí
+    }
+});
 function agregarAlCarrito(nombre, precio, imagen, idProducto) {
     // Validar parámetros
     if (!nombre || isNaN(precio) || precio <= 0 || !idProducto) {
