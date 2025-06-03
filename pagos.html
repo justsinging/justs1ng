@@ -102,7 +102,7 @@
     <div class="carrito-flotante">
         <button class="carrito-btn" id="botonCarrito">
             <i class="fas fa-shopping-cart"></i>
-            <span class="carrito-contador empty" id="contador-carrito">0</span>
+            <span class="carrito-contador empty" id="contadorCarrito">0</span>
         </button>
     </div>
 
@@ -136,7 +136,7 @@
         // Variables globales
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 const botonCarrito = document.getElementById('botonCarrito');
-const contadorCarrito = document.getElementById('contador-carrito');
+const contadorCarrito = document.getElementById('contadorCarrito');
 const listaCarrito = document.getElementById('lista-carrito');
 const totalCarrito = document.getElementById('total-carrito');
 const btnPagar = document.getElementById('btn-pagar');
