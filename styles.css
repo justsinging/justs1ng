@@ -1,25 +1,82 @@
-/* Modificación de los productos */
+/* styles.css */
+
+/* ------------------------- */
+/* ESTILOS GENERALES DEL CART */
+/* ------------------------- */
+.carrito-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    position: relative;
+    color: var(--color-primario);
+    padding: 0;
+}
+
+.carrito-count {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: var(--color-secundario);
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* ------------------------- */
+/* ESTILOS DE LOS PRODUCTOS  */
+/* ------------------------- */
 .producto {
-    aspect-ratio: 1/1; /* Formato cuadrado */
+    aspect-ratio: 1/1;
     position: relative;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    width: 280px;
+    height: 380px;
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.producto:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
 }
 
 .producto img {
-    width: 100%;
-    height: 80%; /* 80% del espacio para la imagen */
-    object-fit: cover; /* Asegura que la imagen cubra el espacio */
+    height: 220px;
+    object-fit: cover;
     border-radius: 5px 5px 0 0;
 }
 
-.producto-info {
-    height: 20%; /* 20% para la info */
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+/* ------------------------- */
+/* BOTÓN "EN TU CARRITO"     */
+/* ------------------------- */
+.btn-carrito.en-carrito {
+    background-color: #e85d04 !important;
+    color: white !important;
+    cursor: not-allowed;
+}
+
+/* ------------------------- */
+/* RESPONSIVE (Media Queries) */
+/* ------------------------- */
+@media (max-width: 768px) {
+    .producto {
+        width: 100%;
+        height: auto;
+    }
+    
+    .producto img {
+        height: 200px;
+    }
 }
 /* styles.css */
 .metodo-pago {
