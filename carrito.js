@@ -1,3 +1,18 @@
+// Seleccionar elementos del DOM
+const btnAbrirCarrito = document.getElementById('abrirCarrito');
+const btnCerrarCarrito = document.getElementById('cerrarCarrito');
+const modalCarrito = document.getElementById('modalCarrito');
+
+// Event listeners para abrir/cerrar el carrito
+btnAbrirCarrito.addEventListener('click', () => {
+    modalCarrito.classList.add('abierto');
+    document.body.style.overflow = 'hidden'; // Evitar scroll del body
+});
+
+btnCerrarCarrito.addEventListener('click', () => {
+    modalCarrito.classList.remove('abierto');
+    document.body.style.overflow = 'auto'; // Restaurar scroll
+});
 // Variables globales
 let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
 const MERCADOPAGO_KEY = 'APP_USR-0aa95e81-e09e-42d7-95ea-540547141761';
