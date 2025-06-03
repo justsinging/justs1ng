@@ -8,7 +8,7 @@ const app = express();
 // Configuración básica de middleware
 app.use(express.json());
 app.use(cors()); // Habilita CORS para todas las rutas
-
+app.use(express.static('public')); 
 // Configuración de MercadoPago (usa variables de entorno)
 mercadopago.configure({
   access_token: process.env.MP_ACCESS_TOKEN || 'TEST-6749756929605397-052312-3fefdcf7d53b1ac7f95928e293a7ba4e-2429370643'
@@ -21,7 +21,9 @@ app.post('/crear-pago', async (req, res) => {
     if (!req.body.items || !Array.isArray(req.body.items)) {
       return res.status(400).json({ error: 'Formato de items inválido' });
     }
-
+if (!req.body.items || !Array.isArray(req.body.items)) {
+  return res.status(400).json({ error: 'Formato de items inválido' });
+}
     // Construir la preferencia
     const preference = {
       items: req.body.items.map(item => ({
