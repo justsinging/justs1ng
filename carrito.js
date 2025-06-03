@@ -15,12 +15,11 @@ function guardarCarrito() {
     localStorage.setItem('carrito', JSON.stringify(carrito));
 }
 
-// Función para agregar productos al carrito
 function agregarAlCarrito(nombre, precio, imagen, idProducto) {
     // Validar parámetros
-    if (!nombre || isNaN(precio) || precio <= 0) {
+    if (!nombre || isNaN(precio) || precio <= 0 || !idProducto) {
         console.error('Parámetros inválidos para agregar al carrito');
-        mostrarNotificacion('Error al agregar el producto');
+        mostrarNotificacion('Error al agregar el producto', true);
         return;
     }
 
@@ -34,7 +33,7 @@ function agregarAlCarrito(nombre, precio, imagen, idProducto) {
     
     // Agregar producto al carrito
     carrito.push({
-        id: idProducto || Date.now().toString(), // ID único si no se proporciona
+        id: idProducto,
         nombre: nombre,
         precio: Number(precio),
         imagen: imagen || 'img/default-product.jpg',
@@ -52,7 +51,6 @@ function agregarAlCarrito(nombre, precio, imagen, idProducto) {
         boton.classList.add('en-carrito');
     });
 }
-
 // Función para mostrar notificaciones
 function mostrarNotificacion(mensaje, esError = false) {
     const notificacion = document.getElementById('notificacion');
