@@ -29,10 +29,6 @@ if (typeof MercadoPago !== 'undefined') {
 function guardarCarrito() {
     localStorage.setItem('carrito', JSON.stringify(carrito));
 }
-document.addEventListener('click', (e) => {
-    if (e.target.classList.contains('btn-carrito')) {
-        // Lógica aquí
-    }
 });
 function agregarAlCarrito(nombre, precio, imagen, idProducto) {
     // Validar parámetros
@@ -149,11 +145,30 @@ function eliminarDelCarrito(idProducto) {
     }
 }
 
-// Configuración de Mercado Pago
+// Elimina esta duplicación (ya está al final del archivo)
+document.addEventListener('click', (e) => {
+    if (e.target.classList.contains('btn-carrito')) {
+        // Lógica aquí
+    }
+});
+
+// Mejora el manejo de errores en las llamadas fetch:
 async function configurarMercadoPago(total) {
-    if (!mp) {
-        mostrarNotificacion('Error al configurar el pago', true);
-        return;
+    try {
+        const response = await fetch('/crear-preferencia', {
+            // ... configuración existente
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Error en la respuesta del servidor');
+        }
+        // ... resto del código
+    } catch (error) {
+        console.error('Error:', error);
+        mostrarNotificacion(error.message || 'Error al configurar el pago', true);
+    }
+}
     }
 
     try {
@@ -337,3 +352,14 @@ function vaciarCarrito() {
     actualizarCarrito();
     guardarCarrito();
 }
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.btn-carrito').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const nombre = this.dataset.nombre;
+            const precio = parseFloat(this.dataset.precio);
+            const imagen = this.dataset.imagen;
+            const id = this.dataset.id;
+            agregarAlCarrito(nombre, precio, imagen, id);
+        });
+    });
+});
