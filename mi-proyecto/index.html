@@ -3,99 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bolsas - Catálogo</title>
+    <title>JustSing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <h1>Products</h1>
-    
+    <h1>Productos</h1>
+      <!-- Barra superior -->
+        <div class="barra-superior" aria-label="Mensaje promocional">
+            Cada producto es una producción única
+        </div>
     <div class="products-container">
         <!-- Bolsa 15 Collection -->
         <div class="product">
-            <div class="product-image">[Imagen Bolsa Finance]</div>
-            <div class="product-info">
-                <div class="product-name">Bolsa Finance</div>
-                <div class="product-collection">Bolsa 15</div>
-                <button class="add-to-cart">Agregar al carrito</button>
-            </div>
+            <h2>Productos Destacados</h2>
+        <div class="productos-destacados">
+            <article class="producto">
+                <img src="https://i.postimg.cc/66cjFV71/IMG-9268.jpg">
+                <h3>Totebag Florero</h3>
+                <p class="precio">$25.000</p>
+                <button class="btn-carrito" 
+        onclick="agregarAlCarrito('Totebag Florero', 25000, 'https://i.postimg.cc/66cjFV71/IMG-9268.jpg', 'producto1')"
+        data-id="producto1">
+    Agregar al carrito
+</button>
+
+        
+        <div class="product">
+           <h2>Productos Destacados</h2>
+        <div class="productos-destacados">
+            <article class="producto">
+                <img src="https://i.imgur.com/L8VFmta.jpeg">
+                <h3>Totebag 13</h3>
+                <p class="precio">$13.000</p>
+                <button class="btn-carrito" 
+        onclick="agregarAlCarrito('Totebag 13, 13000, 'https://https://i.imgur.com/L8VFmta.jpeg', 'producto2')"
+        data-id="producto2">
+    Agregar al carrito
+</button>
+
+        
+        <div class="product">
+            <h2>Productos Destacados</h2>
+        <div class="productos-destacados">
+            <article class="producto">
+                <img src="https://i.postimg.cc/VkrKS3K3/IMG-9274.jpg">
+                <h3>Totebag Mujer</h3>
+                <p class="precio">$16.500</p>
+                <button class="btn-carrito" 
+        onclick="agregarAlCarrito('Totebag 13, 16500, 'https://https://i.postimg.cc/VkrKS3K3/IMG-9274.jpg', 'producto3')"
+        data-id="producto3">
+    Agregar al carrito
+                </button>
         </div>
         
         <div class="product">
-            <div class="product-image">[Imagen Bolsa Llobés]</div>
-            <div class="product-info">
-                <div class="product-name">Bolsa Llobés</div>
-                <div class="product-collection">Bolsa 15</div>
-                <button class="add-to-cart">Agregar al carrito</button>
-            </div>
+            <h2>Productos Destacados</h2>
+        <div class="productos-destacados">
+            <article class="producto">
+                <img src="https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg">
+                <h3>Totebag Lavanda</h3>
+                <p class="precio">$18.500</p>
+                <button class="btn-carrito" 
+        onclick="agregarAlCarrito('Totebag Lavanda, 18500, 'https://https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg', 'producto4')"
+        data-id="producto4">
+    Agregar al carrito
+                </button>
         </div>
         
         <div class="product">
-            <div class="product-image">[Imagen Bolsa Mujer]</div>
-            <div class="product-info">
-                <div class="product-name">Bolsa Mujer</div>
-                <div class="product-collection">Bolsa 15</div>
-                <button class="add-to-cart">Agregar al carrito</button>
-            </div>
+             <h2>Productos Destacados</h2>
+        <div class="productos-destacados">
+            <article class="producto">
+                <img src="https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg">
+                <h3>Totebag Olivo</h3>
+                <p class="precio">$13.500</p>
+                <button class="btn-carrito" 
+        onclick="agregarAlCarrito('Totebag Olivo, 13500, 'https://https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg', 'producto5')"
+        data-id="producto5">
+    Agregar al carrito
+                </button>
         </div>
         
         <div class="product">
-            <div class="product-image">[Imagen Bolsa Pablo]</div>
-            <div class="product-info">
-                <div class="product-name">Bolsa Pablo</div>
-                <div class="product-collection">Bolsa 15</div>
-                <button class="add-to-cart">Agregar al carrito</button>
-            </div>
+            <h2>Productos Destacados</h2>
+        <div class="productos-destacados">
+            <article class="producto">
+                <img src="https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg">
+                <h3>Totebag Patö</h3>
+                <p class="precio">$13.000</p>
+                <button class="btn-carrito" 
+        onclick="agregarAlCarrito('Totebag Patö, 13000, 'https://https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg', 'producto6')"
+        data-id="producto6">
+    Agregar al carrito
+                </button>
         </div>
         
         <div class="product">
-            <div class="product-image">[Imagen Bolsa Olive]</div>
-            <div class="product-info">
-                <div class="product-name">Bolsa Olive</div>
-                <div class="product-collection">Bolsa 15</div>
-                <button class="add-to-cart">Agregar al carrito</button>
-            </div>
-        </div>
-        
-        <div class="product">
-            <div class="product-image">[Imagen Bolsa Luzurado]</div>
-            <div class="product-info">
-                <div class="product-name">Bolsa Luzurado</div>
-                <div class="product-collection">Bolsa 15</div>
-                <button class="add-to-cart">Agregar al carrito</button>
-            </div>
-        </div>
-        
-        <div class="product">
-            <div class="product-image">[Imagen Bolsa Frutis]</div>
-            <div class="product-info">
-                <div class="product-name">Bolsa Frutis</div>
-                <div class="product-collection">Bolsa 15</div>
-                <button class="add-to-cart">Agregar al carrito</button>
-            </div>
+             <h2>Productos Destacados</h2>
+        <div class="productos-destacados">
+            <article class="producto">
+                <img src="https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg">
+                <h3>Totebag Frutis</h3>
+                <p class="precio">$14.500</p>
+                <button class="btn-carrito" 
+        onclick="agregarAlCarrito('Totebag Frutis, 14500, 'https://https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg', 'producto7')"
+        data-id="producto7">
+    Agregar al carrito
+                </button>
         </div>
         
         <!-- Bolsa 16 Collection -->
         <div class="product">
-            <div class="product-image">[Imagen Bolsa Finance]</div>
-            <div class="product-info">
-                <div class="product-name">Bolsa Finance</div>
-                <div class="product-collection">Bolsa 16</div>
-                <button class="add-to-cart">Agregar al carrito</button>
-            </div>
+           <h2>Productos Destacados</h2>
+        <div class="productos-destacados">
+            <article class="producto">
+                <img src="https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg">
+                <h3>Totebag Lluvia</h3>
+                <p class="precio">$13.500</p>
+                <button class="btn-carrito" 
+        onclick="agregarAlCarrito('Totebag Lluvia, 13500, 'https://https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg', 'producto8')"
+        data-id="producto8">
+    Agregar al carrito
+                </button>
         </div>
         
         <div class="product">
-            <div class="product-image">[Imagen Bolsa Llobés]</div>
-            <div class="product-info">
-                <div class="product-name">Bolsa Llobés</div>
-                <div class="product-collection">Bolsa 16</div>
-                <button class="add-to-cart">Agregar al carrito</button>
-            </div>
+           <h2>Productos Destacados</h2>
+        <div class="productos-destacados">
+            <article class="producto">
+                <img src="https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg">
+                <h3>Totebag Mida</h3>
+                <p class="precio">$20.000</p>
+                <button class="btn-carrito" 
+        onclick="agregarAlCarrito('Totebag Mida, 20000, 'https://https://i.postimg.cc/qR0w5gpT/IMG-9276.jpg', 'producto9')"
+        data-id="producto9">
+    Agregar al carrito
+                </button>
+    </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>
+            </article>
+        </div>
+        </div>
+            </article>
+        </div>
         </div>
     </div>
   <script src="js/main.js" defer></script>
     <!-- Los scripts DEBEN estar al final del body -->
 <script src="js/cart.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </body>
 </html>
+            
