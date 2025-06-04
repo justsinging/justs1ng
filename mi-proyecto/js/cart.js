@@ -114,5 +114,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (localStorage.getItem('cart')) {
         cart = JSON.parse(localStorage.getItem('cart'));
         updateCart();
+        // Funcionalidades generales del sitio
+document.addEventListener('DOMContentLoaded', function() {
+    // Puedes añadir aquí otras funcionalidades que necesites
+    console.log('Sitio cargado correctamente');
+});
     }
 });
