@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
+    // Cambia esta URL en cart.js
+const response = await fetch('http://localhost:3001/create-payment', {
+  method: 'POST',
+  // ... resto del código
+});
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -92,15 +97,72 @@
                     <img src="assets/mercadopago-logo.png" alt="Mercado Pago">
                     <div class="payment-fields" id="mercadopago-fields">
                     <!-- Aquí iría la integración con la API de Mercado Pago -->
+    // ======================
+// 1. Inicialización MP
+// ======================
+const mp = new MercadoPago('TU_PUBLIC_KEY', {
+  locale: 'es-AR'
+});
+
+// ======================
+// 2. Botón "Finalizar compra"
+// ======================
+document.querySelector('.complete-order').addEventListener('click', async (e) => {
+  e.preventDefault();
+  
+  const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+  const shippingCost = document.querySelector('input[name="shipping"]:checked').value === 'domicilio' ? 5000 : 4000;
+
+  // Preparamos los items para MP
+  const items = cartItems.map(item => ({
+    title: item.name,
+    unit_price: parseFloat(item.price),
+    quantity: item.quantity,
+    picture_url: item.image
+  }));
+
+  // Añadimos costo de envío como ítem adicional
+  items.push({
+    title: 'Envío',
+    unit_price: shippingCost,
+    quantity: 1
+  });
+
+  // ======================
+  // 3. Crear preferencia
+  // ======================
+  try {
+    const response = await fetch('https://tu-backend.com/create-payment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ items })
+    });
+
+    const { id } = await response.json();
+    
+    // Abrir checkout de MP
+    mp.checkout({
+      preference: {
+        id: id
+      },
+      autoOpen: true // Abre automáticamente el modal
+    });
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Ocurrió un error al procesar el pago');
+  }
+});
                     </div>
                 </div>
                 <div class="payment-option" data-method="transferencia">
                     <img src="assets/bank-transfer-icon.png" alt="Transferencia Bancaria">
                     <div class="payment-fields" id="transferencia-fields" style="display:none">
                     <p>Por favor realiza la transferencia a:</p>
-                    <p><strong>CVU:</strong> 00000031000000000000</p>
-                    <p><strong>Alias:</strong> TU.ALIAS.MP</p>
-                    <p><strong>Titular:</strong> Tu Nombre</p>
+                    <p><strong>CVU:</strong> 0000003100093480929286</p>
+                    <p><strong>Alias:</strong> JustSing</p>
+                    <p><strong>Titular:</strong> Just Sing</p>
                     </div>
                 </div>
                 </div>
@@ -111,7 +173,8 @@
 
     <!-- Notification -->
     <div class="notification">Producto agregado a tu carrito</div>
-
+// En cart.js reemplaza esto con tu API key:
+const MERCADOPAGO_API_KEY = 'APP_USR-0aa95e81-e09e-42d7-95ea-540547141761';
     <script src="js/main.js"></script>
     <script src="js/cart.js"></script>
 </body>
